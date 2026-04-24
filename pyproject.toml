@@ -16,7 +16,9 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8"]
 
+[tool.setuptools.packages.find]
+include = ["gpu_budget_arena", "gpu_budget_arena.*", "server", "server.*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
-
