@@ -21,9 +21,22 @@ def _usable_blocks_for_job(obs: GpuNegotiationObservation, job_id: str) -> list[
     ]
 
 
+def _incoming_offers(obs: GpuNegotiationObservation) -> list:
+    return [offer for offer in obs.active_offers if offer.to_lab_id == obs.controlled_lab_id]
+
+
+def _available_owned_block_ids(obs: GpuNegotiationObservation) -> set[str]:
+    return {
+        block.block_id
+        for block in obs.owned_blocks
+        if block.status in {"available", "reserved", "committed"} and block.allocated_to_job_id is None
+    }
+
+
 def random_validish_policy(obs: GpuNegotiationObservation) -> GpuNegotiationAction:
-    if obs.active_offers:
-        return GpuNegotiationAction(action_type="reject_offer", offer_id=obs.active_offers[0].offer_id)
+    incoming = _incoming_offers(obs)
+    if incoming:
+        return GpuNegotiationAction(action_type="reject_offer", offer_id=incoming[0].offer_id)
     return GpuNegotiationAction(action_type="wait")
 
 
@@ -37,16 +50,22 @@ def greedy_hoarder_policy(obs: GpuNegotiationObservation) -> GpuNegotiationActio
 
 
 def always_accept_policy(obs: GpuNegotiationObservation) -> GpuNegotiationAction:
-    if obs.active_offers:
-        return GpuNegotiationAction(action_type="accept_offer", offer_id=obs.active_offers[0].offer_id)
+    incoming = _incoming_offers(obs)
+    if incoming:
+        return GpuNegotiationAction(action_type="accept_offer", offer_id=incoming[0].offer_id)
     return greedy_hoarder_policy(obs)
 
 
 def rule_based_expert_policy(obs: GpuNegotiationObservation) -> GpuNegotiationAction:
     owned_ids = _owned_block_ids(obs)
+    available_owned_ids = _available_owned_block_ids(obs)
 
-    for offer in obs.active_offers:
+    for offer in _incoming_offers(obs):
         if not set(offer.requested_blocks).issubset(owned_ids):
+            return GpuNegotiationAction(action_type="reject_offer", offer_id=offer.offer_id)
+        if not set(offer.requested_blocks).issubset(available_owned_ids):
+            return GpuNegotiationAction(action_type="reject_offer", offer_id=offer.offer_id)
+        if any(block_id not in {block.block_id for block in obs.public_market.available_blocks} for block_id in offer.offered_blocks):
             return GpuNegotiationAction(action_type="reject_offer", offer_id=offer.offer_id)
         incoming_hours = _block_hours(offer.offered_blocks, obs)
         outgoing_hours = _block_hours(offer.requested_blocks, obs)
@@ -87,7 +106,11 @@ def rule_based_expert_policy(obs: GpuNegotiationObservation) -> GpuNegotiationAc
     if obs.visible_labs and obs.owned_blocks:
         target = max(obs.visible_labs, key=lambda lab: (lab.public_demand == "high", lab.reputation))
         requested = target.owned_block_ids[:1]
-        offered = [block.block_id for block in obs.owned_blocks if block.status in {"available", "reserved"}]
+        offered = [
+            block.block_id
+            for block in obs.owned_blocks
+            if block.status in {"available", "reserved"} and block.allocated_to_job_id is None
+        ]
         if requested and offered:
             return GpuNegotiationAction(
                 action_type="send_offer",

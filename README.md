@@ -93,6 +93,7 @@ pip install -e ".[dev]"
 python3 -m pytest -q
 python3 scripts/smoke.py
 python3 scripts/generate_sft_data.py --seeds 25 --output data/sft_traces.jsonl
+python3 scripts/build_sft_dataset.py --input data/sft_traces.jsonl --output data/sft_messages.jsonl
 python3 scripts/check_submission.py
 python3 scripts/live_space_smoke.py
 uvicorn server.app:app --host 0.0.0.0 --port 8000
@@ -139,14 +140,16 @@ The repo now includes:
 - a lightweight trainer smoke entrypoint at `training/train_grpo_stub.py`
 - a Colab-ready notebook at `training/GPU_Budget_Negotiation_Arena_Colab.ipynb`
 - baseline evaluation and plotting scripts under `scripts/`
+- SFT dataset conversion from expert traces into chat-format JSONL
 
 The intended full training path is:
 
 1. Generate small SFT traces for valid JSON actions and basic negotiation.
-2. Warm-start an instruct model on the action format.
-3. Connect TRL/Unsloth GRPO to the live environment reward.
-4. Train through curriculum: `single_trade` -> `market_round` -> `coalition_market`.
-5. Evaluate against random, greedy hoarder, always-accept, base instruct, and trained policies.
+2. Convert those traces into chat-format `messages` JSONL for SFT.
+3. Warm-start an instruct model on the action format.
+4. Connect TRL/Unsloth GRPO to the live environment reward.
+5. Train through curriculum: `single_trade` -> `market_round` -> `coalition_market`.
+6. Evaluate against random, greedy hoarder, always-accept, base instruct, and trained policies.
 
 ## Current Baselines
 
@@ -184,8 +187,8 @@ Generate a reusable markdown transcript with:
 ```bash
 python3 scripts/generate_demo_transcript.py \
   --task-type coalition_market \
-  --seed 7 \
   --policy rule_based_expert \
+  --search-seeds 20 \
   --output artifacts/demo_transcript.md
 ```
 

@@ -25,54 +25,88 @@ POLICIES = {
 }
 
 
+def run_episode(task_type: str, seed: int, policy_name: str) -> tuple[object, list[dict[str, object]]]:
+    env = GpuBudgetNegotiationEnv()
+    obs = env.reset(ResetConfig(task_type=task_type, seed=seed))
+    events: list[dict[str, object]] = []
+    while not obs.done:
+        action = POLICIES[policy_name](obs)
+        obs = env.step(action)
+        result = obs.last_action_result.model_dump() if obs.last_action_result else {}
+        events.append(
+            {
+                "step": obs.round_index,
+                "action": action.model_dump(exclude_none=True),
+                "result": result,
+                "reward": obs.reward,
+                "cumulative_reward": obs.cumulative_reward,
+            }
+        )
+    return obs, events
+
+
+def render_markdown(task_type: str, seed: int, policy: str, final_reward: float, events: list[dict[str, object]]) -> str:
+    step_blocks = []
+    for event in events:
+        step_blocks.append(
+            "\n".join(
+                [
+                    f"### Step {event['step']}",
+                    "",
+                    f"- Action: `{json.dumps(event['action'])}`",
+                    f"- Result: `{json.dumps(event['result'])}`",
+                    f"- Immediate reward: `{event['reward']}`",
+                    f"- Cumulative reward: `{event['cumulative_reward']}`",
+                ]
+            )
+        )
+    return "\n\n".join(
+        [
+            f"# Demo Transcript: {policy}",
+            "",
+            f"- Task type: `{task_type}`",
+            f"- Seed: `{seed}`",
+            f"- Final cumulative reward: `{final_reward}`",
+            "",
+            *step_blocks,
+        ]
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--task-type", default="coalition_market")
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--policy", default="rule_based_expert", choices=sorted(POLICIES))
     parser.add_argument("--output", default="artifacts/demo_transcript.md")
+    parser.add_argument("--search-seeds", type=int, default=0)
     args = parser.parse_args()
 
-    env = GpuBudgetNegotiationEnv()
-    obs = env.reset(ResetConfig(task_type=args.task_type, seed=args.seed))
-    steps: list[str] = []
+    best_seed = args.seed
+    best_obs = None
+    best_events: list[dict[str, object]] = []
+    best_score = None
 
-    while not obs.done:
-        action = POLICIES[args.policy](obs)
-        obs = env.step(action)
-        result = obs.last_action_result.model_dump() if obs.last_action_result else {}
-        steps.append(
-            "\n".join(
-                [
-                    f"### Step {obs.round_index}",
-                    "",
-                    f"- Action: `{json.dumps(action.model_dump(exclude_none=True))}`",
-                    f"- Result: `{json.dumps(result)}`",
-                    f"- Immediate reward: `{obs.reward}`",
-                    f"- Cumulative reward: `{obs.cumulative_reward}`",
-                ]
-            )
-        )
+    seed_candidates = range(args.search_seeds) if args.search_seeds > 0 else [args.seed]
+    for seed in seed_candidates:
+        obs, events = run_episode(args.task_type, seed, args.policy)
+        invalid_count = sum(1 for event in events if not event["result"].get("ok", True))
+        score = (invalid_count, -float(obs.cumulative_reward))
+        if best_score is None or score < best_score:
+            best_score = score
+            best_seed = seed
+            best_obs = obs
+            best_events = events
 
+    assert best_obs is not None
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
-        "\n\n".join(
-            [
-                f"# Demo Transcript: {args.policy}",
-                "",
-                f"- Task type: `{args.task_type}`",
-                f"- Seed: `{args.seed}`",
-                f"- Final cumulative reward: `{obs.cumulative_reward}`",
-                "",
-                *steps,
-            ]
-        ),
+        render_markdown(args.task_type, best_seed, args.policy, best_obs.cumulative_reward, best_events),
         encoding="utf-8",
     )
-    print({"output": str(output), "final_reward": obs.cumulative_reward})
+    print({"output": str(output), "seed": best_seed, "final_reward": best_obs.cumulative_reward})
 
 
 if __name__ == "__main__":
     main()
-

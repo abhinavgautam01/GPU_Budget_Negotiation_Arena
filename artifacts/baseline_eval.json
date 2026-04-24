@@ -17,8 +17,8 @@
         "episodes": 10
       },
       "rule_based_expert": {
-        "mean_reward": 0.2396,
-        "stdev_reward": 0.0834,
+        "mean_reward": 0.2623,
+        "stdev_reward": 0.1328,
         "episodes": 10
       }
     },
@@ -39,8 +39,8 @@
         "episodes": 10
       },
       "rule_based_expert": {
-        "mean_reward": 0.5105,
-        "stdev_reward": 0.1644,
+        "mean_reward": 0.4845,
+        "stdev_reward": 0.1387,
         "episodes": 10
       }
     },
@@ -61,8 +61,8 @@
         "episodes": 10
       },
       "rule_based_expert": {
-        "mean_reward": 0.7546,
-        "stdev_reward": 0.278,
+        "mean_reward": 0.8086,
+        "stdev_reward": 0.2456,
         "episodes": 10
       }
     }
@@ -110,12 +110,12 @@
       "seed": 0,
       "policy": "rule_based_expert",
       "steps": 3,
-      "episode_reward": 0.2282,
-      "final_reward": 0.1642,
+      "episode_reward": 0.1466,
+      "final_reward": 0.1126,
       "reward_trace": [
         0.028,
-        0.008,
-        0.1642
+        0.028,
+        0.1126
       ]
     },
     {
@@ -229,7 +229,7 @@
       "seed": 0,
       "policy": "rule_based_expert",
       "steps": 9,
-      "episode_reward": 0.5491,
+      "episode_reward": 0.6571,
       "final_reward": 0.008,
       "reward_trace": [
         0.1099,
@@ -238,7 +238,7 @@
         0.1163,
         0.0888,
         0.1821,
-        -0.1,
+        0.008,
         0.128,
         0.008
       ]
@@ -285,12 +285,12 @@
       "seed": 1,
       "policy": "rule_based_expert",
       "steps": 3,
-      "episode_reward": 0.2188,
-      "final_reward": 0.1548,
+      "episode_reward": 0.2371,
+      "final_reward": 0.1531,
       "reward_trace": [
         0.028,
-        0.008,
-        0.1548
+        0.028,
+        0.1531
       ]
     },
     {
@@ -750,12 +750,12 @@
       "seed": 3,
       "policy": "rule_based_expert",
       "steps": 9,
-      "episode_reward": 0.6515,
+      "episode_reward": 0.8675,
       "final_reward": 0.228,
       "reward_trace": [
         0.1631,
-        -0.1,
-        -0.1,
+        0.008,
+        0.008,
         0.1208,
         0.008,
         0.1175,
@@ -806,11 +806,11 @@
       "seed": 4,
       "policy": "rule_based_expert",
       "steps": 3,
-      "episode_reward": 0.3392,
+      "episode_reward": 0.5142,
       "final_reward": 0.1452,
       "reward_trace": [
         0.028,
-        0.008,
+        0.158,
         0.1452
       ]
     },
@@ -1035,14 +1035,14 @@
       "seed": 5,
       "policy": "rule_based_expert",
       "steps": 5,
-      "episode_reward": 0.7771,
-      "final_reward": 0.228,
+      "episode_reward": 0.5172,
+      "final_reward": 0.168,
       "reward_trace": [
         0.1095,
         0.008,
         0.1126,
-        0.191,
-        0.228
+        0.008,
+        0.168
       ]
     },
     {
@@ -1161,12 +1161,12 @@
       "seed": 6,
       "policy": "rule_based_expert",
       "steps": 3,
-      "episode_reward": 0.2146,
-      "final_reward": 0.1506,
+      "episode_reward": 0.1346,
+      "final_reward": 0.1006,
       "reward_trace": [
         0.028,
-        0.008,
-        0.1506
+        0.028,
+        0.1006
       ]
     },
     {
@@ -1280,14 +1280,14 @@
       "seed": 6,
       "policy": "rule_based_expert",
       "steps": 7,
-      "episode_reward": 0.3526,
+      "episode_reward": 0.4606,
       "final_reward": 0.008,
       "reward_trace": [
         0.1096,
         0.008,
         0.008,
         0.191,
-        -0.1,
+        0.008,
         0.128,
         0.008
       ]
@@ -1334,7 +1334,7 @@
       "seed": 7,
       "policy": "rule_based_expert",
       "steps": 3,
-      "episode_reward": 0.365,
+      "episode_reward": 0.385,
       "final_reward": 0.168,
       "reward_trace": [
         0.161,
@@ -1455,14 +1455,14 @@
       "seed": 7,
       "policy": "rule_based_expert",
       "steps": 9,
-      "episode_reward": 0.539,
+      "episode_reward": 0.647,
       "final_reward": 0.138,
       "reward_trace": [
         0.158,
         0.008,
         0.008,
         0.0757,
-        -0.1,
+        0.008,
         0.1166,
         0.008,
         0.1187,
@@ -1513,11 +1513,11 @@
       "seed": 8,
       "policy": "rule_based_expert",
       "steps": 3,
-      "episode_reward": 0.349,
+      "episode_reward": 0.369,
       "final_reward": 0.155,
       "reward_trace": [
         0.028,
-        0.008,
+        0.158,
         0.155
       ]
     },
@@ -1694,11 +1694,11 @@
       "seed": 9,
       "policy": "rule_based_expert",
       "steps": 3,
-      "episode_reward": 0.2193,
+      "episode_reward": 0.3749,
       "final_reward": 0.1553,
       "reward_trace": [
         0.028,
-        0.008,
+        0.028,
         0.1553
       ]
     },
