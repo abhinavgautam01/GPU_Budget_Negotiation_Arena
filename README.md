@@ -12,6 +12,12 @@ app_port: 8000
 
 The environment targets `Theme #1 - Multi-Agent Interactions` and is designed to train bargaining, belief modeling, commitment reliability, and strategic adaptation.
 
+## Live Deployment
+
+- GitHub: `https://github.com/abhinavgautam01/GPU_Budget_Negotiation_Arena`
+- Hugging Face Space: `https://huggingface.co/spaces/abhinavgautam01/gpu-budget-negotiation-arena`
+- Space app URL: `https://abhinavgautam01-gpu-budget-negotiation-arena.hf.space`
+
 ## Why This Environment Exists
 
 Real agent systems increasingly compete or cooperate over scarce resources: compute, API limits, human attention, data access, and budget. Static prompt-response tasks do not teach models how to infer another actor's incentives or how to recover when market conditions change. This environment makes those behaviors measurable.
@@ -88,6 +94,7 @@ python3 -m pytest -q
 python3 scripts/smoke.py
 python3 scripts/generate_sft_data.py --seeds 25 --output data/sft_traces.jsonl
 python3 scripts/check_submission.py
+python3 scripts/live_space_smoke.py
 uvicorn server.app:app --host 0.0.0.0 --port 8000
 ```
 
@@ -141,6 +148,18 @@ The intended full training path is:
 4. Train through curriculum: `single_trade` -> `market_round` -> `coalition_market`.
 5. Evaluate against random, greedy hoarder, always-accept, base instruct, and trained policies.
 
+## Current Baselines
+
+Current local baseline summary over `10` seeds:
+
+| Task | Random | Greedy Hoarder | Always Accept | Rule-Based Expert |
+|---|---:|---:|---:|---:|
+| `single_trade` | `0.0747` | `0.0587` | `0.0587` | `0.2396` |
+| `market_round` | `0.1595` | `0.0286` | `0.2725` | `0.5105` |
+| `coalition_market` | `0.1159` | `0.0995` | `0.4054` | `0.7546` |
+
+These are pre-training baselines. The trained model section should compare against at least `always_accept` and `rule_based_expert`.
+
 ## Evaluation Artifacts
 
 Generate judge-facing baseline artifacts with:
@@ -156,6 +175,19 @@ For the final submission, commit:
 - trained-vs-baseline reward curves
 - before/after transcripts
 - notebook link, Space link, and short video/blog link
+- a hosted-space smoke result from `scripts/live_space_smoke.py`
+
+## Demo Transcript
+
+Generate a reusable markdown transcript with:
+
+```bash
+python3 scripts/generate_demo_transcript.py \
+  --task-type coalition_market \
+  --seed 7 \
+  --policy rule_based_expert \
+  --output artifacts/demo_transcript.md
+```
 
 ## Current Status
 

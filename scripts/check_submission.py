@@ -26,6 +26,7 @@ def main() -> None:
     run([sys.executable, "scripts/smoke.py"])
     run([sys.executable, "scripts/evaluate_baselines.py", "--seeds", "10", "--output", "artifacts/baseline_eval.json"])
     run([sys.executable, "scripts/plot_eval.py", "--input", "artifacts/baseline_eval.json", "--output", "plots/baseline_rewards.svg"])
+    run([sys.executable, "scripts/generate_demo_transcript.py", "--task-type", "coalition_market", "--seed", "7", "--policy", "rule_based_expert", "--output", "artifacts/demo_transcript.md"])
 
     payload = json.loads((artifacts_dir / "baseline_eval.json").read_text(encoding="utf-8"))
     print(json.dumps(payload["summary"], indent=2))
