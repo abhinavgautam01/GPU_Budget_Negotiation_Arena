@@ -87,6 +87,7 @@ pip install -e ".[dev]"
 python3 -m pytest -q
 python3 scripts/smoke.py
 python3 scripts/generate_sft_data.py --seeds 25 --output data/sft_traces.jsonl
+python3 scripts/check_submission.py
 uvicorn server.app:app --host 0.0.0.0 --port 8000
 ```
 
@@ -126,13 +127,35 @@ curl -X POST http://localhost:8000/step \
 
 ## Training Path
 
-The current repo includes a lightweight trainer smoke entrypoint at `training/train_grpo_stub.py`. The intended full training path is:
+The repo now includes:
+
+- a lightweight trainer smoke entrypoint at `training/train_grpo_stub.py`
+- a Colab-ready notebook at `training/GPU_Budget_Negotiation_Arena_Colab.ipynb`
+- baseline evaluation and plotting scripts under `scripts/`
+
+The intended full training path is:
 
 1. Generate small SFT traces for valid JSON actions and basic negotiation.
 2. Warm-start an instruct model on the action format.
 3. Connect TRL/Unsloth GRPO to the live environment reward.
 4. Train through curriculum: `single_trade` -> `market_round` -> `coalition_market`.
 5. Evaluate against random, greedy hoarder, always-accept, base instruct, and trained policies.
+
+## Evaluation Artifacts
+
+Generate judge-facing baseline artifacts with:
+
+```bash
+python3 scripts/evaluate_baselines.py --seeds 10 --output artifacts/baseline_eval.json
+python3 scripts/plot_eval.py --input artifacts/baseline_eval.json --output plots/baseline_rewards.svg
+```
+
+For the final submission, commit:
+
+- `plots/baseline_rewards.svg` or a final exported `.png`
+- trained-vs-baseline reward curves
+- before/after transcripts
+- notebook link, Space link, and short video/blog link
 
 ## Current Status
 
@@ -147,8 +170,10 @@ Implemented:
 - unit, invariant, and API tests
 - smoke baseline runner
 - rule-based expert and SFT trace generator
+- baseline evaluation JSON generator and plotting script
+- Colab-ready notebook scaffold
 
 Next:
 
-- add full Colab GRPO notebook
-- add reward plots and before/after transcripts after training
+- fill the notebook with the final TRL/Unsloth training cells
+- generate reward plots and before/after transcripts after training
