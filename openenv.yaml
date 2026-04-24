@@ -1,0 +1,15 @@
+name: gpu-budget-negotiation-arena
+benchmark_id: gpu_budget_negotiation
+description: Multi-agent GPU budget negotiation environment with hidden utility, coalitions, shocks, and verifiable rewards.
+entrypoint: server.app:app
+api:
+  reset: /reset
+  step: /step
+  state: /state
+  health: /health
+  tasks: /tasks
+tasks:
+  - single_trade
+  - market_round
+  - coalition_market
+
