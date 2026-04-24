@@ -137,7 +137,7 @@ curl -X POST http://localhost:8000/step \
 
 The repo now includes:
 
-- a lightweight trainer smoke entrypoint at `training/train_grpo_stub.py`
+- a Colab/HF-friendly reward-loop artifact generator at `training/train_grpo_stub.py`
 - a Colab-ready notebook at `training/GPU_Budget_Negotiation_Arena_Colab.ipynb`
 - baseline evaluation and plotting scripts under `scripts/`
 - SFT dataset conversion from expert traces into chat-format JSONL
@@ -151,15 +151,26 @@ The intended full training path is:
 5. Train through curriculum: `single_trade` -> `market_round` -> `coalition_market`.
 6. Evaluate against random, greedy hoarder, always-accept, base instruct, and trained policies.
 
+If GPU training is not available, use the reward-loop artifact generator as the final reproducible comparison:
+
+```bash
+python3 training/train_grpo_stub.py \
+  --seeds 10 \
+  --output artifacts/training_eval.json \
+  --report artifacts/training_report.md
+```
+
+This writes a judge-readable report and uses `rule_based_expert` as the trained-policy placeholder until an actual SFT/GRPO checkpoint is produced.
+
 ## Current Baselines
 
 Current local baseline summary over `10` seeds:
 
 | Task | Random | Greedy Hoarder | Always Accept | Rule-Based Expert |
 |---|---:|---:|---:|---:|
-| `single_trade` | `0.0747` | `0.0587` | `0.0587` | `0.2396` |
-| `market_round` | `0.1595` | `0.0286` | `0.2725` | `0.5105` |
-| `coalition_market` | `0.1159` | `0.0995` | `0.4054` | `0.7546` |
+| `single_trade` | `0.0747` | `0.0587` | `0.0587` | `0.2623` |
+| `market_round` | `0.1595` | `0.0286` | `0.2725` | `0.4845` |
+| `coalition_market` | `0.1159` | `0.0995` | `0.4054` | `0.8086` |
 
 These are pre-training baselines. The trained model section should compare against at least `always_accept` and `rule_based_expert`.
 
@@ -175,10 +186,80 @@ python3 scripts/plot_eval.py --input artifacts/baseline_eval.json --output plots
 For the final submission, commit:
 
 - `plots/baseline_rewards.svg` or a final exported `.png`
+- `artifacts/training_eval.json`
+- `artifacts/training_report.md`
 - trained-vs-baseline reward curves
 - before/after transcripts
 - notebook link, Space link, and short video/blog link
 - a hosted-space smoke result from `scripts/live_space_smoke.py`
+
+## Colab, Drive, and Hugging Face Workflow
+
+### 1. Push the code
+
+Push the full repo to GitHub:
+
+```bash
+git remote -v
+git add README.md pyproject.toml scripts/check_submission.py training/train_grpo_stub.py training/GPU_Budget_Negotiation_Arena_Colab.ipynb artifacts plots
+git commit -m "Add Colab training and submission workflow"
+git push origin main
+```
+
+If your default branch is not `main`, replace `main` with the branch shown by `git branch --show-current`.
+
+### 2. Push the live app to Hugging Face Spaces
+
+The Space should contain the same app files:
+
+```bash
+git clone https://huggingface.co/spaces/abhinavgautam01/gpu-budget-negotiation-arena hf-space
+rsync -av --exclude .git --exclude data --exclude .pytest_cache ./ hf-space/
+cd hf-space
+git add .
+git commit -m "Update GPU negotiation arena"
+git push
+```
+
+The Docker Space reads the frontmatter in this README and starts `uvicorn server.app:app --host 0.0.0.0 --port 8000`.
+
+### 3. Use Colab with Google Drive
+
+In Colab, mount Drive and save artifacts outside the VM:
+
+```python
+from google.colab import drive
+drive.mount("/content/drive")
+
+PROJECT = "/content/GPU_Budget_Negotiation_Arena"
+DRIVE_OUT = "/content/drive/MyDrive/gpu_budget_negotiation_arena"
+```
+
+Then run:
+
+```bash
+cd /content
+git clone https://github.com/abhinavgautam01/GPU_Budget_Negotiation_Arena.git
+cd GPU_Budget_Negotiation_Arena
+export DRIVE_OUT=/content/drive/MyDrive/gpu_budget_negotiation_arena
+python -m pip install -q -e ".[dev]"
+python scripts/check_submission.py
+mkdir -p "$DRIVE_OUT"
+cp -r artifacts plots data "$DRIVE_OUT"/
+```
+
+Use GitHub for source code and Drive for bulky or temporary outputs such as checkpoints. Commit only compact judge artifacts unless the checkpoint is required.
+
+### 4. Use Hugging Face credentials and secrets
+
+For private model pushes from Colab:
+
+```python
+from huggingface_hub import notebook_login
+notebook_login()
+```
+
+For Hugging Face Spaces, do not mount Google Drive. Add secrets in the Space UI under `Settings -> Variables and secrets`, then read them in Python with `os.environ["NAME"]`. If by "SSRL" you meant SSH, Hugging Face supports git-over-HTTPS with a token for normal pushes; SSH keys are optional and configured in your Hugging Face account settings. If you meant "secrets", use Space secrets rather than committing tokens.
 
 ## Demo Transcript
 
@@ -206,9 +287,9 @@ Implemented:
 - smoke baseline runner
 - rule-based expert and SFT trace generator
 - baseline evaluation JSON generator and plotting script
-- Colab-ready notebook scaffold
+- Colab-ready notebook and reward-loop training artifact generator
 
 Next:
 
-- fill the notebook with the final TRL/Unsloth training cells
-- generate reward plots and before/after transcripts after training
+- run optional GPU SFT/GRPO in Colab and replace the rule-based placeholder with actual trained-model reward curves
+- generate before/after transcripts after training
