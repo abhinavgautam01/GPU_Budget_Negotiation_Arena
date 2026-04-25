@@ -12,6 +12,8 @@ def main() -> None:
     parser.add_argument("--data", default="data/sft_messages.jsonl")
     parser.add_argument("--output", default="artifacts/sft-checkpoint")
     parser.add_argument("--drive-output", default="")
+    parser.add_argument("--resume-from-checkpoint", default="")
+    parser.add_argument("--push-to-hub", default="", help="Optional model repo id for uploading the trained LoRA adapter.")
     parser.add_argument("--max-steps", type=int, default=120)
     parser.add_argument("--max-seq-length", type=int, default=4096)
     args = parser.parse_args()
@@ -82,8 +84,16 @@ def main() -> None:
     except TypeError:
         trainer = SFTTrainer(tokenizer=tokenizer, **trainer_kwargs)
 
-    trainer.train()
+    resume_from_checkpoint = args.resume_from_checkpoint or None
+    if resume_from_checkpoint and not Path(resume_from_checkpoint).exists():
+        raise FileNotFoundError(f"resume checkpoint does not exist: {resume_from_checkpoint}")
+
+    trainer.train(resume_from_checkpoint=resume_from_checkpoint)
     trainer.save_model(args.output)
+
+    if args.push_to_hub:
+        model.push_to_hub(args.push_to_hub)
+        tokenizer.push_to_hub(args.push_to_hub)
 
     if args.drive_output:
         drive_output = Path(args.drive_output)
@@ -92,9 +102,9 @@ def main() -> None:
         if target.exists():
             shutil.rmtree(target)
         shutil.copytree(args.output, target)
-        print({"status": "ok", "output": args.output, "drive_output": str(target)})
+        print({"status": "ok", "output": args.output, "drive_output": str(target), "resumed_from": resume_from_checkpoint})
     else:
-        print({"status": "ok", "output": args.output})
+        print({"status": "ok", "output": args.output, "resumed_from": resume_from_checkpoint})
 
 
 if __name__ == "__main__":
