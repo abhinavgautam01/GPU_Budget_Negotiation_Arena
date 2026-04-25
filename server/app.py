@@ -218,10 +218,12 @@ _DOWNLOADS = [
     ("training_curve.json", "/artifacts/training_curve.json", _ART_DIR / "training_curve.json", "Per-episode policy probabilities"),
     ("training_eval.json", "/artifacts/training_eval.json", _ART_DIR / "training_eval.json", "Full per-step training trace"),
     ("training_report.md", "/artifacts/training_report.md", _ART_DIR / "training_report.md", "Final training summary table"),
+    ("sft_training_curve.json", "/artifacts/sft_training_curve.json", _ART_DIR / "sft_training_curve.json", "Real SFT loss curve · 500 steps · 13 epochs"),
     ("before_after_training.md", "/artifacts/before_after_training.md", _ART_DIR / "before_after_training.md", "Same-seed before vs after"),
     ("demo_transcript.md", "/artifacts/demo_transcript.md", _ART_DIR / "demo_transcript.md", "Expert demo (coalition_market · seed 5)"),
     ("judged_transcript.md", "/artifacts/judged_transcript.md", _ART_DIR / "judged_transcript.md", "Judged multi-lab debate transcript"),
     ("baseline_rewards.svg", "/plots/baseline_rewards.svg", _PLOT_DIR / "baseline_rewards.svg", "Static plot · vector (renders inline)"),
+    ("sft_loss_curve.svg", "/plots/sft_loss_curve.svg", _PLOT_DIR / "sft_loss_curve.svg", "Static SFT loss-curve plot · vector"),
     ("reward_progress.json", "/plots/reward_progress.json", _PLOT_DIR / "reward_progress.json", "Training-progress timeseries"),
     ("sft_messages.jsonl", "/data/sft_messages.jsonl", _DATA_DIR / "sft_messages.jsonl", "SFT chat-formatted dataset"),
     ("sft_traces.jsonl", "/data/sft_traces.jsonl", _DATA_DIR / "sft_traces.jsonl", "SFT raw trace records"),
@@ -232,6 +234,7 @@ def _build_data_payload() -> dict[str, Any]:
     baseline = _safe_read_json(_ART_DIR / "baseline_eval.json") or {}
     holdout = _safe_read_json(_ART_DIR / "holdout_eval.json") or {}
     progress = _safe_read_json(_PLOT_DIR / "reward_progress.json") or []
+    sft_curve = _safe_read_json(_ART_DIR / "sft_training_curve.json") or {}
     demo_md = _safe_read_text(_ART_DIR / "demo_transcript.md")
     ba_md = _safe_read_text(_ART_DIR / "before_after_training.md")
     judged_md = _safe_read_text(_ART_DIR / "judged_transcript.md")
@@ -247,6 +250,7 @@ def _build_data_payload() -> dict[str, Any]:
         "baseline": baseline.get("summary", {}) if isinstance(baseline, dict) else {},
         "holdout": holdout.get("summary", {}) if isinstance(holdout, dict) else {},
         "progress": progress if isinstance(progress, list) else [],
+        "sft_curve": sft_curve if isinstance(sft_curve, dict) else {},
         "demo": _parse_demo_transcript_md(demo_md),
         "before_after": _parse_before_after_md(ba_md),
         "judged": _parse_judged_round0(judged_md),
@@ -1170,7 +1174,7 @@ footer a:hover { color: var(--paper); }
 .split-tab.active { background: var(--ink); color: var(--paper); box-shadow: 3px 3px 0 var(--riso-blue); }
 
 /* ── Training-progress chart ─────────────────────────────── */
-#progressCanvas {
+#progressCanvas, #sftCurveCanvas {
   width:100%; height: 280px; display:block;
   background: var(--paper-2);
   border: 1.5px solid var(--ink);
@@ -1182,6 +1186,33 @@ footer a:hover { color: var(--paper); }
   box-shadow: 6px 6px 0 var(--ink);
   padding: 22px;
 }
+.sft-curve-stats {
+  display: grid; gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  margin-top: 8px;
+}
+.sft-stat {
+  background: var(--paper); border: 1.5px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 12px 14px;
+}
+.sft-stat .v {
+  font-family: 'Fraunces', serif; font-style: italic; font-weight: 900;
+  font-size: 26px; color: var(--ink); line-height: 1;
+}
+.sft-stat .v.red  { color: var(--riso-red); }
+.sft-stat .v.blue { color: var(--riso-blue); }
+.sft-stat .l {
+  margin-top: 6px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 1.6px;
+  color: var(--ink-soft); text-transform: uppercase;
+}
+.sft-curve-note {
+  margin-top: 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: var(--ink-soft);
+}
+.sft-curve-note b { color: var(--ink); }
 
 /* ── Before / After ──────────────────────────────────────── */
 .ba-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -1446,6 +1477,20 @@ footer a:hover { color: var(--paper); }
     <canvas id="progressCanvas"></canvas>
     <div class="legend" id="progressLegend" style="margin-top:14px;"></div>
   </div>
+</div>
+</div>
+
+<!-- ══════════ SFT LOSS CURVE ══════════ -->
+<div class="section fade-up d3">
+<div class="wrap">
+  <p class="section-label">SFT Optimisation</p>
+  <p class="section-title" id="sftCurveTitle">SFT Training Loss · Real Run</p>
+  <div class="sft-curve-stats" id="sftCurveStats"></div>
+  <div class="progress-wrap" style="margin-top:18px;">
+    <canvas id="sftCurveCanvas"></canvas>
+    <div class="legend" id="sftCurveLegend" style="margin-top:14px;"></div>
+  </div>
+  <div class="sft-curve-note" id="sftCurveNote"></div>
 </div>
 </div>
 
@@ -2232,6 +2277,188 @@ function drawProgress() {
 }
 window.addEventListener('resize', drawProgress);
 setTimeout(drawProgress, 120);
+
+// ── SFT loss curve (real trainer_state.json) ──────────────────────────────
+const SFT_CURVE = (APP_DATA && APP_DATA.sft_curve) ? APP_DATA.sft_curve : null;
+
+function _renderSftStats() {
+  const box = document.getElementById('sftCurveStats');
+  const note = document.getElementById('sftCurveNote');
+  const title = document.getElementById('sftCurveTitle');
+  if (!box || !SFT_CURVE || !SFT_CURVE.summary) return;
+  const s = SFT_CURVE.summary;
+  if (title) title.textContent = `SFT Training Loss · ${s.total_steps} Steps · ${s.num_train_epochs} Epochs`;
+  box.innerHTML = `
+    <div class="sft-stat"><div class="v">${(+s.first_loss).toFixed(4)}</div><div class="l">first loss</div></div>
+    <div class="sft-stat"><div class="v red">${(+s.final_loss).toFixed(4)}</div><div class="l">final loss</div></div>
+    <div class="sft-stat"><div class="v blue">${(+s.loss_drop_pct).toFixed(1)}%</div><div class="l">total drop</div></div>
+    <div class="sft-stat"><div class="v">${s.total_steps}</div><div class="l">train steps</div></div>
+    <div class="sft-stat"><div class="v">${s.num_train_epochs}</div><div class="l">epochs</div></div>
+    <div class="sft-stat"><div class="v">${s.logging_steps}</div><div class="l">log every</div></div>
+  `;
+  if (note) {
+    note.innerHTML = `Source: <b>gpu_budget_negotiation_arena/sft-checkpoint/checkpoint-500/trainer_state.json</b>.
+      Steps 1–120 were trained in an earlier session that crashed (saved under <b>artifacts/sft-checkpoint/checkpoint-120</b>);
+      the run was resumed and finished in <b>sft-checkpoint/checkpoint-500</b>.
+      <i>Hugging Face's Trainer keeps the full <code>log_history</code> in every checkpoint, so the latest one already
+      contains all 50 logged points.</i>`;
+  }
+}
+
+function drawSftCurve() {
+  const canvas = document.getElementById('sftCurveCanvas');
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width  = rect.width  * dpr;
+  canvas.height = rect.height * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const W = rect.width, H = rect.height;
+  const padL = 56, padR = 56, padT = 18, padB = 32;
+  const gW = W - padL - padR, gH = H - padT - padB;
+
+  ctx.fillStyle = '#ebe3cf'; ctx.fillRect(0, 0, W, H);
+
+  if (!SFT_CURVE || !SFT_CURVE.points || !SFT_CURVE.points.length) {
+    ctx.fillStyle = '#3a3530';
+    ctx.font = `12px 'JetBrains Mono', monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillText('artifacts/sft_training_curve.json not bundled', W/2, H/2 - 8);
+    ctx.fillStyle = '#6b6357';
+    ctx.font = `10px 'JetBrains Mono', monospace`;
+    ctx.fillText('Run scripts/extract_sft_curve.py and re-deploy.', W/2, H/2 + 10);
+    return;
+  }
+
+  const pts = SFT_CURVE.points;
+  const xs  = pts.map(p => +p.step);
+  const losses = pts.map(p => +p.loss);
+  const lrs    = pts.map(p => +p.learning_rate);
+  const minX = Math.min(...xs), maxX = Math.max(...xs);
+  const maxLoss = Math.max(...losses) * 1.06;
+  const maxLr   = Math.max(...lrs) * 1.10 || 1;
+
+  const toX = (s) => padL + ((s - minX) / Math.max(maxX - minX, 1)) * gW;
+  const toY = (l) => padT + gH - (l / maxLoss) * gH;
+  const toY2 = (lr) => padT + gH - (lr / maxLr) * gH;
+
+  // Y grid + left labels
+  const ticks = 5;
+  for (let i = 0; i <= ticks; i++) {
+    const v = (maxLoss / ticks) * i;
+    const y = toY(v);
+    ctx.strokeStyle = 'rgba(12,10,8,.16)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+    ctx.fillStyle = '#3a3530';
+    ctx.font = `10px 'JetBrains Mono', monospace`;
+    ctx.textAlign = 'right';
+    ctx.fillText(v.toFixed(2), padL - 6, y + 4);
+  }
+
+  // Right-axis lr labels
+  ctx.fillStyle = '#6a4cff';
+  ctx.font = `10px 'JetBrains Mono', monospace`;
+  ctx.textAlign = 'left';
+  for (let i = 0; i <= ticks; i++) {
+    const lr = (maxLr / ticks) * i;
+    const y = toY2(lr);
+    ctx.fillText(lr.toExponential(1), W - padR + 6, y + 4);
+  }
+
+  // X labels (steps)
+  ctx.fillStyle = '#3a3530';
+  ctx.textAlign = 'center';
+  const xticks = [0, Math.round(maxX/4), Math.round(maxX/2), Math.round(3*maxX/4), maxX];
+  xticks.forEach(s => ctx.fillText(`step ${s}`, toX(s), H - 10));
+
+  // Resume marker (vertical line at step 120)
+  const xResume = toX(120);
+  ctx.strokeStyle = '#1234ff';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 5]);
+  ctx.beginPath(); ctx.moveTo(xResume, padT); ctx.lineTo(xResume, H - padB); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#1234ff';
+  ctx.font = `bold 10px 'JetBrains Mono', monospace`;
+  ctx.textAlign = 'left';
+  ctx.fillText('resume from ckpt-120', xResume + 4, padT + 12);
+
+  // Loss area fill
+  ctx.beginPath();
+  ctx.moveTo(toX(xs[0]), toY(0));
+  pts.forEach(p => ctx.lineTo(toX(+p.step), toY(+p.loss)));
+  ctx.lineTo(toX(xs[xs.length - 1]), toY(0));
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(255, 59, 48, 0.10)';
+  ctx.fill();
+
+  // Loss line (red)
+  ctx.beginPath();
+  pts.forEach((p, i) => {
+    const x = toX(+p.step), y = toY(+p.loss);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.strokeStyle = '#ff3b30';
+  ctx.lineWidth = 2.6;
+  ctx.stroke();
+
+  // Loss dots (red filled, ink outline)
+  pts.forEach((p) => {
+    const x = toX(+p.step), y = toY(+p.loss);
+    ctx.beginPath(); ctx.arc(x, y, 3.0, 0, Math.PI * 2);
+    ctx.fillStyle = '#ff3b30'; ctx.fill();
+    ctx.lineWidth = 1.0; ctx.strokeStyle = '#0c0a08'; ctx.stroke();
+  });
+
+  // Learning-rate line (purple, dashed)
+  ctx.beginPath();
+  pts.forEach((p, i) => {
+    const x = toX(+p.step), y = toY2(+p.learning_rate);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.strokeStyle = '#6a4cff';
+  ctx.lineWidth = 1.6;
+  ctx.setLineDash([4, 4]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Axis labels
+  ctx.save();
+  ctx.translate(14, padT + gH/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillStyle = '#3a3530';
+  ctx.textAlign = 'center';
+  ctx.font = `bold 11px 'JetBrains Mono', monospace`;
+  ctx.fillText('LOSS', 0, 0);
+  ctx.restore();
+
+  ctx.save();
+  ctx.translate(W - 14, padT + gH/2);
+  ctx.rotate(Math.PI/2);
+  ctx.fillStyle = '#6a4cff';
+  ctx.textAlign = 'center';
+  ctx.font = `bold 11px 'JetBrains Mono', monospace`;
+  ctx.fillText('LEARNING RATE', 0, 0);
+  ctx.restore();
+
+  // Legend
+  const lg = document.getElementById('sftCurveLegend');
+  if (lg) {
+    lg.innerHTML = `
+      <span class="legend-item"><span class="legend-dot" style="background:#ff3b30"></span>train loss</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#6a4cff"></span>learning rate</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#1234ff"></span>resume from checkpoint-120</span>
+    `;
+  }
+}
+
+_renderSftStats();
+window.addEventListener('resize', drawSftCurve);
+setTimeout(drawSftCurve, 140);
 
 // ── Before/After renderer ────────────────────────────────────────────────
 const BEFORE_AFTER = (APP_DATA && APP_DATA.before_after) ? APP_DATA.before_after : null;
