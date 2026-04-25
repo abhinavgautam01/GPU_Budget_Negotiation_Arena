@@ -9,8 +9,8 @@
       "sampled_policy": "greedy_hoarder",
       "sampled_reward": 0.1128,
       "recent_train_reward": 0.1128,
-      "eval_mean_reward": 0.1133,
-      "eval_stdev_reward": 0.1287,
+      "eval_mean_reward": 0.1217,
+      "eval_stdev_reward": 0.1299,
       "judge_bonus": 0.0587,
       "selected_policies": {
         "single_trade": "greedy_hoarder",
@@ -44,8 +44,8 @@
       "sampled_policy": "greedy_hoarder",
       "sampled_reward": 0.008,
       "recent_train_reward": 0.0972,
-      "eval_mean_reward": 0.1133,
-      "eval_stdev_reward": 0.1287,
+      "eval_mean_reward": 0.1217,
+      "eval_stdev_reward": 0.1299,
       "judge_bonus": 0.0548,
       "selected_policies": {
         "single_trade": "greedy_hoarder",
@@ -79,8 +79,8 @@
       "sampled_policy": "greedy_hoarder",
       "sampled_reward": -0.2641,
       "recent_train_reward": 0.0978,
-      "eval_mean_reward": 0.1468,
-      "eval_stdev_reward": 0.0585,
+      "eval_mean_reward": 0.1552,
+      "eval_stdev_reward": 0.0564,
       "judge_bonus": 0.0647,
       "selected_policies": {
         "single_trade": "rule_based_expert",
@@ -114,8 +114,8 @@
       "sampled_policy": "rule_based_expert",
       "sampled_reward": 0.191,
       "recent_train_reward": 0.1604,
-      "eval_mean_reward": 0.1468,
-      "eval_stdev_reward": 0.0585,
+      "eval_mean_reward": 0.1552,
+      "eval_stdev_reward": 0.0564,
       "judge_bonus": 0.0765,
       "selected_policies": {
         "single_trade": "rule_based_expert",
@@ -149,8 +149,8 @@
       "sampled_policy": "rule_based_expert",
       "sampled_reward": 0.0999,
       "recent_train_reward": 0.1284,
-      "eval_mean_reward": 0.1468,
-      "eval_stdev_reward": 0.0585,
+      "eval_mean_reward": 0.1552,
+      "eval_stdev_reward": 0.0564,
       "judge_bonus": 0.0894,
       "selected_policies": {
         "single_trade": "rule_based_expert",
@@ -184,8 +184,8 @@
       "sampled_policy": "rule_based_expert",
       "sampled_reward": 0.191,
       "recent_train_reward": 0.1819,
-      "eval_mean_reward": 0.1468,
-      "eval_stdev_reward": 0.0585,
+      "eval_mean_reward": 0.1552,
+      "eval_stdev_reward": 0.0564,
       "judge_bonus": 0.0918,
       "selected_policies": {
         "single_trade": "rule_based_expert",
@@ -219,8 +219,8 @@
       "sampled_policy": "rule_based_expert",
       "sampled_reward": 0.131,
       "recent_train_reward": 0.1558,
-      "eval_mean_reward": 0.1468,
-      "eval_stdev_reward": 0.0585,
+      "eval_mean_reward": 0.1552,
+      "eval_stdev_reward": 0.0564,
       "judge_bonus": 0.096,
       "selected_policies": {
         "single_trade": "rule_based_expert",
@@ -254,8 +254,8 @@
       "sampled_policy": "rule_based_expert",
       "sampled_reward": 0.3562,
       "recent_train_reward": 0.4947,
-      "eval_mean_reward": 0.2763,
-      "eval_stdev_reward": 0.2136,
+      "eval_mean_reward": 0.2847,
+      "eval_stdev_reward": 0.2079,
       "judge_bonus": 0.132,
       "selected_policies": {
         "single_trade": "rule_based_expert",
@@ -289,8 +289,8 @@
       "sampled_policy": "rule_based_expert",
       "sampled_reward": 0.3102,
       "recent_train_reward": 0.5033,
-      "eval_mean_reward": 0.2763,
-      "eval_stdev_reward": 0.2136,
+      "eval_mean_reward": 0.2847,
+      "eval_stdev_reward": 0.2079,
       "judge_bonus": 0.134,
       "selected_policies": {
         "single_trade": "rule_based_expert",
@@ -324,8 +324,8 @@
       "sampled_policy": "rule_based_expert",
       "sampled_reward": 0.4358,
       "recent_train_reward": 0.4979,
-      "eval_mean_reward": 0.2763,
-      "eval_stdev_reward": 0.2136,
+      "eval_mean_reward": 0.2847,
+      "eval_stdev_reward": 0.2079,
       "judge_bonus": 0.1343,
       "selected_policies": {
         "single_trade": "rule_based_expert",
@@ -359,8 +359,8 @@
       "sampled_policy": "rule_based_expert",
       "sampled_reward": 0.335,
       "recent_train_reward": 0.5326,
-      "eval_mean_reward": 0.2763,
-      "eval_stdev_reward": 0.2136,
+      "eval_mean_reward": 0.2847,
+      "eval_stdev_reward": 0.2079,
       "judge_bonus": 0.1344,
       "selected_policies": {
         "single_trade": "rule_based_expert",
@@ -394,8 +394,8 @@
       "sampled_policy": "rule_based_expert",
       "sampled_reward": 0.4283,
       "recent_train_reward": 0.5195,
-      "eval_mean_reward": 0.2763,
-      "eval_stdev_reward": 0.2136,
+      "eval_mean_reward": 0.2847,
+      "eval_stdev_reward": 0.2079,
       "judge_bonus": 0.1356,
       "selected_policies": {
         "single_trade": "rule_based_expert",
@@ -429,8 +429,8 @@
       "sampled_policy": "rule_based_expert",
       "sampled_reward": 0.4371,
       "recent_train_reward": 0.5016,
-      "eval_mean_reward": 0.2763,
-      "eval_stdev_reward": 0.2136,
+      "eval_mean_reward": 0.2847,
+      "eval_stdev_reward": 0.2079,
       "judge_bonus": 0.1356,
       "selected_policies": {
         "single_trade": "rule_based_expert",
@@ -463,7 +463,7 @@
       "sampled_task": "coalition_market",
       "sampled_policy": "random_validish",
       "sampled_reward": 0.202,
-      "recent_train_reward": 0.1439,
+      "recent_train_reward": 0.1689,
       "eval_mean_reward": 0.3053,
       "eval_stdev_reward": 0.188,
       "judge_bonus": 0.1273,
@@ -486,10 +486,10 @@
           "rule_based_expert": 0.9923
         },
         "coalition_market": {
-          "random_validish": 0.0988,
-          "greedy_hoarder": 0.7138,
-          "always_accept": 0.0937,
-          "rule_based_expert": 0.0937
+          "random_validish": 0.1704,
+          "greedy_hoarder": 0.6406,
+          "always_accept": 0.0945,
+          "rule_based_expert": 0.0945
         }
       }
     },
@@ -498,10 +498,10 @@
       "sampled_task": "coalition_market",
       "sampled_policy": "greedy_hoarder",
       "sampled_reward": 0.191,
-      "recent_train_reward": 0.1473,
+      "recent_train_reward": 0.1323,
       "eval_mean_reward": 0.3053,
       "eval_stdev_reward": 0.188,
-      "judge_bonus": 0.1246,
+      "judge_bonus": 0.1256,
       "selected_policies": {
         "single_trade": "rule_based_expert",
         "market_round": "rule_based_expert",
@@ -521,10 +521,10 @@
           "rule_based_expert": 0.9923
         },
         "coalition_market": {
-          "random_validish": 0.0351,
-          "greedy_hoarder": 0.8912,
-          "always_accept": 0.0305,
-          "rule_based_expert": 0.0433
+          "random_validish": 0.1097,
+          "greedy_hoarder": 0.7827,
+          "always_accept": 0.0448,
+          "rule_based_expert": 0.0628
         }
       }
     },
@@ -533,10 +533,10 @@
       "sampled_task": "coalition_market",
       "sampled_policy": "greedy_hoarder",
       "sampled_reward": 0.1595,
-      "recent_train_reward": 0.2114,
+      "recent_train_reward": 0.201,
       "eval_mean_reward": 0.3053,
       "eval_stdev_reward": 0.188,
-      "judge_bonus": 0.1317,
+      "judge_bonus": 0.1352,
       "selected_policies": {
         "single_trade": "rule_based_expert",
         "market_round": "rule_based_expert",
@@ -556,10 +556,10 @@
           "rule_based_expert": 0.9923
         },
         "coalition_market": {
-          "random_validish": 0.0549,
-          "greedy_hoarder": 0.721,
-          "always_accept": 0.0482,
-          "rule_based_expert": 0.1759
+          "random_validish": 0.1712,
+          "greedy_hoarder": 0.5215,
+          "always_accept": 0.0648,
+          "rule_based_expert": 0.2426
         }
       }
     },
@@ -568,10 +568,10 @@
       "sampled_task": "coalition_market",
       "sampled_policy": "rule_based_expert",
       "sampled_reward": 0.667,
-      "recent_train_reward": 0.4316,
+      "recent_train_reward": 0.4319,
       "eval_mean_reward": 0.449,
       "eval_stdev_reward": 0.2576,
-      "judge_bonus": 0.1728,
+      "judge_bonus": 0.1724,
       "selected_policies": {
         "single_trade": "rule_based_expert",
         "market_round": "rule_based_expert",
@@ -591,10 +591,10 @@
           "rule_based_expert": 0.9923
         },
         "coalition_market": {
-          "random_validish": 0.0137,
-          "greedy_hoarder": 0.0253,
-          "always_accept": 0.0132,
-          "rule_based_expert": 0.9477
+          "random_validish": 0.019,
+          "greedy_hoarder": 0.0286,
+          "always_accept": 0.0134,
+          "rule_based_expert": 0.939
         }
       }
     },
@@ -603,10 +603,10 @@
       "sampled_task": "coalition_market",
       "sampled_policy": "rule_based_expert",
       "sampled_reward": 0.8903,
-      "recent_train_reward": 0.6796,
+      "recent_train_reward": 0.6816,
       "eval_mean_reward": 0.449,
       "eval_stdev_reward": 0.2576,
-      "judge_bonus": 0.1738,
+      "judge_bonus": 0.1737,
       "selected_policies": {
         "single_trade": "rule_based_expert",
         "market_round": "rule_based_expert",
@@ -626,10 +626,10 @@
           "rule_based_expert": 0.9923
         },
         "coalition_market": {
-          "random_validish": 0.0091,
-          "greedy_hoarder": 0.0156,
-          "always_accept": 0.0087,
-          "rule_based_expert": 0.9666
+          "random_validish": 0.0116,
+          "greedy_hoarder": 0.0165,
+          "always_accept": 0.0085,
+          "rule_based_expert": 0.9635
         }
       }
     },
@@ -638,7 +638,7 @@
       "sampled_task": "coalition_market",
       "sampled_policy": "always_accept",
       "sampled_reward": 0.1817,
-      "recent_train_reward": 0.5778,
+      "recent_train_reward": 0.5837,
       "eval_mean_reward": 0.449,
       "eval_stdev_reward": 0.2576,
       "judge_bonus": 0.1752,
@@ -661,10 +661,10 @@
           "rule_based_expert": 0.9923
         },
         "coalition_market": {
-          "random_validish": 0.0024,
-          "greedy_hoarder": 0.004,
+          "random_validish": 0.003,
+          "greedy_hoarder": 0.0042,
           "always_accept": 0.0006,
-          "rule_based_expert": 0.993
+          "rule_based_expert": 0.9923
         }
       }
     }
@@ -683,10 +683,10 @@
       "rule_based_expert": 3.601640282131107
     },
     "coalition_market": {
-      "random_validish": -0.9799525487065393,
-      "greedy_hoarder": -0.5812165962109423,
-      "always_accept": -1.9866317248605037,
-      "rule_based_expert": 3.5478008697779853
+      "random_validish": -0.8501463039172331,
+      "greedy_hoarder": -0.592632879433797,
+      "always_accept": -2.0702696544641643,
+      "rule_based_expert": 3.513048837815192
     }
   },
   "summary": {
@@ -697,7 +697,19 @@
         "episodes": 10,
         "invalid_actions": 4
       },
+      "base_instruct_naive": {
+        "mean_reward": 0.0771,
+        "stdev_reward": 0.0109,
+        "episodes": 10,
+        "invalid_actions": 0
+      },
       "greedy_hoarder": {
+        "mean_reward": 0.0587,
+        "stdev_reward": 0.1633,
+        "episodes": 10,
+        "invalid_actions": 4
+      },
+      "no_negotiation_allocator": {
         "mean_reward": 0.0587,
         "stdev_reward": 0.1633,
         "episodes": 10,
@@ -729,7 +741,19 @@
         "episodes": 10,
         "invalid_actions": 12
       },
+      "base_instruct_naive": {
+        "mean_reward": -0.0069,
+        "stdev_reward": 0.0109,
+        "episodes": 10,
+        "invalid_actions": 0
+      },
       "greedy_hoarder": {
+        "mean_reward": 0.0286,
+        "stdev_reward": 0.2943,
+        "episodes": 10,
+        "invalid_actions": 8
+      },
+      "no_negotiation_allocator": {
         "mean_reward": 0.0286,
         "stdev_reward": 0.2943,
         "episodes": 10,
@@ -756,10 +780,16 @@
     },
     "coalition_market": {
       "always_accept": {
-        "mean_reward": 0.4054,
-        "stdev_reward": 0.2002,
+        "mean_reward": 0.3722,
+        "stdev_reward": 0.1566,
         "episodes": 10,
         "invalid_actions": 24
+      },
+      "base_instruct_naive": {
+        "mean_reward": -0.0355,
+        "stdev_reward": 0.1347,
+        "episodes": 10,
+        "invalid_actions": 0
       },
       "greedy_hoarder": {
         "mean_reward": 0.0995,
@@ -767,27 +797,135 @@
         "episodes": 10,
         "invalid_actions": 7
       },
+      "no_negotiation_allocator": {
+        "mean_reward": 0.0995,
+        "stdev_reward": 0.3684,
+        "episodes": 10,
+        "invalid_actions": 7
+      },
       "random_validish": {
-        "mean_reward": 0.1159,
-        "stdev_reward": 0.0915,
+        "mean_reward": 0.1709,
+        "stdev_reward": 0.0258,
         "episodes": 10,
         "invalid_actions": 0
       },
       "rule_based_expert": {
-        "mean_reward": 0.8086,
-        "stdev_reward": 0.2456,
+        "mean_reward": 0.8149,
+        "stdev_reward": 0.2581,
         "episodes": 10,
         "invalid_actions": 0
       },
       "trained_selector": {
-        "mean_reward": 0.8086,
-        "stdev_reward": 0.2456,
+        "mean_reward": 0.8149,
+        "stdev_reward": 0.2581,
         "episodes": 10,
         "invalid_actions": 0
       }
     }
   },
   "episodes": [
+    {
+      "task_type": "single_trade",
+      "seed": 0,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.0882,
+      "final_reward": 0.1142,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.1142
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.1142,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 0,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1296,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.1216,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.1216,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
     {
       "task_type": "single_trade",
       "seed": 0,
@@ -1082,6 +1220,108 @@
             "ok": true,
             "code": "final_settlement",
             "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 1,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.0788,
+      "final_reward": 0.1048,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.1048
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.1048,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 1,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1254,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.1174,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.1174,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
           }
         }
       ]
@@ -1388,6 +1628,108 @@
     {
       "task_type": "single_trade",
       "seed": 2,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.0549,
+      "final_reward": 0.0809,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.0809
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.0809,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 2,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.183,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.183,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 2,
       "policy": "random_validish",
       "steps": 3,
       "episode_reward": 0.0309,
@@ -1573,6 +1915,108 @@
       "task_type": "single_trade",
       "seed": 2,
       "policy": "trained_selector",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.183,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.183,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 3,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.08,
+      "final_reward": 0.106,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.106
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.106,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 3,
+      "policy": "no_negotiation_allocator",
       "steps": 2,
       "episode_reward": 0.191,
       "final_reward": 0.008,
@@ -1802,6 +2246,108 @@
       "task_type": "single_trade",
       "seed": 3,
       "policy": "trained_selector",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.183,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.183,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 4,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.0655,
+      "final_reward": 0.0915,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.0915
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.0915,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 4,
+      "policy": "no_negotiation_allocator",
       "steps": 2,
       "episode_reward": 0.191,
       "final_reward": 0.008,
@@ -2119,6 +2665,108 @@
     {
       "task_type": "single_trade",
       "seed": 5,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.0874,
+      "final_reward": 0.1134,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.1134
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.1134,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 5,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.0798,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.0718,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.0718,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 5,
       "policy": "random_validish",
       "steps": 3,
       "episode_reward": 0.0634,
@@ -2332,6 +2980,90 @@
         },
         {
           "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 6,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.0746,
+      "final_reward": 0.1006,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.1006
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.1006,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 6,
+      "policy": "no_negotiation_allocator",
+      "steps": 1,
+      "episode_reward": 0.008,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 0,
           "action": {
             "action_type": "finish"
           },
@@ -2602,6 +3334,107 @@
             "ok": true,
             "code": "final_settlement",
             "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 7,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.092,
+      "final_reward": 0.118,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.118
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.118,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 7,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.169,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.161,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.161,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
           }
         }
       ]
@@ -2884,6 +3717,128 @@
             "message": "fair swap to improve both deadline schedules"
           },
           "reward": 0.168,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 8,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.0689,
+      "final_reward": 0.0949,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.0949
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.0949,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 8,
+      "policy": "no_negotiation_allocator",
+      "steps": 3,
+      "episode_reward": -0.2551,
+      "final_reward": 0.0949,
+      "invalid_actions": 2,
+      "reward_trace": [
+        -0.1,
+        -0.1,
+        0.0949
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": -0.1,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": -0.1,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.0949,
           "result": {
             "ok": true,
             "code": "final_settlement",
@@ -3217,6 +4172,128 @@
     {
       "task_type": "single_trade",
       "seed": 9,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.081,
+      "final_reward": 0.107,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.107
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.107,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 9,
+      "policy": "no_negotiation_allocator",
+      "steps": 3,
+      "episode_reward": -0.243,
+      "final_reward": 0.107,
+      "invalid_actions": 2,
+      "reward_trace": [
+        -0.1,
+        -0.1,
+        0.107
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": -0.1,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": -0.1,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.107,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 9,
       "policy": "random_validish",
       "steps": 3,
       "episode_reward": 0.057,
@@ -3538,6 +4615,139 @@
             "ok": true,
             "code": "final_settlement",
             "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 0,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": 0.0042,
+      "final_reward": 0.1142,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.1142
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.1142,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 0,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1693,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.1613,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1",
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.1613,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
           }
         }
       ]
@@ -3904,6 +5114,137 @@
         },
         {
           "round_index": 4,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 1,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": -0.0052,
+      "final_reward": 0.1048,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.1048
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.1048,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 1,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.183,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.183,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
           "action": {
             "action_type": "finish"
           },
@@ -4302,6 +5643,139 @@
     {
       "task_type": "market_round",
       "seed": 2,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": -0.0291,
+      "final_reward": 0.0809,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.0809
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.0809,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 2,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1903,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.1823,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1",
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.1823,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 2,
       "policy": "random_validish",
       "steps": 5,
       "episode_reward": 0.0469,
@@ -4661,6 +6135,139 @@
         },
         {
           "round_index": 4,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 3,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": -0.004,
+      "final_reward": 0.106,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.106
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.106,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 3,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.183,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1",
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.183,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
           "action": {
             "action_type": "finish"
           },
@@ -5059,6 +6666,192 @@
             "ok": true,
             "code": "finished",
             "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 4,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": -0.0185,
+      "final_reward": 0.0915,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.0915
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.0915,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 4,
+      "policy": "no_negotiation_allocator",
+      "steps": 5,
+      "episode_reward": -0.5585,
+      "final_reward": 0.0915,
+      "invalid_actions": 4,
+      "reward_trace": [
+        -0.1,
+        -0.1,
+        -0.15,
+        -0.15,
+        0.0915
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": -0.1,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": -0.1,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": -0.15,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": -0.15,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.0915,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
           }
         }
       ]
@@ -5509,6 +7302,138 @@
     {
       "task_type": "market_round",
       "seed": 5,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": 0.0034,
+      "final_reward": 0.1134,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.1134
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.1134,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 5,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.183,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.183,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 5,
       "policy": "random_validish",
       "steps": 5,
       "episode_reward": 0.1954,
@@ -5896,6 +7821,139 @@
     {
       "task_type": "market_round",
       "seed": 6,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": -0.0094,
+      "final_reward": 0.1006,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.1006
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.1006,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 6,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.183,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1",
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.183,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 6,
       "policy": "random_validish",
       "steps": 5,
       "episode_reward": 0.1826,
@@ -6241,6 +8299,139 @@
         },
         {
           "round_index": 3,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 7,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": 0.008,
+      "final_reward": 0.118,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.118
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.118,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 7,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.183,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1",
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.183,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
           "action": {
             "action_type": "finish"
           },
@@ -6636,6 +8827,197 @@
             "ok": true,
             "code": "finished",
             "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 8,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": -0.0151,
+      "final_reward": 0.0949,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.0949
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.0949,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 8,
+      "policy": "no_negotiation_allocator",
+      "steps": 5,
+      "episode_reward": -0.5551,
+      "final_reward": 0.0949,
+      "invalid_actions": 4,
+      "reward_trace": [
+        -0.1,
+        -0.1,
+        -0.15,
+        -0.15,
+        0.0949
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": -0.1,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": -0.1,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": -0.15,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": -0.15,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.0949,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
           }
         }
       ]
@@ -7087,6 +9469,139 @@
     {
       "task_type": "market_round",
       "seed": 9,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": -0.003,
+      "final_reward": 0.107,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.107
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.107,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 9,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.085,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.077,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1",
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.077,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 9,
       "policy": "random_validish",
       "steps": 5,
       "episode_reward": 0.189,
@@ -7478,6 +9993,200 @@
     {
       "task_type": "coalition_market",
       "seed": 0,
+      "policy": "base_instruct_naive",
+      "steps": 9,
+      "episode_reward": -0.1938,
+      "final_reward": 0.0842,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        0.0842
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 6,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 7,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 8,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 9,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.0842,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 0,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.183,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1",
+              "b_0_2",
+              "b_0_3"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.183,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 0,
       "policy": "random_validish",
       "steps": 9,
       "episode_reward": 0.1902,
@@ -7663,8 +10372,8 @@
       "seed": 0,
       "policy": "always_accept",
       "steps": 9,
-      "episode_reward": 0.7829,
-      "final_reward": 0.138,
+      "episode_reward": 0.4857,
+      "final_reward": 0.008,
       "invalid_actions": 2,
       "reward_trace": [
         0.1099,
@@ -7675,7 +10384,7 @@
         0.1162,
         0.1201,
         0.0948,
-        0.138
+        0.008
       ],
       "action_trace": [
         {
@@ -7787,20 +10496,15 @@
           }
         },
         {
-          "round_index": 9,
+          "round_index": 8,
           "action": {
-            "action_type": "allocate_to_job",
-            "block_ids": [
-              "b_2_1",
-              "b_4_2"
-            ],
-            "job_id": "j_0_1"
+            "action_type": "finish"
           },
-          "reward": 0.138,
+          "reward": 0.008,
           "result": {
             "ok": true,
-            "code": "final_settlement",
-            "message": "Final settlement."
+            "code": "finished",
+            "message": "Episode finished."
           }
         }
       ]
@@ -8087,6 +10791,199 @@
         },
         {
           "round_index": 8,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 1,
+      "policy": "base_instruct_naive",
+      "steps": 9,
+      "episode_reward": 0.0747,
+      "final_reward": 0.088,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        0.1227,
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.088
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "accept_offer",
+            "offer_id": "o_4"
+          },
+          "reward": 0.1227,
+          "result": {
+            "ok": true,
+            "code": "offer_accepted",
+            "message": "Accepted offer o_4."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 6,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 7,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 8,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 9,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.088,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 1,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.0578,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.0498,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1",
+              "b_0_2",
+              "b_0_3"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.0498,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
           "action": {
             "action_type": "finish"
           },
@@ -8715,6 +11612,199 @@
     {
       "task_type": "coalition_market",
       "seed": 2,
+      "policy": "base_instruct_naive",
+      "steps": 9,
+      "episode_reward": 0.0594,
+      "final_reward": 0.1213,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        0.1241,
+        0.1213
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 6,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 7,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 8,
+          "action": {
+            "action_type": "accept_offer",
+            "offer_id": "o_10"
+          },
+          "reward": 0.1241,
+          "result": {
+            "ok": true,
+            "code": "offer_accepted",
+            "message": "Accepted offer o_10."
+          }
+        },
+        {
+          "round_index": 9,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.1213,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 2,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1455,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.1375,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1",
+              "b_0_2",
+              "b_0_3"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.1375,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 2,
       "policy": "random_validish",
       "steps": 9,
       "episode_reward": 0.1569,
@@ -9294,10 +12384,202 @@
     {
       "task_type": "coalition_market",
       "seed": 3,
+      "policy": "base_instruct_naive",
+      "steps": 9,
+      "episode_reward": 0.0742,
+      "final_reward": 0.138,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        0.1222,
+        0.138
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 6,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 7,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 8,
+          "action": {
+            "action_type": "accept_offer",
+            "offer_id": "o_7"
+          },
+          "reward": 0.1222,
+          "result": {
+            "ok": true,
+            "code": "offer_accepted",
+            "message": "Accepted offer o_7."
+          }
+        },
+        {
+          "round_index": 9,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.138,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 3,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1711,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.1631,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1",
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.1631,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 3,
       "policy": "random_validish",
       "steps": 9,
-      "episode_reward": 0.074,
-      "final_reward": 0.076,
+      "episode_reward": 0.174,
+      "final_reward": 0.126,
       "invalid_actions": 0,
       "reward_trace": [
         0.008,
@@ -9308,7 +12590,7 @@
         0.0,
         0.0,
         0.008,
-        0.076
+        0.126
       ],
       "action_trace": [
         {
@@ -9418,7 +12700,7 @@
           "action": {
             "action_type": "wait"
           },
-          "reward": 0.076,
+          "reward": 0.126,
           "result": {
             "ok": true,
             "code": "final_settlement",
@@ -9886,10 +13168,201 @@
     {
       "task_type": "coalition_market",
       "seed": 4,
+      "policy": "base_instruct_naive",
+      "steps": 9,
+      "episode_reward": 0.0533,
+      "final_reward": 0.1199,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        0.1194,
+        0.1199
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 6,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 7,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 8,
+          "action": {
+            "action_type": "accept_offer",
+            "offer_id": "o_7"
+          },
+          "reward": 0.1194,
+          "result": {
+            "ok": true,
+            "code": "offer_accepted",
+            "message": "Accepted offer o_7."
+          }
+        },
+        {
+          "round_index": 9,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.1199,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 4,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1842,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.1762,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_1",
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.1762,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 4,
       "policy": "random_validish",
       "steps": 9,
-      "episode_reward": -0.0485,
-      "final_reward": 0.0615,
+      "episode_reward": 0.1515,
+      "final_reward": 0.1115,
       "invalid_actions": 0,
       "reward_trace": [
         0.008,
@@ -9898,9 +13371,9 @@
         0.0,
         0.0,
         0.008,
-        -0.05,
-        -0.042,
-        0.0615
+        0.0,
+        0.008,
+        0.1115
       ],
       "action_trace": [
         {
@@ -9984,7 +13457,7 @@
           "action": {
             "action_type": "wait"
           },
-          "reward": -0.05,
+          "reward": 0.0,
           "result": {
             "ok": true,
             "code": "waited",
@@ -9997,7 +13470,7 @@
             "action_type": "reject_offer",
             "offer_id": "o_7"
           },
-          "reward": -0.042,
+          "reward": 0.008,
           "result": {
             "ok": true,
             "code": "offer_rejected",
@@ -10009,7 +13482,7 @@
           "action": {
             "action_type": "wait"
           },
-          "reward": 0.0615,
+          "reward": 0.1115,
           "result": {
             "ok": true,
             "code": "final_settlement",
@@ -10450,10 +13923,325 @@
     {
       "task_type": "coalition_market",
       "seed": 5,
+      "policy": "base_instruct_naive",
+      "steps": 9,
+      "episode_reward": -0.1946,
+      "final_reward": 0.0834,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        0.0834
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 6,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 7,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 8,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 9,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.0834,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 5,
+      "policy": "no_negotiation_allocator",
+      "steps": 9,
+      "episode_reward": -0.9398,
+      "final_reward": 0.0834,
+      "invalid_actions": 7,
+      "reward_trace": [
+        0.0768,
+        -0.1,
+        -0.1,
+        -0.15,
+        -0.15,
+        -0.15,
+        -0.15,
+        -0.15,
+        0.0834
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.0768,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_3"
+            ],
+            "job_id": "j_0_2"
+          },
+          "reward": -0.1,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_3"
+            ],
+            "job_id": "j_0_2"
+          },
+          "reward": -0.1,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_3"
+            ],
+            "job_id": "j_0_2"
+          },
+          "reward": -0.15,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_3"
+            ],
+            "job_id": "j_0_2"
+          },
+          "reward": -0.15,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 6,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_3"
+            ],
+            "job_id": "j_0_2"
+          },
+          "reward": -0.15,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 7,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_3"
+            ],
+            "job_id": "j_0_2"
+          },
+          "reward": -0.15,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 8,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_3"
+            ],
+            "job_id": "j_0_2"
+          },
+          "reward": -0.15,
+          "result": {
+            "ok": false,
+            "code": "insufficient_capacity",
+            "message": "Job requires more GPU hours."
+          }
+        },
+        {
+          "round_index": 9,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_3"
+            ],
+            "job_id": "j_0_2"
+          },
+          "reward": 0.0834,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 5,
       "policy": "random_validish",
       "steps": 9,
-      "episode_reward": 0.0814,
-      "final_reward": 0.0834,
+      "episode_reward": 0.1814,
+      "final_reward": 0.1334,
       "invalid_actions": 0,
       "reward_trace": [
         0.008,
@@ -10464,7 +14252,7 @@
         0.0,
         0.0,
         0.008,
-        0.0834
+        0.1334
       ],
       "action_trace": [
         {
@@ -10574,7 +14362,7 @@
           "action": {
             "action_type": "wait"
           },
-          "reward": 0.0834,
+          "reward": 0.1334,
           "result": {
             "ok": true,
             "code": "final_settlement",
@@ -10903,7 +14691,7 @@
       "seed": 5,
       "policy": "rule_based_expert",
       "steps": 9,
-      "episode_reward": 1.2782,
+      "episode_reward": 1.3412,
       "final_reward": 0.228,
       "invalid_actions": 0,
       "reward_trace": [
@@ -11033,11 +14821,11 @@
         {
           "round_index": 9,
           "action": {
-            "action_type": "commit_to_coalition",
-            "coalition_id": "c_1",
+            "action_type": "allocate_to_job",
             "block_ids": [
               "b_2_2"
-            ]
+            ],
+            "job_id": "j_0_surge_8"
           },
           "reward": 0.228,
           "result": {
@@ -11053,7 +14841,7 @@
       "seed": 5,
       "policy": "trained_selector",
       "steps": 9,
-      "episode_reward": 1.2782,
+      "episode_reward": 1.3412,
       "final_reward": 0.228,
       "invalid_actions": 0,
       "reward_trace": [
@@ -11183,17 +14971,211 @@
         {
           "round_index": 9,
           "action": {
-            "action_type": "commit_to_coalition",
-            "coalition_id": "c_1",
+            "action_type": "allocate_to_job",
             "block_ids": [
               "b_2_2"
-            ]
+            ],
+            "job_id": "j_0_surge_8"
           },
           "reward": 0.228,
           "result": {
             "ok": true,
             "code": "final_settlement",
             "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 6,
+      "policy": "base_instruct_naive",
+      "steps": 9,
+      "episode_reward": -0.2074,
+      "final_reward": 0.0706,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        0.0706
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 6,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 7,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 8,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 9,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.0706,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 6,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1427,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.1347,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_1",
+              "b_0_2",
+              "b_0_3"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.1347,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
           }
         }
       ]
@@ -11388,7 +15370,7 @@
       "seed": 6,
       "policy": "always_accept",
       "steps": 9,
-      "episode_reward": 0.5399,
+      "episode_reward": 0.5049,
       "final_reward": 0.138,
       "invalid_actions": 3,
       "reward_trace": [
@@ -11744,6 +15726,215 @@
         },
         {
           "round_index": 6,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 7,
+      "policy": "base_instruct_naive",
+      "steps": 9,
+      "episode_reward": 0.118,
+      "final_reward": 0.088,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        0.166,
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.088
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "accept_offer",
+            "offer_id": "o_7"
+          },
+          "reward": 0.166,
+          "result": {
+            "ok": true,
+            "code": "offer_accepted",
+            "message": "Accepted offer o_7."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 6,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 7,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 8,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 9,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.088,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 7,
+      "policy": "no_negotiation_allocator",
+      "steps": 3,
+      "episode_reward": 0.2589,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.0802,
+        0.1707,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_1"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.0802,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_2",
+              "b_0_3"
+            ],
+            "job_id": "j_0_2"
+          },
+          "reward": 0.1707,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_2."
+          }
+        },
+        {
+          "round_index": 2,
           "action": {
             "action_type": "finish"
           },
@@ -12386,10 +16577,235 @@
     {
       "task_type": "coalition_market",
       "seed": 8,
+      "policy": "base_instruct_naive",
+      "steps": 9,
+      "episode_reward": 0.0617,
+      "final_reward": 0.0769,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        0.1208,
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.0769
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "accept_offer",
+            "offer_id": "o_5"
+          },
+          "reward": 0.1208,
+          "result": {
+            "ok": true,
+            "code": "offer_accepted",
+            "message": "Accepted offer o_5."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 6,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 7,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 8,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 9,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.0769,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 8,
+      "policy": "no_negotiation_allocator",
+      "steps": 4,
+      "episode_reward": 0.557,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.183,
+        0.183,
+        0.183,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0",
+              "b_0_2"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.183,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_1"
+            ],
+            "job_id": "j_0_1"
+          },
+          "reward": 0.183,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_1."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_3"
+            ],
+            "job_id": "j_0_2"
+          },
+          "reward": 0.183,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_2."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 8,
       "policy": "random_validish",
       "steps": 9,
-      "episode_reward": -0.0451,
-      "final_reward": 0.0649,
+      "episode_reward": 0.1049,
+      "final_reward": 0.1149,
       "invalid_actions": 0,
       "reward_trace": [
         0.008,
@@ -12399,8 +16815,8 @@
         0.0,
         0.0,
         -0.05,
-        -0.042,
-        0.0649
+        0.008,
+        0.1149
       ],
       "action_trace": [
         {
@@ -12497,7 +16913,7 @@
             "action_type": "reject_offer",
             "offer_id": "o_6"
           },
-          "reward": -0.042,
+          "reward": 0.008,
           "result": {
             "ok": true,
             "code": "offer_rejected",
@@ -12509,7 +16925,7 @@
           "action": {
             "action_type": "wait"
           },
-          "reward": 0.0649,
+          "reward": 0.1149,
           "result": {
             "ok": true,
             "code": "final_settlement",
@@ -12984,6 +17400,216 @@
         },
         {
           "round_index": 7,
+          "action": {
+            "action_type": "finish"
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "finished",
+            "message": "Episode finished."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 9,
+      "policy": "base_instruct_naive",
+      "steps": 9,
+      "episode_reward": -0.201,
+      "final_reward": 0.077,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        0.077
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.008,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 3,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 4,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 5,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 6,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 7,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 8,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": -0.042,
+          "result": {
+            "ok": true,
+            "code": "message_sent",
+            "message": "Message sent."
+          }
+        },
+        {
+          "round_index": 9,
+          "action": {
+            "action_type": "send_message",
+            "target_lab_id": "lab_1",
+            "message": "We need GPU soon because our workload is important. Please consider sharing capacity."
+          },
+          "reward": 0.077,
+          "result": {
+            "ok": true,
+            "code": "final_settlement",
+            "message": "Final settlement."
+          }
+        }
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 9,
+      "policy": "no_negotiation_allocator",
+      "steps": 3,
+      "episode_reward": 0.2261,
+      "final_reward": 0.008,
+      "invalid_actions": 0,
+      "reward_trace": [
+        0.0351,
+        0.183,
+        0.008
+      ],
+      "action_trace": [
+        {
+          "round_index": 1,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_0"
+            ],
+            "job_id": "j_0_0"
+          },
+          "reward": 0.0351,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_0."
+          }
+        },
+        {
+          "round_index": 2,
+          "action": {
+            "action_type": "allocate_to_job",
+            "block_ids": [
+              "b_0_1",
+              "b_0_2",
+              "b_0_3"
+            ],
+            "job_id": "j_0_1"
+          },
+          "reward": 0.183,
+          "result": {
+            "ok": true,
+            "code": "job_allocated",
+            "message": "Allocated capacity to j_0_1."
+          }
+        },
+        {
+          "round_index": 2,
           "action": {
             "action_type": "finish"
           },

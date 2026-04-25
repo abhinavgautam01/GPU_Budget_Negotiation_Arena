@@ -139,6 +139,7 @@ class GpuBudgetNegotiationEnv:
         elif difficulty == "hard":
             shock_schedule[3] = "capacity_failure"
             shock_schedule[6] = "energy_spike"
+            shock_schedule[8] = "reliability_degradation" if seed % 2 == 0 else "demand_surge"
 
         state = EnvironmentState(
             task_id=f"{task_type}-{seed}",
@@ -204,6 +205,8 @@ class GpuBudgetNegotiationEnv:
         fingerprint = self._fingerprint(action)
         state = self._require_state()
         state.action_fingerprints[fingerprint] = state.action_fingerprints.get(fingerprint, 0) + 1
+        state.recent_action_fingerprints.append(fingerprint)
+        state.recent_action_fingerprints = state.recent_action_fingerprints[-5:]
         return handlers[action.action_type](action)
 
     def _send_offer(self, action: GpuNegotiationAction) -> tuple[ActionResult, float]:
@@ -707,6 +710,27 @@ class GpuBudgetNegotiationEnv:
                 if block.status in {"available", "reserved", "committed"}:
                     block.energy_cost = round(block.energy_cost * 1.25, 2)
             state.shock_history.append(f"round_{state.round_index}: energy costs increased")
+        elif shock == "reliability_degradation":
+            for block in state.blocks.values():
+                if block.status in {"available", "reserved", "committed"}:
+                    block.reliability = round(max(0.5, block.reliability - 0.12), 2)
+            state.shock_history.append(f"round_{state.round_index}: reliability degraded across live capacity")
+        elif shock == "demand_surge":
+            for lab in state.labs.values():
+                lab_index = lab.lab_id.split("_")[-1]
+                lab.private_jobs.append(
+                    JobView(
+                        job_id=f"j_{lab_index}_surge_{state.round_index}",
+                        gpu_hours_required=float(self.rng.choice([2, 3, 4])),
+                        deadline_round=min(state.max_rounds, state.round_index + 2),
+                        base_value=round(self.rng.uniform(45, 85), 2),
+                        urgency_multiplier=round(self.rng.uniform(1.3, 1.9), 2),
+                        min_reliability=round(self.rng.uniform(0.70, 0.88), 2),
+                        partial_credit_allowed=True,
+                        private_notes="shock_demand_surge",
+                    )
+                )
+            state.shock_history.append(f"round_{state.round_index}: urgent demand surge added jobs")
 
     def _check_deadline_breaches(self) -> None:
         state = self._require_state()
@@ -774,7 +798,38 @@ class GpuBudgetNegotiationEnv:
 
     def _last_action_repeated(self) -> bool:
         state = self._require_state()
-        return any(count > 2 for count in state.action_fingerprints.values())
+        recent = state.recent_action_fingerprints
+        return len(recent) >= 3 and recent[-1] == recent[-2] == recent[-3]
+
+    def public_state(self) -> dict[str, Any]:
+        state = self._require_state()
+        return {
+            "task_id": state.task_id,
+            "task_type": state.task_type,
+            "difficulty": state.difficulty,
+            "seed": state.seed,
+            "judge_mode": state.judge_mode,
+            "round_index": state.round_index,
+            "max_rounds": state.max_rounds,
+            "controlled_lab_id": state.controlled_lab_id,
+            "visible_labs": [
+                self._visible_lab(lab).model_dump(mode="json")
+                for lab in state.labs.values()
+                if lab.lab_id != state.controlled_lab_id
+            ],
+            "public_blocks": [block.model_dump(mode="json") for block in state.blocks.values()],
+            "active_offers": [offer.model_dump(mode="json") for offer in state.offers.values() if offer.status == "active"],
+            "active_coalitions": [
+                coalition.model_dump(mode="json")
+                for coalition in state.coalitions.values()
+                if coalition.expires_round >= state.round_index
+            ],
+            "message_history": [message.model_dump(mode="json") for message in state.messages[-20:]],
+            "shock_history": list(state.shock_history),
+            "last_action_result": state.last_action_result.model_dump(mode="json") if state.last_action_result else None,
+            "cumulative_reward": state.cumulative_reward,
+            "done": state.done,
+        }
 
     def _lab_deadline_pressure(self, lab: LabState) -> float:
         state = self._require_state()

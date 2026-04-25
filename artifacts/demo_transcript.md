@@ -6,7 +6,7 @@
 
 - Seed: `5`
 
-- Final cumulative reward: `1.2782`
+- Final cumulative reward: `1.3412`
 
 
 
@@ -68,7 +68,7 @@
 
 ### Step 9
 
-- Action: `{"action_type": "commit_to_coalition", "coalition_id": "c_1", "block_ids": ["b_2_2"]}`
+- Action: `{"action_type": "allocate_to_job", "block_ids": ["b_2_2"], "job_id": "j_0_surge_8"}`
 - Result: `{"ok": true, "code": "final_settlement", "message": "Final settlement."}`
 - Immediate reward: `0.228`
-- Cumulative reward: `1.2782`
+- Cumulative reward: `1.3412`

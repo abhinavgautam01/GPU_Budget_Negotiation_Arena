@@ -218,5 +218,6 @@ class EnvironmentState(BaseModel):
     cumulative_reward: float = 0.0
     done: bool = False
     action_fingerprints: dict[str, int] = Field(default_factory=dict)
+    recent_action_fingerprints: list[str] = Field(default_factory=list)
     completed_job_values: dict[str, float] = Field(default_factory=dict)
     judge_decisions: list[JudgeDecision] = Field(default_factory=list)

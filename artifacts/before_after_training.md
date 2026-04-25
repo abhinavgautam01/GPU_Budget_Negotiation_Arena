@@ -7,7 +7,7 @@ Same task and seed, before training versus the trained lightweight selector. Thi
 - Policy: `before_random_validish`
 - Task: `coalition_market`
 - Seed: `5`
-- Episode reward: `0.0814`
+- Episode reward: `0.1814`
 
 ### Step 1
 
@@ -62,7 +62,7 @@ Same task and seed, before training versus the trained lightweight selector. Thi
 - Policy: `after_trained_selector:rule_based_expert`
 - Task: `coalition_market`
 - Seed: `5`
-- Episode reward: `1.2782`
+- Episode reward: `1.3412`
 
 ### Step 1
 

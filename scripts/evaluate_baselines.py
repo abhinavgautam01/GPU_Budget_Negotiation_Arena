@@ -10,7 +10,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from gpu_budget_arena.baselines import (
     always_accept_policy,
+    base_instruct_naive_policy,
     greedy_hoarder_policy,
+    no_negotiation_allocator_policy,
     random_validish_policy,
     rule_based_expert_policy,
 )
@@ -20,6 +22,8 @@ from gpu_budget_arena.models import ResetConfig
 
 POLICIES = {
     "random_validish": random_validish_policy,
+    "base_instruct_naive": base_instruct_naive_policy,
+    "no_negotiation_allocator": no_negotiation_allocator_policy,
     "greedy_hoarder": greedy_hoarder_policy,
     "always_accept": always_accept_policy,
     "rule_based_expert": rule_based_expert_policy,
@@ -83,4 +87,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

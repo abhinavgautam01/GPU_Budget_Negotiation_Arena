@@ -23,7 +23,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from gpu_budget_arena.baselines import (
     always_accept_policy,
+    base_instruct_naive_policy,
     greedy_hoarder_policy,
+    no_negotiation_allocator_policy,
     random_validish_policy,
     rule_based_expert_policy,
 )
@@ -213,6 +215,8 @@ def train_selector(episodes: int, eval_interval: int, eval_seeds: int, learning_
 def comparison_records(selector: StrategySelector, seeds: int) -> list[dict[str, object]]:
     records: list[dict[str, object]] = []
     comparison_policies: dict[str, Policy] = {
+        "base_instruct_naive": base_instruct_naive_policy,
+        "no_negotiation_allocator": no_negotiation_allocator_policy,
         **BASELINE_POLICIES,
         "rule_based_expert": rule_based_expert_policy,
     }

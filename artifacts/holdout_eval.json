@@ -1,287 +1,1104 @@
 {
+  "protocol": {
+    "split": "holdout",
+    "seed_offset": 50000,
+    "seeds": 8,
+    "task_types": [
+      "single_trade",
+      "market_round",
+      "coalition_market"
+    ],
+    "note": "Holdout seeds are disjoint from training/demo seeds and exercise the same hidden-job, opponent, and shock generators."
+  },
   "summary": {
     "single_trade": {
       "always_accept": {
-        "mean_reward": 0.0587,
-        "stdev_reward": 0.1633,
-        "episodes": 10
+        "mean_reward": 0.1711,
+        "stdev_reward": 0.0763,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 0
       },
       "base_instruct_naive": {
-        "mean_reward": 0.0771,
-        "stdev_reward": 0.0109,
-        "episodes": 10
+        "mean_reward": 0.0775,
+        "stdev_reward": 0.014,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 0
       },
       "greedy_hoarder": {
-        "mean_reward": 0.0587,
-        "stdev_reward": 0.1633,
-        "episodes": 10
+        "mean_reward": 0.1572,
+        "stdev_reward": 0.0595,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 0
       },
       "no_negotiation_allocator": {
-        "mean_reward": 0.0587,
-        "stdev_reward": 0.1633,
-        "episodes": 10
+        "mean_reward": 0.1572,
+        "stdev_reward": 0.0595,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 0
       },
       "random_validish": {
-        "mean_reward": 0.0747,
-        "stdev_reward": 0.0456,
-        "episodes": 10
+        "mean_reward": 0.0805,
+        "stdev_reward": 0.0526,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 0
       },
       "rule_based_expert": {
-        "mean_reward": 0.2623,
-        "stdev_reward": 0.1328,
-        "episodes": 10
+        "mean_reward": 0.2035,
+        "stdev_reward": 0.034,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 0
       }
     },
     "market_round": {
       "always_accept": {
-        "mean_reward": 0.2725,
-        "stdev_reward": 0.1181,
-        "episodes": 10
+        "mean_reward": 0.4001,
+        "stdev_reward": 0.1227,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 0
       },
       "base_instruct_naive": {
-        "mean_reward": -0.0069,
-        "stdev_reward": 0.0109,
-        "episodes": 10
+        "mean_reward": -0.0065,
+        "stdev_reward": 0.014,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 0
       },
       "greedy_hoarder": {
-        "mean_reward": 0.0286,
-        "stdev_reward": 0.2943,
-        "episodes": 10
+        "mean_reward": 0.1921,
+        "stdev_reward": 0.0738,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 0
       },
       "no_negotiation_allocator": {
-        "mean_reward": 0.0286,
-        "stdev_reward": 0.2943,
-        "episodes": 10
+        "mean_reward": 0.1921,
+        "stdev_reward": 0.0738,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 0
       },
       "random_validish": {
-        "mean_reward": 0.1595,
-        "stdev_reward": 0.0492,
-        "episodes": 10
+        "mean_reward": 0.1865,
+        "stdev_reward": 0.0157,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 0
       },
       "rule_based_expert": {
-        "mean_reward": 0.4845,
-        "stdev_reward": 0.1387,
-        "episodes": 10
+        "mean_reward": 0.526,
+        "stdev_reward": 0.1754,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 0
       }
     },
     "coalition_market": {
       "always_accept": {
-        "mean_reward": 0.3722,
-        "stdev_reward": 0.1566,
-        "episodes": 10
+        "mean_reward": 0.2266,
+        "stdev_reward": 0.1074,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 8
       },
       "base_instruct_naive": {
-        "mean_reward": -0.0355,
-        "stdev_reward": 0.1347,
-        "episodes": 10
+        "mean_reward": -0.0953,
+        "stdev_reward": 0.142,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 8
       },
       "greedy_hoarder": {
-        "mean_reward": 0.0995,
-        "stdev_reward": 0.3684,
-        "episodes": 10
+        "mean_reward": 0.0825,
+        "stdev_reward": 0.3663,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 8
       },
       "no_negotiation_allocator": {
-        "mean_reward": 0.0995,
-        "stdev_reward": 0.3684,
-        "episodes": 10
+        "mean_reward": 0.0825,
+        "stdev_reward": 0.3663,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 8
       },
       "random_validish": {
-        "mean_reward": 0.1709,
-        "stdev_reward": 0.0258,
-        "episodes": 10
+        "mean_reward": 0.1103,
+        "stdev_reward": 0.0755,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 8
       },
       "rule_based_expert": {
-        "mean_reward": 0.8149,
-        "stdev_reward": 0.2581,
-        "episodes": 10
+        "mean_reward": 0.6238,
+        "stdev_reward": 0.1245,
+        "episodes": 8,
+        "seed_split": "holdout",
+        "shock_episodes": 8
       }
     }
   },
   "episodes": [
     {
       "task_type": "single_trade",
-      "seed": 0,
+      "seed": 50000,
       "policy": "random_validish",
       "steps": 3,
-      "episode_reward": 0.0642,
-      "final_reward": 0.1142,
+      "episode_reward": 0.0289,
+      "final_reward": 0.0789,
       "reward_trace": [
         0.0,
         0.0,
-        0.1142
+        0.0789
       ]
     },
     {
       "task_type": "single_trade",
-      "seed": 0,
+      "seed": 50000,
       "policy": "base_instruct_naive",
       "steps": 3,
-      "episode_reward": 0.0882,
-      "final_reward": 0.1142,
+      "episode_reward": 0.0529,
+      "final_reward": 0.0789,
       "reward_trace": [
         0.008,
         0.008,
-        0.1142
+        0.0789
       ]
     },
     {
       "task_type": "single_trade",
-      "seed": 0,
+      "seed": 50000,
       "policy": "no_negotiation_allocator",
       "steps": 2,
-      "episode_reward": 0.1296,
+      "episode_reward": 0.191,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1216,
+        0.183,
         0.008
       ]
     },
     {
       "task_type": "single_trade",
-      "seed": 0,
+      "seed": 50000,
       "policy": "greedy_hoarder",
       "steps": 2,
-      "episode_reward": 0.1296,
+      "episode_reward": 0.191,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1216,
+        0.183,
         0.008
       ]
     },
     {
       "task_type": "single_trade",
-      "seed": 0,
+      "seed": 50000,
       "policy": "always_accept",
       "steps": 2,
-      "episode_reward": 0.1296,
+      "episode_reward": 0.191,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1216,
+        0.183,
         0.008
       ]
     },
     {
       "task_type": "single_trade",
-      "seed": 0,
+      "seed": 50000,
       "policy": "rule_based_expert",
-      "steps": 3,
-      "episode_reward": 0.1466,
-      "final_reward": 0.1126,
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
       "reward_trace": [
-        0.028,
-        0.028,
-        0.1126
+        0.183,
+        0.008
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 0,
+      "seed": 50000,
       "policy": "random_validish",
       "steps": 5,
-      "episode_reward": 0.0802,
-      "final_reward": 0.1142,
+      "episode_reward": 0.1609,
+      "final_reward": 0.1289,
       "reward_trace": [
         0.008,
         0.008,
-        0.0,
-        0.0,
-        0.1142
+        0.008,
+        0.008,
+        0.1289
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 0,
+      "seed": 50000,
       "policy": "base_instruct_naive",
       "steps": 5,
-      "episode_reward": 0.0042,
-      "final_reward": 0.1142,
+      "episode_reward": -0.0311,
+      "final_reward": 0.0789,
       "reward_trace": [
         0.008,
         0.008,
         -0.042,
         -0.042,
-        0.1142
+        0.0789
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 0,
+      "seed": 50000,
       "policy": "no_negotiation_allocator",
       "steps": 2,
-      "episode_reward": 0.1693,
+      "episode_reward": 0.1785,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1613,
+        0.1705,
         0.008
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 0,
+      "seed": 50000,
       "policy": "greedy_hoarder",
       "steps": 2,
-      "episode_reward": 0.1693,
+      "episode_reward": 0.1785,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1613,
+        0.1705,
         0.008
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 0,
+      "seed": 50000,
+      "policy": "always_accept",
+      "steps": 5,
+      "episode_reward": 0.5337,
+      "final_reward": 0.147,
+      "reward_trace": [
+        0.1099,
+        -0.1,
+        0.078,
+        0.1164,
+        0.147
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50000,
+      "policy": "rule_based_expert",
+      "steps": 5,
+      "episode_reward": 0.2883,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1363,
+        0.008,
+        0.008,
+        0.128,
+        0.008
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50000,
+      "policy": "random_validish",
+      "steps": 9,
+      "episode_reward": 0.1629,
+      "final_reward": 0.0989,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.008,
+        0.008,
+        0.0,
+        0.008,
+        0.008,
+        0.008,
+        0.0989
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50000,
+      "policy": "base_instruct_naive",
+      "steps": 9,
+      "episode_reward": -0.2291,
+      "final_reward": 0.0489,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        0.0489
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50000,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1378,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1298,
+        0.008
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50000,
+      "policy": "greedy_hoarder",
+      "steps": 2,
+      "episode_reward": 0.1378,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1298,
+        0.008
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50000,
+      "policy": "always_accept",
+      "steps": 9,
+      "episode_reward": 0.2018,
+      "final_reward": 0.1251,
+      "reward_trace": [
+        0.1099,
+        -0.1,
+        -0.1,
+        0.086,
+        0.0445,
+        0.1189,
+        -0.1,
+        0.1174,
+        0.1251
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50000,
+      "policy": "rule_based_expert",
+      "steps": 7,
+      "episode_reward": 0.4109,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1102,
+        0.008,
+        0.008,
+        0.1407,
+        0.008,
+        0.128,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50001,
+      "policy": "random_validish",
+      "steps": 3,
+      "episode_reward": 0.052,
+      "final_reward": 0.102,
+      "reward_trace": [
+        0.0,
+        0.0,
+        0.102
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50001,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.076,
+      "final_reward": 0.102,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.102
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50001,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.183,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50001,
+      "policy": "greedy_hoarder",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.183,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50001,
+      "policy": "always_accept",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.183,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50001,
+      "policy": "rule_based_expert",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.183,
+        0.008
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50001,
+      "policy": "random_validish",
+      "steps": 5,
+      "episode_reward": 0.192,
+      "final_reward": 0.152,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.008,
+        0.008,
+        0.152
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50001,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": -0.008,
+      "final_reward": 0.102,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.102
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50001,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1315,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1235,
+        0.008
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50001,
+      "policy": "greedy_hoarder",
+      "steps": 2,
+      "episode_reward": 0.1315,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1235,
+        0.008
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50001,
+      "policy": "always_accept",
+      "steps": 5,
+      "episode_reward": 0.2966,
+      "final_reward": 0.161,
+      "reward_trace": [
+        0.1088,
+        -0.1,
+        0.1083,
+        0.1185,
+        0.161
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50001,
+      "policy": "rule_based_expert",
+      "steps": 5,
+      "episode_reward": 0.5126,
+      "final_reward": 0.161,
+      "reward_trace": [
+        0.1088,
+        0.008,
+        0.1083,
+        0.1185,
+        0.161
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50001,
+      "policy": "random_validish",
+      "steps": 9,
+      "episode_reward": 0.17,
+      "final_reward": 0.122,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.008,
+        0.008,
+        0.0,
+        0.008,
+        0.0,
+        0.008,
+        0.122
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50001,
+      "policy": "base_instruct_naive",
+      "steps": 9,
+      "episode_reward": 0.1134,
+      "final_reward": 0.1334,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        0.166,
+        0.1334
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50001,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1888,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1808,
+        0.008
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50001,
+      "policy": "greedy_hoarder",
+      "steps": 2,
+      "episode_reward": 0.1888,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1808,
+        0.008
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50001,
+      "policy": "always_accept",
+      "steps": 9,
+      "episode_reward": 0.3222,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.158,
+        -0.1,
+        -0.1,
+        0.1182,
+        0.0538,
+        0.1182,
+        -0.1,
+        0.166,
+        0.008
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50001,
+      "policy": "rule_based_expert",
+      "steps": 8,
+      "episode_reward": 0.61,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.158,
+        0.008,
+        0.008,
+        0.1182,
+        0.0538,
+        0.128,
+        0.128,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50002,
+      "policy": "random_validish",
+      "steps": 3,
+      "episode_reward": 0.0351,
+      "final_reward": 0.0851,
+      "reward_trace": [
+        0.0,
+        0.0,
+        0.0851
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50002,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.0591,
+      "final_reward": 0.0851,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.0851
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50002,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1393,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1313,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50002,
+      "policy": "greedy_hoarder",
+      "steps": 2,
+      "episode_reward": 0.1393,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1313,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50002,
+      "policy": "always_accept",
+      "steps": 2,
+      "episode_reward": 0.1393,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1313,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50002,
+      "policy": "rule_based_expert",
+      "steps": 2,
+      "episode_reward": 0.1393,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1313,
+        0.008
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50002,
+      "policy": "random_validish",
+      "steps": 5,
+      "episode_reward": 0.1671,
+      "final_reward": 0.1351,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.008,
+        0.008,
+        0.1351
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50002,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": -0.0249,
+      "final_reward": 0.0851,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.0851
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50002,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.183,
+        0.008
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50002,
+      "policy": "greedy_hoarder",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.183,
+        0.008
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50002,
+      "policy": "always_accept",
+      "steps": 5,
+      "episode_reward": 0.4543,
+      "final_reward": 0.1445,
+      "reward_trace": [
+        0.1091,
+        -0.1,
+        0.1081,
+        0.1185,
+        0.1445
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50002,
+      "policy": "rule_based_expert",
+      "steps": 5,
+      "episode_reward": 0.7151,
+      "final_reward": 0.1951,
+      "reward_trace": [
+        0.128,
+        0.128,
+        0.128,
+        0.008,
+        0.1951
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50002,
+      "policy": "random_validish",
+      "steps": 9,
+      "episode_reward": 0.0371,
+      "final_reward": 0.1051,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.008,
+        0.0,
+        0.0,
+        -0.05,
+        -0.05,
+        0.008,
+        0.1051
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50002,
+      "policy": "base_instruct_naive",
+      "steps": 9,
+      "episode_reward": -0.2229,
+      "final_reward": 0.0551,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        -0.042,
+        0.0551
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50002,
+      "policy": "no_negotiation_allocator",
+      "steps": 4,
+      "episode_reward": 0.5306,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.183,
+        0.1566,
+        0.183,
+        0.008
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50002,
+      "policy": "greedy_hoarder",
+      "steps": 4,
+      "episode_reward": 0.5306,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.183,
+        0.1566,
+        0.183,
+        0.008
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50002,
+      "policy": "always_accept",
+      "steps": 7,
+      "episode_reward": 0.4636,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.109,
+        -0.1,
+        -0.1,
+        0.191,
+        0.1646,
+        0.191,
+        0.008
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50002,
+      "policy": "rule_based_expert",
+      "steps": 7,
+      "episode_reward": 0.643,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.109,
+        0.008,
+        0.008,
+        0.191,
+        0.191,
+        0.128,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50003,
+      "policy": "random_validish",
+      "steps": 3,
+      "episode_reward": 0.068,
+      "final_reward": 0.118,
+      "reward_trace": [
+        0.0,
+        0.0,
+        0.118
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50003,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.092,
+      "final_reward": 0.118,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.118
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50003,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.183,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50003,
+      "policy": "greedy_hoarder",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.183,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50003,
+      "policy": "always_accept",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.183,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50003,
+      "policy": "rule_based_expert",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.183,
+        0.008
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50003,
+      "policy": "random_validish",
+      "steps": 5,
+      "episode_reward": 0.2,
+      "final_reward": 0.168,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.0,
+        0.008,
+        0.168
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50003,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": 0.008,
+      "final_reward": 0.118,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.118
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50003,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.183,
+        0.008
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50003,
+      "policy": "greedy_hoarder",
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.183,
+        0.008
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50003,
       "policy": "always_accept",
       "steps": 4,
-      "episode_reward": 0.1616,
+      "episode_reward": 0.201,
       "final_reward": 0.008,
       "reward_trace": [
-        0.0882,
+        0.11,
         -0.1,
-        0.1654,
+        0.183,
         0.008
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 0,
+      "seed": 50003,
       "policy": "rule_based_expert",
       "steps": 5,
-      "episode_reward": 0.3673,
+      "episode_reward": 0.335,
       "final_reward": 0.008,
       "reward_trace": [
-        0.0882,
+        0.183,
         0.008,
-        0.1351,
+        0.008,
         0.128,
         0.008
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 0,
+      "seed": 50003,
       "policy": "random_validish",
       "steps": 9,
-      "episode_reward": 0.1902,
-      "final_reward": 0.1342,
+      "episode_reward": 0.128,
+      "final_reward": 0.138,
       "reward_trace": [
-        0.008,
-        0.008,
-        0.008,
         0.008,
         0.008,
         0.008,
         0.008,
         0.0,
-        0.1342
+        0.0,
+        -0.05,
+        0.008,
+        0.138
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 0,
+      "seed": 50003,
       "policy": "base_instruct_naive",
       "steps": 9,
-      "episode_reward": -0.1938,
-      "final_reward": 0.0842,
+      "episode_reward": -0.19,
+      "final_reward": 0.088,
       "reward_trace": [
         0.008,
         0.008,
@@ -291,12 +1108,114 @@
         -0.042,
         -0.042,
         -0.042,
-        0.0842
+        0.088
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 0,
+      "seed": 50003,
+      "policy": "no_negotiation_allocator",
+      "steps": 9,
+      "episode_reward": -0.829,
+      "final_reward": 0.088,
+      "reward_trace": [
+        0.183,
+        -0.1,
+        -0.1,
+        -0.15,
+        -0.15,
+        -0.15,
+        -0.15,
+        -0.15,
+        0.088
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50003,
+      "policy": "greedy_hoarder",
+      "steps": 9,
+      "episode_reward": -0.829,
+      "final_reward": 0.088,
+      "reward_trace": [
+        0.183,
+        -0.1,
+        -0.1,
+        -0.15,
+        -0.15,
+        -0.15,
+        -0.15,
+        -0.15,
+        0.088
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50003,
+      "policy": "always_accept",
+      "steps": 9,
+      "episode_reward": 0.145,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1096,
+        -0.1,
+        -0.1,
+        0.12,
+        0.191,
+        -0.1,
+        -0.1,
+        0.1164,
+        0.008
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50003,
+      "policy": "rule_based_expert",
+      "steps": 9,
+      "episode_reward": 0.794,
+      "final_reward": 0.228,
+      "reward_trace": [
+        0.183,
+        0.008,
+        0.008,
+        0.12,
+        0.128,
+        0.128,
+        -0.1,
+        -0.1,
+        0.228
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50004,
+      "policy": "random_validish",
+      "steps": 3,
+      "episode_reward": 0.1613,
+      "final_reward": 0.1533,
+      "reward_trace": [
+        0.0,
+        0.008,
+        0.1533
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50004,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.0773,
+      "final_reward": 0.1033,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.1033
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50004,
       "policy": "no_negotiation_allocator",
       "steps": 2,
       "episode_reward": 0.191,
@@ -307,8 +1226,8 @@
       ]
     },
     {
-      "task_type": "coalition_market",
-      "seed": 0,
+      "task_type": "single_trade",
+      "seed": 50004,
       "policy": "greedy_hoarder",
       "steps": 2,
       "episode_reward": 0.191,
@@ -319,59 +1238,227 @@
       ]
     },
     {
-      "task_type": "coalition_market",
-      "seed": 0,
+      "task_type": "single_trade",
+      "seed": 50004,
       "policy": "always_accept",
-      "steps": 9,
-      "episode_reward": 0.4857,
+      "steps": 3,
+      "episode_reward": 0.3021,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1099,
+        0.183,
+        0.1111,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50004,
+      "policy": "rule_based_expert",
+      "steps": 3,
+      "episode_reward": 0.2357,
+      "final_reward": 0.1517,
+      "reward_trace": [
+        0.028,
+        0.028,
+        0.1517
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50004,
+      "policy": "random_validish",
+      "steps": 5,
+      "episode_reward": 0.1773,
+      "final_reward": 0.1533,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.008,
+        0.0,
+        0.1533
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50004,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": -0.0067,
+      "final_reward": 0.1033,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.1033
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50004,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1152,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1072,
+        0.008
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50004,
+      "policy": "greedy_hoarder",
+      "steps": 2,
+      "episode_reward": 0.1152,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1072,
+        0.008
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50004,
+      "policy": "always_accept",
+      "steps": 5,
+      "episode_reward": 0.2475,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1106,
         -0.1,
-        -0.1,
-        0.1204,
-        0.1163,
-        0.1162,
-        0.1201,
-        0.0948,
+        0.11,
+        0.1189,
+        0.008
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50004,
+      "policy": "rule_based_expert",
+      "steps": 5,
+      "episode_reward": 0.7004,
+      "final_reward": 0.2249,
+      "reward_trace": [
+        0.1106,
+        0.008,
+        0.11,
+        0.1189,
+        0.2249
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50004,
+      "policy": "random_validish",
+      "steps": 9,
+      "episode_reward": -0.0447,
+      "final_reward": 0.0733,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.008,
+        0.008,
+        0.0,
+        0.0,
+        -0.05,
+        -0.05,
+        0.0733
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50004,
+      "policy": "base_instruct_naive",
+      "steps": 9,
+      "episode_reward": 0.0756,
+      "final_reward": 0.088,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        0.1236,
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.088
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50004,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1397,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1317,
         0.008
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 0,
-      "policy": "rule_based_expert",
-      "steps": 9,
-      "episode_reward": 0.6571,
+      "seed": 50004,
+      "policy": "greedy_hoarder",
+      "steps": 2,
+      "episode_reward": 0.1397,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1099,
+        0.1317,
+        0.008
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50004,
+      "policy": "always_accept",
+      "steps": 6,
+      "episode_reward": 0.1895,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1094,
+        -0.1,
+        -0.1,
+        0.1236,
+        0.1485,
+        0.008
+      ]
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 50004,
+      "policy": "rule_based_expert",
+      "steps": 8,
+      "episode_reward": 0.731,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1094,
         0.008,
         0.008,
-        0.1163,
-        0.0888,
-        0.1821,
-        0.008,
+        0.1236,
+        0.191,
+        0.155,
         0.128,
         0.008
       ]
     },
     {
       "task_type": "single_trade",
-      "seed": 1,
+      "seed": 50005,
       "policy": "random_validish",
       "steps": 3,
-      "episode_reward": 0.1628,
-      "final_reward": 0.1548,
+      "episode_reward": 0.0548,
+      "final_reward": 0.1048,
       "reward_trace": [
         0.0,
-        0.008,
-        0.1548
+        0.0,
+        0.1048
       ]
     },
     {
       "task_type": "single_trade",
-      "seed": 1,
+      "seed": 50005,
       "policy": "base_instruct_naive",
       "steps": 3,
       "episode_reward": 0.0788,
@@ -384,71 +1471,68 @@
     },
     {
       "task_type": "single_trade",
-      "seed": 1,
+      "seed": 50005,
       "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.1254,
+      "steps": 1,
+      "episode_reward": 0.008,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1174,
         0.008
       ]
     },
     {
       "task_type": "single_trade",
-      "seed": 1,
+      "seed": 50005,
       "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.1254,
+      "steps": 1,
+      "episode_reward": 0.008,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1174,
         0.008
       ]
     },
     {
       "task_type": "single_trade",
-      "seed": 1,
+      "seed": 50005,
       "policy": "always_accept",
-      "steps": 2,
-      "episode_reward": 0.1254,
+      "steps": 1,
+      "episode_reward": 0.008,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1174,
         0.008
       ]
     },
     {
       "task_type": "single_trade",
-      "seed": 1,
+      "seed": 50005,
       "policy": "rule_based_expert",
       "steps": 3,
-      "episode_reward": 0.2371,
-      "final_reward": 0.1531,
+      "episode_reward": 0.2372,
+      "final_reward": 0.1532,
       "reward_trace": [
         0.028,
         0.028,
-        0.1531
+        0.1532
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 1,
+      "seed": 50005,
       "policy": "random_validish",
       "steps": 5,
-      "episode_reward": 0.1788,
+      "episode_reward": 0.1868,
       "final_reward": 0.1548,
       "reward_trace": [
         0.008,
         0.008,
-        0.0,
+        0.008,
         0.008,
         0.1548
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 1,
+      "seed": 50005,
       "policy": "base_instruct_naive",
       "steps": 5,
       "episode_reward": -0.0052,
@@ -463,64 +1547,66 @@
     },
     {
       "task_type": "market_round",
-      "seed": 1,
+      "seed": 50005,
       "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.191,
+      "steps": 3,
+      "episode_reward": 0.374,
       "final_reward": 0.008,
       "reward_trace": [
+        0.183,
         0.183,
         0.008
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 1,
+      "seed": 50005,
       "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.191,
+      "steps": 3,
+      "episode_reward": 0.374,
       "final_reward": 0.008,
       "reward_trace": [
+        0.183,
         0.183,
         0.008
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 1,
+      "seed": 50005,
       "policy": "always_accept",
       "steps": 5,
-      "episode_reward": 0.3188,
-      "final_reward": 0.008,
+      "episode_reward": 0.4661,
+      "final_reward": 0.1667,
       "reward_trace": [
-        0.1091,
+        0.1095,
         -0.1,
-        0.183,
-        0.1187,
-        0.008
+        0.078,
+        0.1163,
+        0.1667
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 1,
+      "seed": 50005,
       "policy": "rule_based_expert",
       "steps": 5,
-      "episode_reward": 0.763,
-      "final_reward": 0.2245,
+      "episode_reward": 0.7446,
+      "final_reward": 0.1613,
       "reward_trace": [
-        0.1091,
+        0.1095,
         0.008,
-        0.1747,
-        0.1187,
-        0.2245
+        0.1088,
+        0.166,
+        0.1613
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 1,
+      "seed": 50005,
       "policy": "random_validish",
       "steps": 9,
-      "episode_reward": 0.1808,
+      "episode_reward": 0.1728,
       "final_reward": 0.1248,
       "reward_trace": [
         0.008,
@@ -530,1240 +1616,32 @@
         0.0,
         0.008,
         0.008,
-        0.008,
+        0.0,
         0.1248
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 1,
+      "seed": 50005,
       "policy": "base_instruct_naive",
       "steps": 9,
-      "episode_reward": 0.0747,
-      "final_reward": 0.088,
-      "reward_trace": [
-        0.008,
-        0.008,
-        -0.042,
-        0.1227,
-        0.008,
-        0.008,
-        -0.042,
-        -0.042,
-        0.088
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 1,
-      "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.0578,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.0498,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 1,
-      "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.0578,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.0498,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 1,
-      "policy": "always_accept",
-      "steps": 9,
-      "episode_reward": 0.3513,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1097,
-        -0.1,
-        -0.1,
-        0.1227,
-        0.0789,
-        0.166,
-        -0.1,
-        0.166,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 1,
-      "policy": "rule_based_expert",
-      "steps": 9,
-      "episode_reward": 1.0222,
-      "final_reward": 0.228,
-      "reward_trace": [
-        0.1097,
-        0.008,
-        0.008,
-        0.1227,
-        0.1267,
-        0.1171,
-        0.008,
-        0.166,
-        0.228
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 2,
-      "policy": "random_validish",
-      "steps": 3,
-      "episode_reward": 0.0309,
-      "final_reward": 0.0809,
-      "reward_trace": [
-        0.0,
-        0.0,
-        0.0809
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 2,
-      "policy": "base_instruct_naive",
-      "steps": 3,
-      "episode_reward": 0.0549,
-      "final_reward": 0.0809,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.0809
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 2,
-      "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 2,
-      "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 2,
-      "policy": "always_accept",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 2,
-      "policy": "rule_based_expert",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 2,
-      "policy": "random_validish",
-      "steps": 5,
-      "episode_reward": 0.0469,
-      "final_reward": 0.0809,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.0,
-        0.0,
-        0.0809
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 2,
-      "policy": "base_instruct_naive",
-      "steps": 5,
-      "episode_reward": -0.0291,
-      "final_reward": 0.0809,
-      "reward_trace": [
-        0.008,
-        0.008,
-        -0.042,
-        -0.042,
-        0.0809
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 2,
-      "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.1903,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1823,
-        0.008
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 2,
-      "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.1903,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1823,
-        0.008
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 2,
-      "policy": "always_accept",
-      "steps": 4,
-      "episode_reward": 0.169,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.078,
-        -0.1,
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 2,
-      "policy": "rule_based_expert",
-      "steps": 5,
-      "episode_reward": 0.4358,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1088,
-        0.008,
-        0.183,
-        0.128,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 2,
-      "policy": "random_validish",
-      "steps": 9,
-      "episode_reward": 0.1569,
-      "final_reward": 0.1009,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.0,
-        0.008,
-        0.1009
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 2,
-      "policy": "base_instruct_naive",
-      "steps": 9,
-      "episode_reward": 0.0594,
-      "final_reward": 0.1213,
+      "episode_reward": 0.0706,
+      "final_reward": 0.0861,
       "reward_trace": [
         0.008,
         0.008,
         -0.042,
         -0.042,
         -0.042,
-        -0.042,
-        -0.042,
-        0.1241,
-        0.1213
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 2,
-      "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.1455,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1375,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 2,
-      "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.1455,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1375,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 2,
-      "policy": "always_accept",
-      "steps": 8,
-      "episode_reward": 0.4249,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1101,
-        -0.1,
-        -0.1,
-        0.1169,
-        0.1186,
-        0.119,
-        0.1523,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 2,
-      "policy": "rule_based_expert",
-      "steps": 8,
-      "episode_reward": 0.6974,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1095,
-        0.008,
-        0.008,
-        0.1169,
-        0.191,
-        0.128,
-        0.128,
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 3,
-      "policy": "random_validish",
-      "steps": 3,
-      "episode_reward": 0.164,
-      "final_reward": 0.156,
-      "reward_trace": [
-        0.0,
-        0.008,
-        0.156
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 3,
-      "policy": "base_instruct_naive",
-      "steps": 3,
-      "episode_reward": 0.08,
-      "final_reward": 0.106,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.106
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 3,
-      "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 3,
-      "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 3,
-      "policy": "always_accept",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 3,
-      "policy": "rule_based_expert",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 3,
-      "policy": "random_validish",
-      "steps": 5,
-      "episode_reward": 0.188,
-      "final_reward": 0.156,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.156
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 3,
-      "policy": "base_instruct_naive",
-      "steps": 5,
-      "episode_reward": -0.004,
-      "final_reward": 0.106,
-      "reward_trace": [
-        0.008,
-        0.008,
-        -0.042,
-        -0.042,
-        0.106
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 3,
-      "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 3,
-      "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 3,
-      "policy": "always_accept",
-      "steps": 5,
-      "episode_reward": 0.4953,
-      "final_reward": 0.1617,
-      "reward_trace": [
-        0.1097,
-        -0.1,
-        0.1084,
-        0.1162,
-        0.1617
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 3,
-      "policy": "rule_based_expert",
-      "steps": 5,
-      "episode_reward": 0.4377,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1107,
-        0.008,
-        0.183,
-        0.128,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 3,
-      "policy": "random_validish",
-      "steps": 9,
-      "episode_reward": 0.174,
-      "final_reward": 0.126,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.0,
-        0.0,
-        0.008,
-        0.126
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 3,
-      "policy": "base_instruct_naive",
-      "steps": 9,
-      "episode_reward": 0.0742,
-      "final_reward": 0.138,
-      "reward_trace": [
-        0.008,
-        0.008,
-        -0.042,
-        -0.042,
-        -0.042,
-        -0.042,
-        -0.042,
-        0.1222,
-        0.138
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 3,
-      "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.1711,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1631,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 3,
-      "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.1711,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1631,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 3,
-      "policy": "always_accept",
-      "steps": 7,
-      "episode_reward": 0.18,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1103,
-        -0.1,
-        -0.1,
-        0.086,
-        0.1235,
-        0.0522,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 3,
-      "policy": "rule_based_expert",
-      "steps": 9,
-      "episode_reward": 0.8675,
-      "final_reward": 0.228,
-      "reward_trace": [
-        0.1631,
-        0.008,
-        0.008,
-        0.1208,
-        0.008,
-        0.1175,
-        0.008,
-        0.0781,
-        0.228
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 4,
-      "policy": "random_validish",
-      "steps": 3,
-      "episode_reward": 0.0415,
-      "final_reward": 0.0915,
-      "reward_trace": [
-        0.0,
-        0.0,
-        0.0915
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 4,
-      "policy": "base_instruct_naive",
-      "steps": 3,
-      "episode_reward": 0.0655,
-      "final_reward": 0.0915,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.0915
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 4,
-      "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 4,
-      "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 4,
-      "policy": "always_accept",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 4,
-      "policy": "rule_based_expert",
-      "steps": 3,
-      "episode_reward": 0.5142,
-      "final_reward": 0.1452,
-      "reward_trace": [
-        0.028,
-        0.158,
-        0.1452
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 4,
-      "policy": "random_validish",
-      "steps": 5,
-      "episode_reward": 0.1735,
-      "final_reward": 0.1415,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.0,
-        0.008,
-        0.1415
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 4,
-      "policy": "base_instruct_naive",
-      "steps": 5,
-      "episode_reward": -0.0185,
-      "final_reward": 0.0915,
-      "reward_trace": [
-        0.008,
-        0.008,
-        -0.042,
-        -0.042,
-        0.0915
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 4,
-      "policy": "no_negotiation_allocator",
-      "steps": 5,
-      "episode_reward": -0.5585,
-      "final_reward": 0.0915,
-      "reward_trace": [
-        -0.1,
-        -0.1,
-        -0.15,
-        -0.15,
-        0.0915
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 4,
-      "policy": "greedy_hoarder",
-      "steps": 5,
-      "episode_reward": -0.5585,
-      "final_reward": 0.0915,
-      "reward_trace": [
-        -0.1,
-        -0.1,
-        -0.15,
-        -0.15,
-        0.0915
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 4,
-      "policy": "always_accept",
-      "steps": 5,
-      "episode_reward": 0.077,
-      "final_reward": 0.1497,
-      "reward_trace": [
-        0.11,
-        -0.1,
-        -0.1,
-        0.1173,
-        0.1497
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 4,
-      "policy": "rule_based_expert",
-      "steps": 5,
-      "episode_reward": 0.437,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.11,
-        0.008,
-        0.183,
-        0.128,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 4,
-      "policy": "random_validish",
-      "steps": 9,
-      "episode_reward": 0.1515,
-      "final_reward": 0.1115,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.008,
-        0.0,
-        0.0,
-        0.008,
-        0.0,
-        0.008,
-        0.1115
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 4,
-      "policy": "base_instruct_naive",
-      "steps": 9,
-      "episode_reward": 0.0533,
-      "final_reward": 0.1199,
-      "reward_trace": [
-        0.008,
-        0.008,
-        -0.042,
-        -0.042,
-        -0.042,
-        -0.042,
-        -0.042,
-        0.1194,
-        0.1199
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 4,
-      "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.1842,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1762,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 4,
-      "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.1842,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1762,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 4,
-      "policy": "always_accept",
-      "steps": 5,
-      "episode_reward": 0.1081,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1091,
-        -0.1,
-        -0.1,
-        0.191,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 4,
-      "policy": "rule_based_expert",
-      "steps": 9,
-      "episode_reward": 1.1163,
-      "final_reward": 0.2093,
-      "reward_trace": [
-        0.158,
-        0.008,
-        0.008,
-        0.128,
-        0.128,
-        0.1168,
-        0.128,
-        0.1042,
-        0.2093
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 5,
-      "policy": "random_validish",
-      "steps": 3,
-      "episode_reward": 0.0634,
-      "final_reward": 0.1134,
-      "reward_trace": [
-        0.0,
-        0.0,
-        0.1134
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 5,
-      "policy": "base_instruct_naive",
-      "steps": 3,
-      "episode_reward": 0.0874,
-      "final_reward": 0.1134,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.1134
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 5,
-      "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.0798,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.0718,
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 5,
-      "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.0798,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.0718,
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 5,
-      "policy": "always_accept",
-      "steps": 2,
-      "episode_reward": 0.0798,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.0718,
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 5,
-      "policy": "rule_based_expert",
-      "steps": 2,
-      "episode_reward": 0.0798,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.0718,
-        0.008
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 5,
-      "policy": "random_validish",
-      "steps": 5,
-      "episode_reward": 0.1954,
-      "final_reward": 0.1634,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.1634
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 5,
-      "policy": "base_instruct_naive",
-      "steps": 5,
-      "episode_reward": 0.0034,
-      "final_reward": 0.1134,
-      "reward_trace": [
-        0.008,
-        0.008,
-        -0.042,
-        -0.042,
-        0.1134
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 5,
-      "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 5,
-      "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.191,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 5,
-      "policy": "always_accept",
-      "steps": 5,
-      "episode_reward": 0.3074,
-      "final_reward": 0.168,
-      "reward_trace": [
-        0.1095,
-        -0.1,
-        0.1106,
-        -0.1,
-        0.168
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 5,
-      "policy": "rule_based_expert",
-      "steps": 5,
-      "episode_reward": 0.5172,
-      "final_reward": 0.168,
-      "reward_trace": [
-        0.1095,
-        0.008,
-        0.1126,
-        0.008,
-        0.168
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 5,
-      "policy": "random_validish",
-      "steps": 9,
-      "episode_reward": 0.1814,
-      "final_reward": 0.1334,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.0,
-        0.0,
-        0.008,
-        0.1334
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 5,
-      "policy": "base_instruct_naive",
-      "steps": 9,
-      "episode_reward": -0.1946,
-      "final_reward": 0.0834,
-      "reward_trace": [
-        0.008,
-        0.008,
-        -0.042,
-        -0.042,
-        -0.042,
-        -0.042,
-        -0.042,
-        -0.042,
-        0.0834
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 5,
-      "policy": "no_negotiation_allocator",
-      "steps": 9,
-      "episode_reward": -0.9398,
-      "final_reward": 0.0834,
-      "reward_trace": [
-        0.0768,
-        -0.1,
-        -0.1,
-        -0.15,
-        -0.15,
-        -0.15,
-        -0.15,
-        -0.15,
-        0.0834
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 5,
-      "policy": "greedy_hoarder",
-      "steps": 9,
-      "episode_reward": -0.9398,
-      "final_reward": 0.0834,
-      "reward_trace": [
-        0.0768,
-        -0.1,
-        -0.1,
-        -0.15,
-        -0.15,
-        -0.15,
-        -0.15,
-        -0.15,
-        0.0834
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 5,
-      "policy": "always_accept",
-      "steps": 9,
-      "episode_reward": 0.3005,
-      "final_reward": 0.138,
-      "reward_trace": [
-        0.1097,
-        -0.1,
-        -0.1,
-        0.1198,
         0.1205,
-        0.0955,
-        -0.1,
-        0.117,
-        0.138
+        0.008,
+        0.008,
+        0.0861
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 5,
-      "policy": "rule_based_expert",
-      "steps": 9,
-      "episode_reward": 1.3412,
-      "final_reward": 0.228,
-      "reward_trace": [
-        0.1097,
-        0.008,
-        0.008,
-        0.1205,
-        0.191,
-        0.191,
-        0.128,
-        0.166,
-        0.228
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 6,
-      "policy": "random_validish",
-      "steps": 3,
-      "episode_reward": 0.0506,
-      "final_reward": 0.1006,
-      "reward_trace": [
-        0.0,
-        0.0,
-        0.1006
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 6,
-      "policy": "base_instruct_naive",
-      "steps": 3,
-      "episode_reward": 0.0746,
-      "final_reward": 0.1006,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.1006
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 6,
-      "policy": "no_negotiation_allocator",
-      "steps": 1,
-      "episode_reward": 0.008,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 6,
-      "policy": "greedy_hoarder",
-      "steps": 1,
-      "episode_reward": 0.008,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 6,
-      "policy": "always_accept",
-      "steps": 1,
-      "episode_reward": 0.008,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.008
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 6,
-      "policy": "rule_based_expert",
-      "steps": 3,
-      "episode_reward": 0.1346,
-      "final_reward": 0.1006,
-      "reward_trace": [
-        0.028,
-        0.028,
-        0.1006
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 6,
-      "policy": "random_validish",
-      "steps": 5,
-      "episode_reward": 0.1826,
-      "final_reward": 0.1506,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.1506
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 6,
-      "policy": "base_instruct_naive",
-      "steps": 5,
-      "episode_reward": -0.0094,
-      "final_reward": 0.1006,
-      "reward_trace": [
-        0.008,
-        0.008,
-        -0.042,
-        -0.042,
-        0.1006
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 6,
+      "seed": 50005,
       "policy": "no_negotiation_allocator",
       "steps": 2,
       "episode_reward": 0.191,
@@ -1774,8 +1652,8 @@
       ]
     },
     {
-      "task_type": "market_round",
-      "seed": 6,
+      "task_type": "coalition_market",
+      "seed": 50005,
       "policy": "greedy_hoarder",
       "steps": 2,
       "episode_reward": 0.191,
@@ -1786,126 +1664,32 @@
       ]
     },
     {
-      "task_type": "market_round",
-      "seed": 6,
+      "task_type": "coalition_market",
+      "seed": 50005,
       "policy": "always_accept",
-      "steps": 5,
-      "episode_reward": 0.2696,
-      "final_reward": 0.1654,
-      "reward_trace": [
-        0.1101,
-        -0.1,
-        0.078,
-        0.1161,
-        0.1654
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 6,
-      "policy": "rule_based_expert",
-      "steps": 4,
-      "episode_reward": 0.3091,
+      "steps": 6,
+      "episode_reward": 0.2204,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1101,
-        0.008,
-        0.183,
+        0.1102,
+        -0.1,
+        -0.1,
+        0.116,
+        0.1862,
         0.008
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 6,
-      "policy": "random_validish",
-      "steps": 9,
-      "episode_reward": 0.1926,
-      "final_reward": 0.1206,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.1206
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 6,
-      "policy": "base_instruct_naive",
-      "steps": 9,
-      "episode_reward": -0.2074,
-      "final_reward": 0.0706,
-      "reward_trace": [
-        0.008,
-        0.008,
-        -0.042,
-        -0.042,
-        -0.042,
-        -0.042,
-        -0.042,
-        -0.042,
-        0.0706
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 6,
-      "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.1427,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1347,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 6,
-      "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.1427,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1347,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 6,
-      "policy": "always_accept",
-      "steps": 9,
-      "episode_reward": 0.5049,
-      "final_reward": 0.138,
-      "reward_trace": [
-        0.1096,
-        -0.1,
-        -0.1,
-        0.1196,
-        -0.1,
-        0.1184,
-        0.1164,
-        0.1169,
-        0.138
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 6,
+      "seed": 50005,
       "policy": "rule_based_expert",
       "steps": 7,
-      "episode_reward": 0.4606,
+      "episode_reward": 0.7337,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1096,
-        0.008,
-        0.008,
+        0.183,
+        0.1127,
+        0.103,
         0.191,
         0.008,
         0.128,
@@ -1914,7 +1698,7 @@
     },
     {
       "task_type": "single_trade",
-      "seed": 7,
+      "seed": 50006,
       "policy": "random_validish",
       "steps": 3,
       "episode_reward": 0.068,
@@ -1927,7 +1711,7 @@
     },
     {
       "task_type": "single_trade",
-      "seed": 7,
+      "seed": 50006,
       "policy": "base_instruct_naive",
       "steps": 3,
       "episode_reward": 0.092,
@@ -1940,71 +1724,70 @@
     },
     {
       "task_type": "single_trade",
-      "seed": 7,
+      "seed": 50006,
       "policy": "no_negotiation_allocator",
       "steps": 2,
-      "episode_reward": 0.169,
+      "episode_reward": 0.191,
       "final_reward": 0.008,
       "reward_trace": [
-        0.161,
+        0.183,
         0.008
       ]
     },
     {
       "task_type": "single_trade",
-      "seed": 7,
+      "seed": 50006,
       "policy": "greedy_hoarder",
       "steps": 2,
-      "episode_reward": 0.169,
+      "episode_reward": 0.191,
       "final_reward": 0.008,
       "reward_trace": [
-        0.161,
+        0.183,
         0.008
       ]
     },
     {
       "task_type": "single_trade",
-      "seed": 7,
+      "seed": 50006,
       "policy": "always_accept",
       "steps": 2,
-      "episode_reward": 0.169,
+      "episode_reward": 0.191,
       "final_reward": 0.008,
       "reward_trace": [
-        0.161,
+        0.183,
         0.008
       ]
     },
     {
       "task_type": "single_trade",
-      "seed": 7,
+      "seed": 50006,
       "policy": "rule_based_expert",
-      "steps": 3,
-      "episode_reward": 0.385,
-      "final_reward": 0.168,
+      "steps": 2,
+      "episode_reward": 0.191,
+      "final_reward": 0.008,
       "reward_trace": [
-        0.161,
-        0.028,
-        0.168
+        0.183,
+        0.008
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 7,
+      "seed": 50006,
       "policy": "random_validish",
       "steps": 5,
-      "episode_reward": 0.192,
+      "episode_reward": 0.208,
       "final_reward": 0.168,
       "reward_trace": [
         0.008,
         0.008,
         0.008,
-        0.0,
+        0.008,
         0.168
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 7,
+      "seed": 50006,
       "policy": "base_instruct_naive",
       "steps": 5,
       "episode_reward": 0.008,
@@ -2019,7 +1802,7 @@
     },
     {
       "task_type": "market_round",
-      "seed": 7,
+      "seed": 50006,
       "policy": "no_negotiation_allocator",
       "steps": 2,
       "episode_reward": 0.191,
@@ -2031,7 +1814,7 @@
     },
     {
       "task_type": "market_round",
-      "seed": 7,
+      "seed": 50006,
       "policy": "greedy_hoarder",
       "steps": 2,
       "episode_reward": 0.191,
@@ -2043,46 +1826,46 @@
     },
     {
       "task_type": "market_round",
-      "seed": 7,
+      "seed": 50006,
       "policy": "always_accept",
       "steps": 5,
-      "episode_reward": 0.2438,
-      "final_reward": 0.008,
+      "episode_reward": 0.5269,
+      "final_reward": 0.168,
       "reward_trace": [
-        0.158,
+        0.1091,
         -0.1,
-        0.1094,
-        0.0684,
-        0.008
+        0.112,
+        0.1171,
+        0.168
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 7,
+      "seed": 50006,
       "policy": "rule_based_expert",
       "steps": 5,
-      "episode_reward": 0.3518,
+      "episode_reward": 0.335,
       "final_reward": 0.008,
       "reward_trace": [
-        0.158,
+        0.183,
         0.008,
-        0.1094,
-        0.0684,
+        0.008,
+        0.128,
         0.008
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 7,
+      "seed": 50006,
       "policy": "random_validish",
       "steps": 9,
-      "episode_reward": 0.194,
+      "episode_reward": 0.178,
       "final_reward": 0.138,
       "reward_trace": [
         0.008,
         0.008,
         0.008,
-        0.008,
+        0.0,
         0.0,
         0.008,
         0.0,
@@ -2092,18 +1875,18 @@
     },
     {
       "task_type": "coalition_market",
-      "seed": 7,
+      "seed": 50006,
       "policy": "base_instruct_naive",
       "steps": 9,
-      "episode_reward": 0.118,
+      "episode_reward": -0.19,
       "final_reward": 0.088,
       "reward_trace": [
         0.008,
         0.008,
         -0.042,
-        0.166,
-        0.008,
-        0.008,
+        -0.042,
+        -0.042,
+        -0.042,
         -0.042,
         -0.042,
         0.088
@@ -2111,507 +1894,227 @@
     },
     {
       "task_type": "coalition_market",
-      "seed": 7,
+      "seed": 50006,
       "policy": "no_negotiation_allocator",
-      "steps": 3,
-      "episode_reward": 0.2589,
+      "steps": 2,
+      "episode_reward": 0.191,
       "final_reward": 0.008,
       "reward_trace": [
-        0.0802,
-        0.1707,
+        0.183,
         0.008
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 7,
+      "seed": 50006,
       "policy": "greedy_hoarder",
-      "steps": 3,
-      "episode_reward": 0.2589,
+      "steps": 2,
+      "episode_reward": 0.191,
       "final_reward": 0.008,
       "reward_trace": [
-        0.0802,
-        0.1707,
+        0.183,
         0.008
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 7,
-      "policy": "always_accept",
-      "steps": 9,
-      "episode_reward": 0.5239,
-      "final_reward": 0.138,
-      "reward_trace": [
-        0.158,
-        -0.1,
-        -0.1,
-        0.086,
-        0.0375,
-        0.166,
-        -0.1,
-        0.1187,
-        0.138
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 7,
-      "policy": "rule_based_expert",
-      "steps": 9,
-      "episode_reward": 0.647,
-      "final_reward": 0.138,
-      "reward_trace": [
-        0.158,
-        0.008,
-        0.008,
-        0.0757,
-        0.008,
-        0.1166,
-        0.008,
-        0.1187,
-        0.138
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 8,
-      "policy": "random_validish",
-      "steps": 3,
-      "episode_reward": 0.0449,
-      "final_reward": 0.0949,
-      "reward_trace": [
-        0.0,
-        0.0,
-        0.0949
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 8,
-      "policy": "base_instruct_naive",
-      "steps": 3,
-      "episode_reward": 0.0689,
-      "final_reward": 0.0949,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.0949
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 8,
-      "policy": "no_negotiation_allocator",
-      "steps": 3,
-      "episode_reward": -0.2551,
-      "final_reward": 0.0949,
-      "reward_trace": [
-        -0.1,
-        -0.1,
-        0.0949
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 8,
-      "policy": "greedy_hoarder",
-      "steps": 3,
-      "episode_reward": -0.2551,
-      "final_reward": 0.0949,
-      "reward_trace": [
-        -0.1,
-        -0.1,
-        0.0949
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 8,
-      "policy": "always_accept",
-      "steps": 3,
-      "episode_reward": -0.2551,
-      "final_reward": 0.0949,
-      "reward_trace": [
-        -0.1,
-        -0.1,
-        0.0949
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 8,
-      "policy": "rule_based_expert",
-      "steps": 3,
-      "episode_reward": 0.369,
-      "final_reward": 0.155,
-      "reward_trace": [
-        0.028,
-        0.158,
-        0.155
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 8,
-      "policy": "random_validish",
-      "steps": 5,
-      "episode_reward": 0.1689,
-      "final_reward": 0.1449,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.008,
-        0.0,
-        0.1449
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 8,
-      "policy": "base_instruct_naive",
-      "steps": 5,
-      "episode_reward": -0.0151,
-      "final_reward": 0.0949,
-      "reward_trace": [
-        0.008,
-        0.008,
-        -0.042,
-        -0.042,
-        0.0949
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 8,
-      "policy": "no_negotiation_allocator",
-      "steps": 5,
-      "episode_reward": -0.5551,
-      "final_reward": 0.0949,
-      "reward_trace": [
-        -0.1,
-        -0.1,
-        -0.15,
-        -0.15,
-        0.0949
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 8,
-      "policy": "greedy_hoarder",
-      "steps": 5,
-      "episode_reward": -0.5551,
-      "final_reward": 0.0949,
-      "reward_trace": [
-        -0.1,
-        -0.1,
-        -0.15,
-        -0.15,
-        0.0949
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 8,
+      "seed": 50006,
       "policy": "always_accept",
       "steps": 5,
-      "episode_reward": 0.2549,
+      "episode_reward": 0.1084,
       "final_reward": 0.008,
       "reward_trace": [
         0.1094,
         -0.1,
-        0.158,
-        0.0795,
-        0.008
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 8,
-      "policy": "rule_based_expert",
-      "steps": 5,
-      "episode_reward": 0.6901,
-      "final_reward": 0.2134,
-      "reward_trace": [
-        0.1094,
-        0.008,
-        0.158,
-        0.0733,
-        0.2134
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 8,
-      "policy": "random_validish",
-      "steps": 9,
-      "episode_reward": 0.1049,
-      "final_reward": 0.1149,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.0,
-        0.0,
-        -0.05,
-        0.008,
-        0.1149
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 8,
-      "policy": "base_instruct_naive",
-      "steps": 9,
-      "episode_reward": 0.0617,
-      "final_reward": 0.0769,
-      "reward_trace": [
-        0.008,
-        0.008,
-        -0.042,
-        0.1208,
-        0.008,
-        0.008,
-        -0.042,
-        -0.042,
-        0.0769
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 8,
-      "policy": "no_negotiation_allocator",
-      "steps": 4,
-      "episode_reward": 0.557,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.183,
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 8,
-      "policy": "greedy_hoarder",
-      "steps": 4,
-      "episode_reward": 0.557,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.183,
-        0.183,
-        0.183,
-        0.008
-      ]
-    },
-    {
-      "task_type": "coalition_market",
-      "seed": 8,
-      "policy": "always_accept",
-      "steps": 8,
-      "episode_reward": 0.6109,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.1091,
         -0.1,
-        -0.1,
-        0.1208,
-        0.191,
-        0.191,
         0.191,
         0.008
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 8,
+      "seed": 50006,
       "policy": "rule_based_expert",
       "steps": 8,
-      "episode_reward": 0.7639,
+      "episode_reward": 0.6023,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1091,
+        0.1089,
         0.008,
         0.008,
-        0.1208,
-        0.191,
-        0.191,
+        0.0854,
+        0.128,
+        0.128,
         0.128,
         0.008
       ]
     },
     {
       "task_type": "single_trade",
-      "seed": 9,
+      "seed": 50007,
       "policy": "random_validish",
       "steps": 3,
-      "episode_reward": 0.057,
-      "final_reward": 0.107,
-      "reward_trace": [
-        0.0,
-        0.0,
-        0.107
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 9,
-      "policy": "base_instruct_naive",
-      "steps": 3,
-      "episode_reward": 0.081,
-      "final_reward": 0.107,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.107
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 9,
-      "policy": "no_negotiation_allocator",
-      "steps": 3,
-      "episode_reward": -0.243,
-      "final_reward": 0.107,
-      "reward_trace": [
-        -0.1,
-        -0.1,
-        0.107
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 9,
-      "policy": "greedy_hoarder",
-      "steps": 3,
-      "episode_reward": -0.243,
-      "final_reward": 0.107,
-      "reward_trace": [
-        -0.1,
-        -0.1,
-        0.107
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 9,
-      "policy": "always_accept",
-      "steps": 3,
-      "episode_reward": -0.243,
-      "final_reward": 0.107,
-      "reward_trace": [
-        -0.1,
-        -0.1,
-        0.107
-      ]
-    },
-    {
-      "task_type": "single_trade",
-      "seed": 9,
-      "policy": "rule_based_expert",
-      "steps": 3,
-      "episode_reward": 0.3749,
-      "final_reward": 0.1553,
-      "reward_trace": [
-        0.028,
-        0.028,
-        0.1553
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 9,
-      "policy": "random_validish",
-      "steps": 5,
-      "episode_reward": 0.189,
-      "final_reward": 0.157,
-      "reward_trace": [
-        0.008,
-        0.008,
-        0.008,
-        0.008,
-        0.157
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 9,
-      "policy": "base_instruct_naive",
-      "steps": 5,
-      "episode_reward": -0.003,
-      "final_reward": 0.107,
-      "reward_trace": [
-        0.008,
-        0.008,
-        -0.042,
-        -0.042,
-        0.107
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 9,
-      "policy": "no_negotiation_allocator",
-      "steps": 2,
-      "episode_reward": 0.085,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.077,
-        0.008
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 9,
-      "policy": "greedy_hoarder",
-      "steps": 2,
-      "episode_reward": 0.085,
-      "final_reward": 0.008,
-      "reward_trace": [
-        0.077,
-        0.008
-      ]
-    },
-    {
-      "task_type": "market_round",
-      "seed": 9,
-      "policy": "always_accept",
-      "steps": 5,
-      "episode_reward": 0.4277,
+      "episode_reward": 0.176,
       "final_reward": 0.168,
       "reward_trace": [
-        0.1089,
-        -0.1,
-        0.109,
-        0.12,
+        0.0,
+        0.008,
+        0.168
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50007,
+      "policy": "base_instruct_naive",
+      "steps": 3,
+      "episode_reward": 0.092,
+      "final_reward": 0.118,
+      "reward_trace": [
+        0.008,
+        0.008,
+        0.118
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50007,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1553,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1473,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50007,
+      "policy": "greedy_hoarder",
+      "steps": 2,
+      "episode_reward": 0.1553,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1473,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50007,
+      "policy": "always_accept",
+      "steps": 2,
+      "episode_reward": 0.1553,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1473,
+        0.008
+      ]
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 50007,
+      "policy": "rule_based_expert",
+      "steps": 3,
+      "episode_reward": 0.252,
+      "final_reward": 0.168,
+      "reward_trace": [
+        0.028,
+        0.028,
         0.168
       ]
     },
     {
       "task_type": "market_round",
-      "seed": 9,
-      "policy": "rule_based_expert",
+      "seed": 50007,
+      "policy": "random_validish",
       "steps": 5,
-      "episode_reward": 0.5357,
+      "episode_reward": 0.2,
       "final_reward": 0.168,
       "reward_trace": [
-        0.1089,
         0.008,
-        0.109,
-        0.12,
+        0.008,
+        0.008,
+        0.008,
+        0.168
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50007,
+      "policy": "base_instruct_naive",
+      "steps": 5,
+      "episode_reward": 0.008,
+      "final_reward": 0.118,
+      "reward_trace": [
+        0.008,
+        0.008,
+        -0.042,
+        -0.042,
+        0.118
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50007,
+      "policy": "no_negotiation_allocator",
+      "steps": 2,
+      "episode_reward": 0.1645,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1565,
+        0.008
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50007,
+      "policy": "greedy_hoarder",
+      "steps": 2,
+      "episode_reward": 0.1645,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1565,
+        0.008
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50007,
+      "policy": "always_accept",
+      "steps": 5,
+      "episode_reward": 0.475,
+      "final_reward": 0.168,
+      "reward_trace": [
+        0.1091,
+        -0.1,
+        0.1084,
+        0.1197,
+        0.168
+      ]
+    },
+    {
+      "task_type": "market_round",
+      "seed": 50007,
+      "policy": "rule_based_expert",
+      "steps": 5,
+      "episode_reward": 0.5771,
+      "final_reward": 0.168,
+      "reward_trace": [
+        0.1091,
+        0.008,
+        0.1084,
+        0.1756,
         0.168
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 9,
+      "seed": 50007,
       "policy": "random_validish",
       "steps": 9,
-      "episode_reward": 0.183,
-      "final_reward": 0.127,
+      "episode_reward": 0.078,
+      "final_reward": 0.088,
       "reward_trace": [
         0.008,
         0.008,
@@ -2620,17 +2123,17 @@
         0.0,
         0.008,
         0.0,
-        0.008,
-        0.127
+        0.0,
+        0.088
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 9,
+      "seed": 50007,
       "policy": "base_instruct_naive",
       "steps": 9,
-      "episode_reward": -0.201,
-      "final_reward": 0.077,
+      "episode_reward": -0.19,
+      "final_reward": 0.088,
       "reward_trace": [
         0.008,
         0.008,
@@ -2640,64 +2143,62 @@
         -0.042,
         -0.042,
         -0.042,
-        0.077
+        0.088
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 9,
+      "seed": 50007,
       "policy": "no_negotiation_allocator",
-      "steps": 3,
-      "episode_reward": 0.2261,
+      "steps": 2,
+      "episode_reward": 0.1105,
       "final_reward": 0.008,
       "reward_trace": [
-        0.0351,
-        0.183,
+        0.1025,
         0.008
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 9,
+      "seed": 50007,
       "policy": "greedy_hoarder",
-      "steps": 3,
-      "episode_reward": 0.2261,
+      "steps": 2,
+      "episode_reward": 0.1105,
       "final_reward": 0.008,
       "reward_trace": [
-        0.0351,
-        0.183,
+        0.1025,
         0.008
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 9,
+      "seed": 50007,
       "policy": "always_accept",
       "steps": 6,
-      "episode_reward": 0.2315,
+      "episode_reward": 0.1616,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1087,
+        0.158,
         -0.1,
         -0.1,
-        0.1238,
-        0.191,
+        0.086,
+        0.1096,
         0.008
       ]
     },
     {
       "task_type": "coalition_market",
-      "seed": 9,
+      "seed": 50007,
       "policy": "rule_based_expert",
       "steps": 7,
-      "episode_reward": 0.5755,
+      "episode_reward": 0.4654,
       "final_reward": 0.008,
       "reward_trace": [
-        0.1087,
+        0.158,
         0.008,
         0.008,
-        0.1238,
-        0.191,
+        0.1474,
+        0.008,
         0.128,
         0.008
       ]

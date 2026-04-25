@@ -49,6 +49,25 @@ def greedy_hoarder_policy(obs: GpuNegotiationObservation) -> GpuNegotiationActio
     return GpuNegotiationAction(action_type="finish")
 
 
+def no_negotiation_allocator_policy(obs: GpuNegotiationObservation) -> GpuNegotiationAction:
+    """Allocator-only baseline: never trades, accepts, pitches, or forms coalitions."""
+    return greedy_hoarder_policy(obs)
+
+
+def base_instruct_naive_policy(obs: GpuNegotiationObservation) -> GpuNegotiationAction:
+    """Weak no-RL proxy: plausible text, but no structured planning."""
+    incoming = _incoming_offers(obs)
+    if incoming and "urgent" in (incoming[0].message or "").lower():
+        return GpuNegotiationAction(action_type="accept_offer", offer_id=incoming[0].offer_id)
+    if obs.visible_labs:
+        return GpuNegotiationAction(
+            action_type="send_message",
+            target_lab_id=obs.visible_labs[0].lab_id,
+            message="We need GPU soon because our workload is important. Please consider sharing capacity.",
+        )
+    return GpuNegotiationAction(action_type="wait")
+
+
 def always_accept_policy(obs: GpuNegotiationObservation) -> GpuNegotiationAction:
     incoming = _incoming_offers(obs)
     if incoming:

@@ -5,8 +5,8 @@
     "sampled_policy": "greedy_hoarder",
     "sampled_reward": 0.1128,
     "recent_train_reward": 0.1128,
-    "eval_mean_reward": 0.1133,
-    "eval_stdev_reward": 0.1287,
+    "eval_mean_reward": 0.1217,
+    "eval_stdev_reward": 0.1299,
     "judge_bonus": 0.0587,
     "selected_policies": {
       "single_trade": "greedy_hoarder",
@@ -40,8 +40,8 @@
     "sampled_policy": "greedy_hoarder",
     "sampled_reward": 0.008,
     "recent_train_reward": 0.0972,
-    "eval_mean_reward": 0.1133,
-    "eval_stdev_reward": 0.1287,
+    "eval_mean_reward": 0.1217,
+    "eval_stdev_reward": 0.1299,
     "judge_bonus": 0.0548,
     "selected_policies": {
       "single_trade": "greedy_hoarder",
@@ -75,8 +75,8 @@
     "sampled_policy": "greedy_hoarder",
     "sampled_reward": -0.2641,
     "recent_train_reward": 0.0978,
-    "eval_mean_reward": 0.1468,
-    "eval_stdev_reward": 0.0585,
+    "eval_mean_reward": 0.1552,
+    "eval_stdev_reward": 0.0564,
     "judge_bonus": 0.0647,
     "selected_policies": {
       "single_trade": "rule_based_expert",
@@ -110,8 +110,8 @@
     "sampled_policy": "rule_based_expert",
     "sampled_reward": 0.191,
     "recent_train_reward": 0.1604,
-    "eval_mean_reward": 0.1468,
-    "eval_stdev_reward": 0.0585,
+    "eval_mean_reward": 0.1552,
+    "eval_stdev_reward": 0.0564,
     "judge_bonus": 0.0765,
     "selected_policies": {
       "single_trade": "rule_based_expert",
@@ -145,8 +145,8 @@
     "sampled_policy": "rule_based_expert",
     "sampled_reward": 0.0999,
     "recent_train_reward": 0.1284,
-    "eval_mean_reward": 0.1468,
-    "eval_stdev_reward": 0.0585,
+    "eval_mean_reward": 0.1552,
+    "eval_stdev_reward": 0.0564,
     "judge_bonus": 0.0894,
     "selected_policies": {
       "single_trade": "rule_based_expert",
@@ -180,8 +180,8 @@
     "sampled_policy": "rule_based_expert",
     "sampled_reward": 0.191,
     "recent_train_reward": 0.1819,
-    "eval_mean_reward": 0.1468,
-    "eval_stdev_reward": 0.0585,
+    "eval_mean_reward": 0.1552,
+    "eval_stdev_reward": 0.0564,
     "judge_bonus": 0.0918,
     "selected_policies": {
       "single_trade": "rule_based_expert",
@@ -215,8 +215,8 @@
     "sampled_policy": "rule_based_expert",
     "sampled_reward": 0.131,
     "recent_train_reward": 0.1558,
-    "eval_mean_reward": 0.1468,
-    "eval_stdev_reward": 0.0585,
+    "eval_mean_reward": 0.1552,
+    "eval_stdev_reward": 0.0564,
     "judge_bonus": 0.096,
     "selected_policies": {
       "single_trade": "rule_based_expert",
@@ -250,8 +250,8 @@
     "sampled_policy": "rule_based_expert",
     "sampled_reward": 0.3562,
     "recent_train_reward": 0.4947,
-    "eval_mean_reward": 0.2763,
-    "eval_stdev_reward": 0.2136,
+    "eval_mean_reward": 0.2847,
+    "eval_stdev_reward": 0.2079,
     "judge_bonus": 0.132,
     "selected_policies": {
       "single_trade": "rule_based_expert",
@@ -285,8 +285,8 @@
     "sampled_policy": "rule_based_expert",
     "sampled_reward": 0.3102,
     "recent_train_reward": 0.5033,
-    "eval_mean_reward": 0.2763,
-    "eval_stdev_reward": 0.2136,
+    "eval_mean_reward": 0.2847,
+    "eval_stdev_reward": 0.2079,
     "judge_bonus": 0.134,
     "selected_policies": {
       "single_trade": "rule_based_expert",
@@ -320,8 +320,8 @@
     "sampled_policy": "rule_based_expert",
     "sampled_reward": 0.4358,
     "recent_train_reward": 0.4979,
-    "eval_mean_reward": 0.2763,
-    "eval_stdev_reward": 0.2136,
+    "eval_mean_reward": 0.2847,
+    "eval_stdev_reward": 0.2079,
     "judge_bonus": 0.1343,
     "selected_policies": {
       "single_trade": "rule_based_expert",
@@ -355,8 +355,8 @@
     "sampled_policy": "rule_based_expert",
     "sampled_reward": 0.335,
     "recent_train_reward": 0.5326,
-    "eval_mean_reward": 0.2763,
-    "eval_stdev_reward": 0.2136,
+    "eval_mean_reward": 0.2847,
+    "eval_stdev_reward": 0.2079,
     "judge_bonus": 0.1344,
     "selected_policies": {
       "single_trade": "rule_based_expert",
@@ -390,8 +390,8 @@
     "sampled_policy": "rule_based_expert",
     "sampled_reward": 0.4283,
     "recent_train_reward": 0.5195,
-    "eval_mean_reward": 0.2763,
-    "eval_stdev_reward": 0.2136,
+    "eval_mean_reward": 0.2847,
+    "eval_stdev_reward": 0.2079,
     "judge_bonus": 0.1356,
     "selected_policies": {
       "single_trade": "rule_based_expert",
@@ -425,8 +425,8 @@
     "sampled_policy": "rule_based_expert",
     "sampled_reward": 0.4371,
     "recent_train_reward": 0.5016,
-    "eval_mean_reward": 0.2763,
-    "eval_stdev_reward": 0.2136,
+    "eval_mean_reward": 0.2847,
+    "eval_stdev_reward": 0.2079,
     "judge_bonus": 0.1356,
     "selected_policies": {
       "single_trade": "rule_based_expert",
@@ -459,7 +459,7 @@
     "sampled_task": "coalition_market",
     "sampled_policy": "random_validish",
     "sampled_reward": 0.202,
-    "recent_train_reward": 0.1439,
+    "recent_train_reward": 0.1689,
     "eval_mean_reward": 0.3053,
     "eval_stdev_reward": 0.188,
     "judge_bonus": 0.1273,
@@ -482,10 +482,10 @@
         "rule_based_expert": 0.9923
       },
       "coalition_market": {
-        "random_validish": 0.0988,
-        "greedy_hoarder": 0.7138,
-        "always_accept": 0.0937,
-        "rule_based_expert": 0.0937
+        "random_validish": 0.1704,
+        "greedy_hoarder": 0.6406,
+        "always_accept": 0.0945,
+        "rule_based_expert": 0.0945
       }
     }
   },
@@ -494,10 +494,10 @@
     "sampled_task": "coalition_market",
     "sampled_policy": "greedy_hoarder",
     "sampled_reward": 0.191,
-    "recent_train_reward": 0.1473,
+    "recent_train_reward": 0.1323,
     "eval_mean_reward": 0.3053,
     "eval_stdev_reward": 0.188,
-    "judge_bonus": 0.1246,
+    "judge_bonus": 0.1256,
     "selected_policies": {
       "single_trade": "rule_based_expert",
       "market_round": "rule_based_expert",
@@ -517,10 +517,10 @@
         "rule_based_expert": 0.9923
       },
       "coalition_market": {
-        "random_validish": 0.0351,
-        "greedy_hoarder": 0.8912,
-        "always_accept": 0.0305,
-        "rule_based_expert": 0.0433
+        "random_validish": 0.1097,
+        "greedy_hoarder": 0.7827,
+        "always_accept": 0.0448,
+        "rule_based_expert": 0.0628
       }
     }
   },
@@ -529,10 +529,10 @@
     "sampled_task": "coalition_market",
     "sampled_policy": "greedy_hoarder",
     "sampled_reward": 0.1595,
-    "recent_train_reward": 0.2114,
+    "recent_train_reward": 0.201,
     "eval_mean_reward": 0.3053,
     "eval_stdev_reward": 0.188,
-    "judge_bonus": 0.1317,
+    "judge_bonus": 0.1352,
     "selected_policies": {
       "single_trade": "rule_based_expert",
       "market_round": "rule_based_expert",
@@ -552,10 +552,10 @@
         "rule_based_expert": 0.9923
       },
       "coalition_market": {
-        "random_validish": 0.0549,
-        "greedy_hoarder": 0.721,
-        "always_accept": 0.0482,
-        "rule_based_expert": 0.1759
+        "random_validish": 0.1712,
+        "greedy_hoarder": 0.5215,
+        "always_accept": 0.0648,
+        "rule_based_expert": 0.2426
       }
     }
   },
@@ -564,10 +564,10 @@
     "sampled_task": "coalition_market",
     "sampled_policy": "rule_based_expert",
     "sampled_reward": 0.667,
-    "recent_train_reward": 0.4316,
+    "recent_train_reward": 0.4319,
     "eval_mean_reward": 0.449,
     "eval_stdev_reward": 0.2576,
-    "judge_bonus": 0.1728,
+    "judge_bonus": 0.1724,
     "selected_policies": {
       "single_trade": "rule_based_expert",
       "market_round": "rule_based_expert",
@@ -587,10 +587,10 @@
         "rule_based_expert": 0.9923
       },
       "coalition_market": {
-        "random_validish": 0.0137,
-        "greedy_hoarder": 0.0253,
-        "always_accept": 0.0132,
-        "rule_based_expert": 0.9477
+        "random_validish": 0.019,
+        "greedy_hoarder": 0.0286,
+        "always_accept": 0.0134,
+        "rule_based_expert": 0.939
       }
     }
   },
@@ -599,10 +599,10 @@
     "sampled_task": "coalition_market",
     "sampled_policy": "rule_based_expert",
     "sampled_reward": 0.8903,
-    "recent_train_reward": 0.6796,
+    "recent_train_reward": 0.6816,
     "eval_mean_reward": 0.449,
     "eval_stdev_reward": 0.2576,
-    "judge_bonus": 0.1738,
+    "judge_bonus": 0.1737,
     "selected_policies": {
       "single_trade": "rule_based_expert",
       "market_round": "rule_based_expert",
@@ -622,10 +622,10 @@
         "rule_based_expert": 0.9923
       },
       "coalition_market": {
-        "random_validish": 0.0091,
-        "greedy_hoarder": 0.0156,
-        "always_accept": 0.0087,
-        "rule_based_expert": 0.9666
+        "random_validish": 0.0116,
+        "greedy_hoarder": 0.0165,
+        "always_accept": 0.0085,
+        "rule_based_expert": 0.9635
       }
     }
   },
@@ -634,7 +634,7 @@
     "sampled_task": "coalition_market",
     "sampled_policy": "always_accept",
     "sampled_reward": 0.1817,
-    "recent_train_reward": 0.5778,
+    "recent_train_reward": 0.5837,
     "eval_mean_reward": 0.449,
     "eval_stdev_reward": 0.2576,
     "judge_bonus": 0.1752,
@@ -657,10 +657,10 @@
         "rule_based_expert": 0.9923
       },
       "coalition_market": {
-        "random_validish": 0.0024,
-        "greedy_hoarder": 0.004,
+        "random_validish": 0.003,
+        "greedy_hoarder": 0.0042,
         "always_accept": 0.0006,
-        "rule_based_expert": 0.993
+        "rule_based_expert": 0.9923
       }
     }
   }

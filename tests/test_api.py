@@ -24,4 +24,12 @@ def test_reset_step_state_api() -> None:
     state = client.get("/state")
     assert state.status_code == 200
     assert state.json()["state"]["task_id"] == "single_trade-99"
+    assert "labs" not in state.json()["state"]
 
+
+def test_private_state_requires_debug_flag() -> None:
+    client = TestClient(app)
+    reset = client.post("/reset", json={"task_type": "single_trade", "seed": 100})
+    assert reset.status_code == 200
+    state = client.get("/state?include_private=true")
+    assert state.status_code == 403

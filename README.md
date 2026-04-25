@@ -10,6 +10,8 @@ app_port: 8000
 
 `gpu_budget_negotiation` is an OpenEnv-compatible multi-agent environment where an LLM negotiates for scarce GPU capacity under private utility, hidden deadlines, budget constraints, reputation, supply shocks, and coalition commitments.
 
+Compatibility here means the repo ships an `openenv.yaml` manifest plus a stable HTTP environment contract (`/reset`, `/step`, `/state`, `/health`, `/tasks`). It does not require a Python SDK-specific base class at runtime.
+
 The environment targets `Theme #1 - Multi-Agent Interactions` and is designed to train bargaining, belief modeling, commitment reliability, and strategic adaptation.
 
 ## Live Deployment
@@ -28,7 +30,7 @@ Real agent systems increasingly compete or cooperate over scarce resources: comp
 - API: `/reset`, `/step`, `/state`, `/health`, `/tasks`
 - Easy task: one trade against one scripted lab
 - Medium task: multi-round market with several labs
-- Hard task: coalition market with dynamic shocks and holdout-style opponents
+- Hard task: coalition market with capacity failure, energy spikes, reliability degradation, demand surges, and holdout-style seeds
 - Rewards: utility, deal quality, coalition reliability, budget efficiency, negotiation efficiency, and market adaptation
 
 ## Evidence of Learning
@@ -38,10 +40,10 @@ The repo includes a reproducible CPU-safe training run, not only scripted baseli
 - `training/train_grpo_stub.py` trains a REINFORCE-style policy selector over negotiation strategies for `180` curriculum episodes.
 - `artifacts/training_curve.json` stores the real training curve.
 - `plots/baseline_rewards.svg` visualizes the trained selector against bot baselines and the expert ceiling.
-- `artifacts/before_after_training.md` compares the same hard task before and after training. In the committed run, the hard-task same-seed reward improves from `0.0814` to `1.2782`.
+- `artifacts/before_after_training.md` compares the same hard task before and after training. In the committed run, the hard-task same-seed reward improves from `0.1814` to `1.3412`.
 - Optional Unsloth SFT can warm-start `Llama-3.2-3B-Instruct` on generated expert traces. In the Colab run, SFT loss dropped from about `1.54` to `0.14` over `120` steps; the LoRA adapter should stay in Drive or a Hugging Face model repo, not GitHub.
 
-This distinction matters: the lightweight selector is the reproducible proof that the environment has a learnable reward signal, while the optional SFT cells demonstrate how to move from strategy selection toward model-weight fine-tuning.
+This distinction matters: the lightweight selector is the reproducible proof that the environment has a learnable reward signal, while the optional SFT cells demonstrate how to move from strategy selection toward model-weight fine-tuning. It is intentionally documented as a selector baseline, not claimed as full LLM RL.
 
 ## Task Types
 
@@ -96,8 +98,9 @@ Invalid actions are locally negative, so format and legality mistakes are visibl
 - Server-side authority over budgets, ownership, contracts, shocks, and job settlement
 - Conservation checks for block ownership and budgets
 - No leakage of opponent private jobs or utility values in observations
+- `/state` is redacted by default; full private state requires `GPU_ARENA_DEBUG_STATE=1` and `include_private=true`
 - Expiring offers and atomic transfer execution
-- Penalties for invalid actions, repeated actions, impossible transfers, and broken commitments
+- Penalties for invalid actions, local repeated-action windows, impossible transfers, and broken commitments
 - Seeded holdout-style world generation for evaluation
 - Optional frozen rule-judge mode for natural-language pitch scoring without making judge scores the only reward source
 
@@ -165,7 +168,7 @@ The intended full training path is:
 3. Warm-start an instruct model on the action format.
 4. Connect TRL/Unsloth GRPO to the live environment reward.
 5. Train through curriculum: `single_trade` -> `market_round` -> `coalition_market`.
-6. Evaluate against random, greedy hoarder, always-accept, base instruct, and trained policies.
+6. Evaluate against random, no-negotiation allocator, base-instruct naive, greedy hoarder, always-accept, rule expert, and trained policies.
 
 If GPU model fine-tuning is not available, run the lightweight training loop as the reproducible learning proof:
 
@@ -206,13 +209,27 @@ This is the recommended pitch framing: the project is a stable multi-agent GPU-m
 
 Current local baseline summary over `10` seeds:
 
-| Task | Random | Greedy Hoarder | Always Accept | Rule-Based Expert |
-|---|---:|---:|---:|---:|
-| `single_trade` | `0.0747` | `0.0587` | `0.0587` | `0.2623` |
-| `market_round` | `0.1595` | `0.0286` | `0.2725` | `0.4845` |
-| `coalition_market` | `0.1159` | `0.0995` | `0.4054` | `0.8086` |
+| Task | Random | Base Instruct Naive | No-Negotiation | Always Accept | Rule Expert |
+|---|---:|---:|---:|---:|---:|
+| `single_trade` | `0.0747` | `0.0771` | `0.0587` | `0.0587` | `0.2623` |
+| `market_round` | `0.1595` | `-0.0069` | `0.0286` | `0.2725` | `0.4845` |
+| `coalition_market` | `0.1709` | `-0.0355` | `0.0995` | `0.3722` | `0.8149` |
 
 These are pre-training baselines. The trained model section should compare against at least `always_accept` and `rule_based_expert`.
+
+## Holdout Evaluation
+
+`scripts/evaluate_holdout.py` evaluates disjoint seeds starting at `50000`, separate from training/demo seeds. This gives judges a clear unseen-seed protocol instead of only reporting the same local rollout seeds.
+
+Current holdout summary over `8` seeds:
+
+| Task | Random | Base Instruct Naive | No-Negotiation | Always Accept | Rule Expert |
+|---|---:|---:|---:|---:|---:|
+| `single_trade` | `0.0805` | `0.0775` | `0.1572` | `0.1711` | `0.2035` |
+| `market_round` | `0.1865` | `-0.0065` | `0.1921` | `0.4001` | `0.5260` |
+| `coalition_market` | `0.1103` | `-0.0953` | `0.0825` | `0.2266` | `0.6238` |
+
+For hard holdout episodes, all `8/8` seeds include shock exposure. The artifact is `artifacts/holdout_eval.json`.
 
 ## Evaluation Artifacts
 
@@ -220,6 +237,7 @@ Generate judge-facing baseline and reward-progress artifacts with:
 
 ```bash
 python3 scripts/evaluate_baselines.py --seeds 10 --output artifacts/baseline_eval.json
+python3 scripts/evaluate_holdout.py --seeds 8 --output artifacts/holdout_eval.json
 python3 training/train_grpo_stub.py --episodes 180 --output artifacts/training_eval.json --curve-output artifacts/training_curve.json
 python3 scripts/plot_eval.py --input artifacts/baseline_eval.json --output plots/baseline_rewards.svg
 ```
@@ -233,6 +251,7 @@ For the final submission, commit:
 - `plots/baseline_rewards.svg`
 - `plots/reward_progress.json`
 - `artifacts/training_eval.json`
+- `artifacts/holdout_eval.json`
 - `artifacts/training_curve.json`
 - `artifacts/training_report.md`
 - `artifacts/before_after_training.md`
@@ -253,7 +272,7 @@ Push the full repo to GitHub:
 git remote -v
 git add README.md BLOG.md SPEC.md openenv.yaml pyproject.toml requirements.txt Dockerfile .gitignore .dockerignore
 git add gpu_budget_arena server scripts tests training
-git add artifacts/baseline_eval.json artifacts/demo_transcript.md artifacts/judged_transcript.md artifacts/before_after_training.md artifacts/training_eval.json artifacts/training_curve.json artifacts/training_report.md
+git add artifacts/baseline_eval.json artifacts/holdout_eval.json artifacts/demo_transcript.md artifacts/judged_transcript.md artifacts/before_after_training.md artifacts/training_eval.json artifacts/training_curve.json artifacts/training_report.md
 git add plots/baseline_rewards.svg plots/reward_progress.json
 git commit -m "Finalize GPU negotiation arena submission"
 git push origin main
@@ -341,8 +360,10 @@ Implemented:
 - typed action and observation models
 - FastAPI server
 - scripted opponents
-- offers, transfers, reservations, allocations, coalitions, shocks, reputation
+- offers, transfers, reservations, allocations, coalitions, capacity/price/reliability/demand shocks, reputation
 - reward breakdown columns
+- debug-gated private state endpoint with redacted default state
+- holdout evaluation script with unseen seed split
 - hybrid rule judge for natural-language pitch scoring
 - unit, invariant, and API tests
 - smoke baseline runner
@@ -354,3 +375,4 @@ Next:
 
 - run optional GPU SFT/GRPO in Colab to replace the lightweight selector with model-weight fine-tuning
 - replace the local rule judge with an optional frozen LLM judge for demo-only scoring if API/model access is available
+- add the final public video or hosted HF blog link before submission

@@ -17,3 +17,6 @@ features:
   - coalition_formation
   - optional_rule_judge
   - adaptive_bot_pitches
+  - holdout_seed_evaluation
+  - redacted_public_state
+  - dynamic_market_shocks

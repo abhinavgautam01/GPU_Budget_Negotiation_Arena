@@ -18,3 +18,11 @@ def test_before_after_transcript_records_behavior_change() -> None:
     assert "Before Training" in transcript
     assert "After Training" in transcript
     assert "form_coalition" in transcript or "allocate_to_job" in transcript
+
+
+def test_holdout_artifact_uses_unseen_seed_protocol() -> None:
+    payload = json.loads(Path("artifacts/holdout_eval.json").read_text(encoding="utf-8"))
+    assert payload["protocol"]["split"] == "holdout"
+    assert payload["protocol"]["seed_offset"] >= 50_000
+    hard = payload["summary"]["coalition_market"]
+    assert hard["rule_based_expert"]["shock_episodes"] == payload["protocol"]["seeds"]

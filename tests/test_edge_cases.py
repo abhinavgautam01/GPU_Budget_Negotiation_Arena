@@ -278,6 +278,23 @@ def test_repeated_waits_trigger_spam_penalty() -> None:
     assert obs.reward_breakdown.spam_penalty < 0
 
 
+def test_spam_penalty_uses_recent_window_not_global_history() -> None:
+    env = GpuBudgetNegotiationEnv()
+    env.reset(ResetConfig(task_type="single_trade", seed=711))
+    env.step(GpuNegotiationAction(action_type="wait"))
+    env.step(GpuNegotiationAction(action_type="wait"))
+    env.step(GpuNegotiationAction(action_type="send_message", message="different action breaks repetition"))
+    obs = env.step(GpuNegotiationAction(action_type="wait"))
+    assert obs.reward_breakdown.spam_penalty == 0
+
+
+def test_hard_mode_has_third_shock_type_for_holdout_robustness() -> None:
+    env = GpuBudgetNegotiationEnv()
+    env.reset(ResetConfig(task_type="coalition_market", seed=72))
+    assert env.state_data is not None
+    assert env.state_data.shock_schedule[8] in {"reliability_degradation", "demand_surge"}
+
+
 def test_breached_coalition_sets_penalty_and_status() -> None:
     env = GpuBudgetNegotiationEnv()
     obs = env.reset(ResetConfig(task_type="coalition_market", seed=72))

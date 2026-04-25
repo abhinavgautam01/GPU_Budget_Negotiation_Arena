@@ -8,9 +8,9 @@ The environment has three curriculum tasks:
 
 - `single_trade`: one controlled lab negotiates with one scripted lab.
 - `market_round`: multiple labs negotiate across several rounds.
-- `coalition_market`: hard-mode negotiation with commitments, shocks, reputation, and holdout-style opponents.
+- `coalition_market`: hard-mode negotiation with commitments, capacity/energy/reliability/demand shocks, reputation, and holdout-style seeds.
 
-The reward is intentionally decomposed. Every step returns job utility, deal quality, coalition reliability, budget efficiency, negotiation efficiency, market adaptation, invalid-action penalties, spam penalties, breach penalties, and normalized reward. This makes failure modes visible during training rather than hiding them in a single scalar.
+The reward is intentionally decomposed. Every step returns job utility, deal quality, coalition reliability, budget efficiency, negotiation efficiency, market adaptation, invalid-action penalties, local repeated-action penalties, breach penalties, and normalized reward. This makes failure modes visible during training rather than hiding them in a single scalar.
 
 The latest version adds a hybrid judge-agent extension. The deterministic environment reward remains primary, but `judge_mode="rule"` lets a trainable lab make a natural-language GPU allocation pitch. Opponent labs generate adaptive counter-pitches from their own private needs, and a frozen local judge scores urgency, evidence, reliability, fairness, and coalition value. This gives a demo-friendly language layer without making nondeterministic LLM judging the only reward source.
 
@@ -18,9 +18,12 @@ For reproducible training proof, the repo includes a lightweight REINFORCE-style
 
 The same environment can be connected to SFT or GRPO. The repo generates SFT traces and chat-format JSONL, and the Colab notebook includes optional Unsloth/TRL cells for replacing the lightweight selector with model-weight fine-tuning.
 
+The evaluation suite now separates normal baseline seeds from holdout seeds starting at `50000`. It also includes no-negotiation and base-instruct-naive baselines, so the trained selector is compared against more than random and expert scripts. The public `/state` endpoint is redacted by default; full private state is available only for local debugging with `GPU_ARENA_DEBUG_STATE=1`.
+
 Key artifacts:
 
 - `plots/baseline_rewards.svg`: matplotlib reward progress curve with bot baselines, expert ceiling, and judge-bonus trend.
+- `artifacts/holdout_eval.json`: unseen-seed holdout benchmark with hard-mode shock exposure.
 - `artifacts/training_report.md`: final reward table and selected trained policies.
 - `artifacts/before_after_training.md`: same-seed qualitative before/after transcript.
 - `artifacts/judged_transcript.md`: natural-language judged negotiation transcript.

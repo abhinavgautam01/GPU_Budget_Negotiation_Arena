@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from fastapi import FastAPI
+import os
+
+from fastapi import FastAPI, HTTPException
 
 from gpu_budget_arena.env import GpuBudgetNegotiationEnv
 from gpu_budget_arena.models import GpuNegotiationAction, ResetConfig
@@ -23,7 +25,14 @@ def tasks() -> dict[str, object]:
             {"task_type": "market_round", "difficulty": "medium"},
             {"task_type": "coalition_market", "difficulty": "hard"},
         ],
-        "features": ["coalitions", "adaptive_bot_pitches", "optional_rule_judge"],
+        "features": [
+            "coalitions",
+            "adaptive_bot_pitches",
+            "optional_rule_judge",
+            "holdout_seed_evaluation",
+            "redacted_public_state",
+            "dynamic_market_shocks",
+        ],
     }
 
 
@@ -38,5 +47,12 @@ def step(action: GpuNegotiationAction) -> dict[str, object]:
 
 
 @app.get("/state")
-def state() -> dict[str, object]:
-    return {"state": env.state()}
+def state(include_private: bool = False) -> dict[str, object]:
+    if include_private:
+        if os.getenv("GPU_ARENA_DEBUG_STATE") != "1":
+            raise HTTPException(
+                status_code=403,
+                detail="Private state is disabled. Set GPU_ARENA_DEBUG_STATE=1 for local debugging.",
+            )
+        return {"state": env.state()}
+    return {"state": env.public_state()}
