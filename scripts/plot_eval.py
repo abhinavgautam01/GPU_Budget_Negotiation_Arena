@@ -213,9 +213,6 @@ def _plot_line_chart(summary: dict[str, object], training_curve: list[dict[str, 
             encoding="utf-8",
         )
 
-    png_path = output_path.with_suffix(".png")
-    if png_path != output_path:
-        fig.savefig(png_path, bbox_inches="tight", facecolor=fig.get_facecolor(), dpi=180)
     plt.close(fig)
     return points
 
@@ -224,7 +221,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", default="artifacts/baseline_eval.json")
     parser.add_argument("--training-input", default="artifacts/training_curve.json")
-    parser.add_argument("--output", default="plots/baseline_rewards.png")
+    parser.add_argument("--output", default="plots/baseline_rewards.svg")
     args = parser.parse_args()
 
     input_path = Path(args.input)
@@ -238,7 +235,7 @@ def main() -> None:
     points = _plot_line_chart(payload["summary"], training_curve, output_path)
     progress_path = output_path.with_name("reward_progress.json")
     progress_path.write_text(json.dumps(points, indent=2), encoding="utf-8")
-    print({"output": str(output_path), "png": str(output_path.with_suffix(".png")), "progress": str(progress_path)})
+    print({"output": str(output_path), "progress": str(progress_path)})
 
 
 if __name__ == "__main__":

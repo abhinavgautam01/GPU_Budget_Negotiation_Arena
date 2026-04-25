@@ -26,7 +26,7 @@ def main() -> None:
     run([sys.executable, "scripts/smoke.py"])
     run([sys.executable, "scripts/evaluate_baselines.py", "--seeds", "10", "--output", "artifacts/baseline_eval.json"])
     run([sys.executable, "training/train_grpo_stub.py", "--seeds", "10", "--episodes", "180", "--output", "artifacts/training_eval.json", "--curve-output", "artifacts/training_curve.json", "--report", "artifacts/training_report.md"])
-    run([sys.executable, "scripts/plot_eval.py", "--input", "artifacts/baseline_eval.json", "--training-input", "artifacts/training_curve.json", "--output", "plots/baseline_rewards.png"])
+    run([sys.executable, "scripts/plot_eval.py", "--input", "artifacts/baseline_eval.json", "--training-input", "artifacts/training_curve.json", "--output", "plots/baseline_rewards.svg"])
     run([sys.executable, "scripts/generate_sft_data.py", "--seeds", "10", "--output", "data/sft_traces.jsonl"])
     run([sys.executable, "scripts/build_sft_dataset.py", "--input", "data/sft_traces.jsonl", "--output", "data/sft_messages.jsonl"])
     run([sys.executable, "scripts/generate_demo_transcript.py", "--task-type", "coalition_market", "--policy", "rule_based_expert", "--search-seeds", "20", "--output", "artifacts/demo_transcript.md"])

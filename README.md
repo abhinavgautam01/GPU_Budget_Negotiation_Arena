@@ -37,7 +37,7 @@ The repo includes a reproducible CPU-safe training run, not only scripted baseli
 
 - `training/train_grpo_stub.py` trains a REINFORCE-style policy selector over negotiation strategies for `180` curriculum episodes.
 - `artifacts/training_curve.json` stores the real training curve.
-- `plots/baseline_rewards.png` visualizes the trained selector against bot baselines and the expert ceiling.
+- `plots/baseline_rewards.svg` visualizes the trained selector against bot baselines and the expert ceiling.
 - `artifacts/before_after_training.md` compares the same hard task before and after training. In the committed run, the hard-task same-seed reward improves from `0.0814` to `1.2782`.
 - Optional Unsloth SFT can warm-start `Llama-3.2-3B-Instruct` on generated expert traces. In the Colab run, SFT loss dropped from about `1.54` to `0.14` over `120` steps; the LoRA adapter should stay in Drive or a Hugging Face model repo, not GitHub.
 
@@ -221,16 +221,16 @@ Generate judge-facing baseline and reward-progress artifacts with:
 ```bash
 python3 scripts/evaluate_baselines.py --seeds 10 --output artifacts/baseline_eval.json
 python3 training/train_grpo_stub.py --episodes 180 --output artifacts/training_eval.json --curve-output artifacts/training_curve.json
-python3 scripts/plot_eval.py --input artifacts/baseline_eval.json --output plots/baseline_rewards.png
+python3 scripts/plot_eval.py --input artifacts/baseline_eval.json --output plots/baseline_rewards.svg
 ```
 
-`scripts/plot_eval.py` uses matplotlib to render a polished line chart showing the actual lightweight training curve, bot baselines, expert ceiling, and judge-bonus trend. The standard submission artifact is `plots/baseline_rewards.png`; `plots/reward_progress.json` stores the plotted points. If you explicitly pass an `.svg` output path, matplotlib can still export SVG, but the repo no longer uses a custom SVG generator.
+`scripts/plot_eval.py` uses matplotlib to render a polished line chart showing the actual lightweight training curve, bot baselines, expert ceiling, and judge-bonus trend. The standard Space-compatible artifact is `plots/baseline_rewards.svg`; `plots/reward_progress.json` stores the plotted points. This is a matplotlib export, not a hand-written SVG generator. If you want a PNG for slides or Drive, pass `--output plots/baseline_rewards.png`, but do not commit binary PNGs to the Hugging Face Space unless Xet/LFS is enabled.
 
-![Reward progress](plots/baseline_rewards.png)
+![Reward progress](plots/baseline_rewards.svg)
 
 For the final submission, commit:
 
-- `plots/baseline_rewards.png`
+- `plots/baseline_rewards.svg`
 - `plots/reward_progress.json`
 - `artifacts/training_eval.json`
 - `artifacts/training_curve.json`
@@ -254,7 +254,7 @@ git remote -v
 git add README.md BLOG.md SPEC.md openenv.yaml pyproject.toml requirements.txt Dockerfile .gitignore .dockerignore
 git add gpu_budget_arena server scripts tests training
 git add artifacts/baseline_eval.json artifacts/demo_transcript.md artifacts/judged_transcript.md artifacts/before_after_training.md artifacts/training_eval.json artifacts/training_curve.json artifacts/training_report.md
-git add plots/baseline_rewards.png plots/reward_progress.json
+git add plots/baseline_rewards.svg plots/reward_progress.json
 git commit -m "Finalize GPU negotiation arena submission"
 git push origin main
 ```
