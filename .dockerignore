@@ -19,6 +19,8 @@ runs
 wandb
 models
 adapters
+huggingface_tokenizers_cache
+unsloth_compiled_cache
+artifacts/sft-checkpoint
 tests
 openenv_hackathon_idea_pack.md
-

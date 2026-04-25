@@ -31,6 +31,18 @@ Real agent systems increasingly compete or cooperate over scarce resources: comp
 - Hard task: coalition market with dynamic shocks and holdout-style opponents
 - Rewards: utility, deal quality, coalition reliability, budget efficiency, negotiation efficiency, and market adaptation
 
+## Evidence of Learning
+
+The repo includes a reproducible CPU-safe training run, not only scripted baselines:
+
+- `training/train_grpo_stub.py` trains a REINFORCE-style policy selector over negotiation strategies for `180` curriculum episodes.
+- `artifacts/training_curve.json` stores the real training curve.
+- `plots/baseline_rewards.svg` visualizes the trained selector against bot baselines and the expert ceiling.
+- `artifacts/before_after_training.md` compares the same hard task before and after training. In the committed run, the hard-task same-seed reward improves from `0.0814` to `1.2782`.
+- Optional Unsloth SFT can warm-start `Llama-3.2-3B-Instruct` on generated expert traces. In the Colab run, SFT loss dropped from about `1.54` to `0.14` over `120` steps; the LoRA adapter should stay in Drive or a Hugging Face model repo, not GitHub.
+
+This distinction matters: the lightweight selector is the reproducible proof that the environment has a learnable reward signal, while the optional SFT cells demonstrate how to move from strategy selection toward model-weight fine-tuning.
+
 ## Task Types
 
 | Task | Difficulty | Description |
@@ -239,12 +251,22 @@ Push the full repo to GitHub:
 
 ```bash
 git remote -v
-git add README.md pyproject.toml scripts/check_submission.py training/train_grpo_stub.py training/GPU_Budget_Negotiation_Arena_Colab.ipynb artifacts plots
-git commit -m "Add Colab training and submission workflow"
+git add README.md BLOG.md SPEC.md openenv.yaml pyproject.toml requirements.txt Dockerfile .gitignore .dockerignore
+git add gpu_budget_arena server scripts tests training
+git add artifacts/baseline_eval.json artifacts/demo_transcript.md artifacts/judged_transcript.md artifacts/before_after_training.md artifacts/training_eval.json artifacts/training_curve.json artifacts/training_report.md
+git add plots/baseline_rewards.svg plots/reward_progress.json
+git commit -m "Finalize GPU negotiation arena submission"
 git push origin main
 ```
 
 If your default branch is not `main`, replace `main` with the branch shown by `git branch --show-current`.
+
+Do not commit bulky local outputs:
+
+- `artifacts/sft-checkpoint/`
+- `huggingface_tokenizers_cache/`
+- `unsloth_compiled_cache/`
+- raw regenerated `data/` files unless intentionally forced with `git add -f`
 
 ### 2. Push the live app to Hugging Face Spaces
 
@@ -252,7 +274,7 @@ The Space should contain the same app files:
 
 ```bash
 git clone https://huggingface.co/spaces/abhinavgautam01/gpu-budget-negotiation-arena hf-space
-rsync -av --exclude .git --exclude data --exclude .pytest_cache ./ hf-space/
+rsync -av --exclude .git --exclude data --exclude .pytest_cache --exclude artifacts/sft-checkpoint --exclude huggingface_tokenizers_cache --exclude unsloth_compiled_cache ./ hf-space/
 cd hf-space
 git add .
 git commit -m "Update GPU negotiation arena"

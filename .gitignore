@@ -33,6 +33,10 @@ logs/
 
 # Generated data and training artifacts
 data/
+artifacts/sft-checkpoint/
+artifacts/**/checkpoint-*/
+huggingface_tokenizers_cache/
+unsloth_compiled_cache/
 checkpoints/
 outputs/
 runs/
@@ -59,4 +63,3 @@ results/
 Thumbs.db
 .idea/
 .vscode/
-
