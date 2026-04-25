@@ -7,11 +7,14 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 Difficulty = Literal["easy", "medium", "hard"]
 TaskType = Literal["single_trade", "market_round", "coalition_market"]
+JudgeMode = Literal["off", "rule"]
 ActionType = Literal[
     "send_offer",
     "accept_offer",
     "reject_offer",
     "counter_offer",
+    "make_pitch",
+    "counter_pitch",
     "reserve_capacity",
     "release_capacity",
     "form_coalition",
@@ -27,6 +30,7 @@ class ResetConfig(BaseModel):
     task_type: TaskType = "single_trade"
     difficulty: Difficulty | None = None
     seed: int = 42
+    judge_mode: JudgeMode = "off"
 
 
 class GpuNegotiationAction(BaseModel):
@@ -140,6 +144,7 @@ class RewardBreakdown(BaseModel):
     job_utility_score: float = 0.0
     deal_quality_score: float = 0.0
     coalition_reliability_score: float = 0.0
+    judge_argument_score: float = 0.0
     budget_efficiency_score: float = 0.0
     negotiation_efficiency_score: float = 0.0
     market_adaptation_score: float = 0.0
@@ -181,6 +186,15 @@ class LabState(BaseModel):
     opponent_archetype: str | None = None
 
 
+class JudgeDecision(BaseModel):
+    judge_id: str = "rule_judge_v1"
+    round_index: int
+    winner_lab_id: str
+    scores: dict[str, float]
+    reason: str
+    reward_bonus: float
+
+
 class EnvironmentState(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
@@ -188,6 +202,7 @@ class EnvironmentState(BaseModel):
     task_type: TaskType
     difficulty: Difficulty
     seed: int
+    judge_mode: JudgeMode = "off"
     round_index: int
     max_rounds: int
     controlled_lab_id: str
@@ -204,4 +219,4 @@ class EnvironmentState(BaseModel):
     done: bool = False
     action_fingerprints: dict[str, int] = Field(default_factory=dict)
     completed_job_values: dict[str, float] = Field(default_factory=dict)
-
+    judge_decisions: list[JudgeDecision] = Field(default_factory=list)

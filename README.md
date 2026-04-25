@@ -45,6 +45,7 @@ Real agent systems increasingly compete or cooperate over scarce resources: comp
 class GpuNegotiationAction:
     action_type: Literal[
         "send_offer", "accept_offer", "reject_offer", "counter_offer",
+        "make_pitch", "counter_pitch",
         "reserve_capacity", "release_capacity", "form_coalition",
         "commit_to_coalition", "allocate_to_job", "send_message",
         "wait", "finish"
@@ -67,6 +68,7 @@ Every step returns a dense `reward_breakdown`:
 - `job_utility_score`
 - `deal_quality_score`
 - `coalition_reliability_score`
+- `judge_argument_score`
 - `budget_efficiency_score`
 - `negotiation_efficiency_score`
 - `market_adaptation_score`
@@ -85,6 +87,7 @@ Invalid actions are locally negative, so format and legality mistakes are visibl
 - Expiring offers and atomic transfer execution
 - Penalties for invalid actions, repeated actions, impossible transfers, and broken commitments
 - Seeded holdout-style world generation for evaluation
+- Optional frozen rule-judge mode for natural-language pitch scoring without making judge scores the only reward source
 
 ## Local Setup
 
@@ -141,6 +144,7 @@ The repo now includes:
 - a Colab-ready notebook at `training/GPU_Budget_Negotiation_Arena_Colab.ipynb`
 - baseline evaluation and plotting scripts under `scripts/`
 - SFT dataset conversion from expert traces into chat-format JSONL
+- hybrid judge extension with adaptive bot pitches and judged transcripts
 
 The intended full training path is:
 
@@ -161,6 +165,28 @@ python3 training/train_grpo_stub.py \
 ```
 
 This writes a judge-readable report and uses `rule_based_expert` as the trained-policy placeholder until an actual SFT/GRPO checkpoint is produced.
+
+## Hybrid Judge Extension
+
+The default environment remains deterministic and fully reproducible. For demos or auxiliary training signals, reset with `judge_mode="rule"` and use `make_pitch` or `counter_pitch` actions. In that mode:
+
+- the trainable lab submits a natural-language argument for GPU priority
+- scripted opponent labs generate adaptive counter-pitches from their own private needs
+- a frozen local judge scores all pitches on urgency, evidence, reliability, fairness, and coalition value
+- the judge bonus is written into `reward_breakdown.judge_argument_score`
+- deterministic environment reward still remains the primary reward path
+
+Generate the judged transcript with:
+
+```bash
+python3 scripts/generate_judged_transcript.py \
+  --task-type coalition_market \
+  --seed 5 \
+  --max-pitches 3 \
+  --output artifacts/judged_transcript.md
+```
+
+This is the recommended pitch framing: the project is a stable multi-agent GPU-market environment with an optional frozen judge-agent layer for LLM-native negotiation quality.
 
 ## Current Baselines
 
@@ -188,6 +214,7 @@ For the final submission, commit:
 - `plots/baseline_rewards.svg` or a final exported `.png`
 - `artifacts/training_eval.json`
 - `artifacts/training_report.md`
+- `artifacts/judged_transcript.md`
 - trained-vs-baseline reward curves
 - before/after transcripts
 - notebook link, Space link, and short video/blog link
@@ -283,13 +310,14 @@ Implemented:
 - scripted opponents
 - offers, transfers, reservations, allocations, coalitions, shocks, reputation
 - reward breakdown columns
+- hybrid rule judge for natural-language pitch scoring
 - unit, invariant, and API tests
 - smoke baseline runner
 - rule-based expert and SFT trace generator
 - baseline evaluation JSON generator and plotting script
-- Colab-ready notebook and reward-loop training artifact generator
+- Colab-ready notebook, reward-loop training artifact generator, and judged transcript generator
 
 Next:
 
 - run optional GPU SFT/GRPO in Colab and replace the rule-based placeholder with actual trained-model reward curves
-- generate before/after transcripts after training
+- replace the local rule judge with an optional frozen LLM judge for demo-only scoring if API/model access is available

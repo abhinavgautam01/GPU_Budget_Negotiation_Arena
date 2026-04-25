@@ -4,6 +4,7 @@ import random
 from copy import deepcopy
 from typing import Any
 
+from gpu_budget_arena.judge import RuleBasedJudge
 from gpu_budget_arena.models import (
     ActionResult,
     CoalitionView,
@@ -33,7 +34,12 @@ class GpuBudgetNegotiationEnv:
         reset_config = config if isinstance(config, ResetConfig) else ResetConfig.model_validate(config or {})
         difficulty = reset_config.difficulty or self._difficulty_for_task(reset_config.task_type)
         self.rng = random.Random(reset_config.seed)
-        self.state_data = self._generate_world(reset_config.task_type, difficulty, reset_config.seed)
+        self.state_data = self._generate_world(
+            reset_config.task_type,
+            difficulty,
+            reset_config.seed,
+            reset_config.judge_mode,
+        )
         return self._observation()
 
     def step(self, action: GpuNegotiationAction | dict[str, Any]) -> GpuNegotiationObservation:
@@ -72,7 +78,13 @@ class GpuBudgetNegotiationEnv:
             "coalition_market": "hard",
         }[task_type]
 
-    def _generate_world(self, task_type: TaskType, difficulty: Difficulty, seed: int) -> EnvironmentState:
+    def _generate_world(
+        self,
+        task_type: TaskType,
+        difficulty: Difficulty,
+        seed: int,
+        judge_mode: str = "off",
+    ) -> EnvironmentState:
         lab_count = {"easy": 2, "medium": 3, "hard": self.rng.choice([4, 5])}[difficulty]
         max_rounds = {"easy": 3, "medium": 5, "hard": 9}[difficulty]
         archetypes = ["cooperative", "selfish", "deadline_panicked", "deceptive", "retaliatory"]
@@ -133,6 +145,7 @@ class GpuBudgetNegotiationEnv:
             task_type=task_type,
             difficulty=difficulty,
             seed=seed,
+            judge_mode=judge_mode,
             round_index=0,
             max_rounds=max_rounds,
             controlled_lab_id="lab_0",
@@ -177,6 +190,8 @@ class GpuBudgetNegotiationEnv:
             "accept_offer": self._accept_offer,
             "reject_offer": self._reject_offer,
             "counter_offer": self._counter_offer,
+            "make_pitch": self._make_pitch,
+            "counter_pitch": self._make_pitch,
             "reserve_capacity": self._reserve_capacity,
             "release_capacity": self._release_capacity,
             "form_coalition": self._form_coalition,
@@ -365,6 +380,23 @@ class GpuBudgetNegotiationEnv:
         self._append_message(state.controlled_lab_id, action.target_lab_id, action.message or "", signal)
         return ActionResult(ok=True, code="message_sent", message="Message sent."), 0.0
 
+    def _make_pitch(self, action: GpuNegotiationAction) -> tuple[ActionResult, float]:
+        state = self._require_state()
+        if action.target_lab_id and action.target_lab_id not in state.labs:
+            return ActionResult(ok=False, code="unknown_lab", message="Target lab does not exist."), 0.0
+        message = action.message or ""
+        if len(message.strip()) < 12:
+            return ActionResult(ok=False, code="empty_pitch", message="Pitch must include a concrete argument."), 0.0
+
+        self._append_message(state.controlled_lab_id, action.target_lab_id, message, self._message_signal(message))
+        if state.judge_mode == "rule":
+            self._add_adaptive_opponent_pitches()
+            decision = RuleBasedJudge().decide(state)
+            state.judge_decisions.append(decision)
+            result_message = f"{decision.reason} Controlled-lab judge bonus: {decision.reward_bonus}."
+            return ActionResult(ok=True, code="pitch_judged", message=result_message), 0.0
+        return ActionResult(ok=True, code="pitch_recorded", message="Pitch recorded."), 0.0
+
     def _wait(self, action: GpuNegotiationAction) -> tuple[ActionResult, float]:
         return ActionResult(ok=True, code="waited", message="No action taken."), 0.0
 
@@ -523,6 +555,7 @@ class GpuBudgetNegotiationEnv:
         job_score = min(1.0, max(0.0, deal_delta)) if result.code == "job_allocated" else 0.0
         deal_score = self._deal_score_for_result(result, deal_delta)
         coalition_score = self._coalition_score() if result.code in {"coalition_created", "coalition_committed", "final_settlement"} else 0.0
+        judge_score = self._judge_score_for_result(result)
         budget_score = self._budget_score() if result.code == "final_settlement" else 0.0
         negotiation_score = 0.08 if result.ok else -0.05
         adaptation = 0.08 if state.shock_history and result.ok and result.code in {"offer_accepted", "job_allocated", "capacity_released"} else 0.0
@@ -532,6 +565,7 @@ class GpuBudgetNegotiationEnv:
                 0.35 * job_score
                 + 0.20 * deal_score
                 + 0.15 * coalition_score
+                + judge_score
                 + 0.10 * budget_score
                 + (0.10 * max(0.0, negotiation_score) if result.code not in {"waited"} else 0.0)
                 + 0.10 * adaptation
@@ -546,6 +580,7 @@ class GpuBudgetNegotiationEnv:
             job_utility_score=round(job_score, 4),
             deal_quality_score=round(deal_score, 4),
             coalition_reliability_score=round(coalition_score, 4),
+            judge_argument_score=round(judge_score, 4),
             budget_efficiency_score=round(budget_score, 4),
             negotiation_efficiency_score=round(max(0.0, negotiation_score), 4),
             market_adaptation_score=round(adaptation, 4),
@@ -561,6 +596,12 @@ class GpuBudgetNegotiationEnv:
         if result.code in {"offer_created", "counter_offer_created"}:
             return 0.1
         return 0.0
+
+    def _judge_score_for_result(self, result: ActionResult) -> float:
+        state = self._require_state()
+        if result.code != "pitch_judged" or not state.judge_decisions:
+            return 0.0
+        return state.judge_decisions[-1].reward_bonus
 
     def _apply_reward(self, reward: RewardBreakdown, result: ActionResult) -> None:
         state = self._require_state()
@@ -618,6 +659,20 @@ class GpuBudgetNegotiationEnv:
             active_offer_count=active_offer_count,
             coalition_ids=coalition_ids,
         )
+
+    def _add_adaptive_opponent_pitches(self) -> None:
+        state = self._require_state()
+        judge = RuleBasedJudge()
+        existing = {
+            message.from_lab_id
+            for message in state.messages
+            if message.round_index == state.round_index
+        }
+        for lab in state.labs.values():
+            if lab.lab_id == state.controlled_lab_id or lab.lab_id in existing:
+                continue
+            pitch = judge.adaptive_bot_pitch(state, lab)
+            self._append_message(lab.lab_id, None, pitch, self._message_signal(pitch))
 
     def _transfer_block(self, block_id: str, from_lab_id: str, to_lab_id: str) -> None:
         state = self._require_state()

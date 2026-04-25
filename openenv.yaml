@@ -12,4 +12,8 @@ tasks:
   - single_trade
   - market_round
   - coalition_market
-
+features:
+  - multi_agent_negotiation
+  - coalition_formation
+  - optional_rule_judge
+  - adaptive_bot_pitches

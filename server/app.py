@@ -23,6 +23,7 @@ def tasks() -> dict[str, object]:
             {"task_type": "market_round", "difficulty": "medium"},
             {"task_type": "coalition_market", "difficulty": "hard"},
         ],
+        "features": ["coalitions", "adaptive_bot_pitches", "optional_rule_judge"],
     }
 
 
@@ -39,4 +40,3 @@ def step(action: GpuNegotiationAction) -> dict[str, object]:
 @app.get("/state")
 def state() -> dict[str, object]:
     return {"state": env.state()}
-

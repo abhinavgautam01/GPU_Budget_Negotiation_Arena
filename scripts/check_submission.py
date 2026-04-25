@@ -30,6 +30,7 @@ def main() -> None:
     run([sys.executable, "scripts/generate_sft_data.py", "--seeds", "10", "--output", "data/sft_traces.jsonl"])
     run([sys.executable, "scripts/build_sft_dataset.py", "--input", "data/sft_traces.jsonl", "--output", "data/sft_messages.jsonl"])
     run([sys.executable, "scripts/generate_demo_transcript.py", "--task-type", "coalition_market", "--policy", "rule_based_expert", "--search-seeds", "20", "--output", "artifacts/demo_transcript.md"])
+    run([sys.executable, "scripts/generate_judged_transcript.py", "--task-type", "coalition_market", "--seed", "5", "--max-pitches", "3", "--output", "artifacts/judged_transcript.md"])
 
     payload = json.loads((artifacts_dir / "baseline_eval.json").read_text(encoding="utf-8"))
     print(json.dumps(payload["summary"], indent=2))

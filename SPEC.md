@@ -221,6 +221,8 @@ class GpuNegotiationAction:
         "accept_offer",
         "reject_offer",
         "counter_offer",
+        "make_pitch",
+        "counter_pitch",
         "reserve_capacity",
         "release_capacity",
         "form_coalition",
@@ -260,6 +262,12 @@ class GpuNegotiationAction:
 `counter_offer`:
 
 - Rejects the original offer and creates a linked counteroffer.
+
+`make_pitch` / `counter_pitch`:
+
+- Submits a natural-language allocation argument.
+- In default mode, records the pitch as non-binding communication.
+- In `judge_mode="rule"`, triggers adaptive opponent pitches and a frozen judge-agent score.
 
 `reserve_capacity`:
 
@@ -412,6 +420,7 @@ Final reward should be normalized to `[-1.0, 1.0]`. Each step should also return
 | `job_utility` | 0.35 | Value from completed private jobs after compute and payment costs. |
 | `deal_quality` | 0.20 | Measures whether accepted trades improved utility or market efficiency. |
 | `coalition_reliability` | 0.15 | Rewards honoring commitments and useful coalition participation. |
+| `judge_argument` | auxiliary | Optional natural-language argument quality bonus in judge mode. |
 | `budget_efficiency` | 0.10 | Penalizes overpaying, idle paid capacity, and waste. |
 | `negotiation_efficiency` | 0.10 | Rewards concise valid actions and penalizes spam/deadlock. |
 | `market_adaptation` | 0.10 | Rewards recovery after supply shocks or changed opponent behavior. |
@@ -446,6 +455,7 @@ Every `step` and final result should expose:
 - `job_utility_score`
 - `deal_quality_score`
 - `coalition_reliability_score`
+- `judge_argument_score`
 - `budget_efficiency_score`
 - `negotiation_efficiency_score`
 - `market_adaptation_score`
@@ -823,4 +833,3 @@ Do not include these in the first working version:
 - long free-form legal contract language.
 
 V1 should stay small, deterministic, and trainable. The environment can look strategic without becoming too large to debug.
-
