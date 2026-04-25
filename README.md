@@ -202,16 +202,19 @@ These are pre-training baselines. The trained model section should compare again
 
 ## Evaluation Artifacts
 
-Generate judge-facing baseline artifacts with:
+Generate judge-facing baseline and reward-progress artifacts with:
 
 ```bash
 python3 scripts/evaluate_baselines.py --seeds 10 --output artifacts/baseline_eval.json
 python3 scripts/plot_eval.py --input artifacts/baseline_eval.json --output plots/baseline_rewards.svg
 ```
 
+`plots/baseline_rewards.svg` is a polished line chart showing the deterministic curriculum reward-progress proxy, bot baselines, expert ceiling, and judge-bonus trend. `plots/reward_progress.json` stores the plotted points.
+
 For the final submission, commit:
 
 - `plots/baseline_rewards.svg` or a final exported `.png`
+- `plots/reward_progress.json`
 - `artifacts/training_eval.json`
 - `artifacts/training_report.md`
 - `artifacts/judged_transcript.md`

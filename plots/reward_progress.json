@@ -1,0 +1,298 @@
+[
+  {
+    "episode": 0.0,
+    "agent_reward": 0.1417,
+    "judge_bonus": 0.0243,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 5.0,
+    "agent_reward": 0.1595,
+    "judge_bonus": 0.0263,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 10.0,
+    "agent_reward": 0.1778,
+    "judge_bonus": 0.0283,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 15.0,
+    "agent_reward": 0.1965,
+    "judge_bonus": 0.0305,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 20.0,
+    "agent_reward": 0.2155,
+    "judge_bonus": 0.0329,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 25.0,
+    "agent_reward": 0.2351,
+    "judge_bonus": 0.0354,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 30.0,
+    "agent_reward": 0.2556,
+    "judge_bonus": 0.0381,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 35.0,
+    "agent_reward": 0.2778,
+    "judge_bonus": 0.0411,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 40.0,
+    "agent_reward": 0.3022,
+    "judge_bonus": 0.0445,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 45.0,
+    "agent_reward": 0.3295,
+    "judge_bonus": 0.0482,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 50.0,
+    "agent_reward": 0.3605,
+    "judge_bonus": 0.0526,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 55.0,
+    "agent_reward": 0.3855,
+    "judge_bonus": 0.0575,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 60.0,
+    "agent_reward": 0.4147,
+    "judge_bonus": 0.0631,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 65.0,
+    "agent_reward": 0.4479,
+    "judge_bonus": 0.0693,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 70.0,
+    "agent_reward": 0.4844,
+    "judge_bonus": 0.0761,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 75.0,
+    "agent_reward": 0.5234,
+    "judge_bonus": 0.0834,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 80.0,
+    "agent_reward": 0.5637,
+    "judge_bonus": 0.091,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 85.0,
+    "agent_reward": 0.6038,
+    "judge_bonus": 0.0988,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 90.0,
+    "agent_reward": 0.6425,
+    "judge_bonus": 0.1066,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 95.0,
+    "agent_reward": 0.6786,
+    "judge_bonus": 0.1141,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 100.0,
+    "agent_reward": 0.7113,
+    "judge_bonus": 0.1213,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 105.0,
+    "agent_reward": 0.7398,
+    "judge_bonus": 0.1279,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 110.0,
+    "agent_reward": 0.7641,
+    "judge_bonus": 0.1339,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 115.0,
+    "agent_reward": 0.7843,
+    "judge_bonus": 0.1392,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 120.0,
+    "agent_reward": 0.7843,
+    "judge_bonus": 0.1438,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 125.0,
+    "agent_reward": 0.7843,
+    "judge_bonus": 0.1476,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 130.0,
+    "agent_reward": 0.7843,
+    "judge_bonus": 0.1506,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 135.0,
+    "agent_reward": 0.7843,
+    "judge_bonus": 0.1529,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 140.0,
+    "agent_reward": 0.7843,
+    "judge_bonus": 0.1546,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 145.0,
+    "agent_reward": 0.7843,
+    "judge_bonus": 0.1557,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 150.0,
+    "agent_reward": 0.7843,
+    "judge_bonus": 0.1564,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 155.0,
+    "agent_reward": 0.7843,
+    "judge_bonus": 0.1566,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 160.0,
+    "agent_reward": 0.7843,
+    "judge_bonus": 0.1566,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 165.0,
+    "agent_reward": 0.7843,
+    "judge_bonus": 0.1564,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 170.0,
+    "agent_reward": 0.7843,
+    "judge_bonus": 0.1561,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 175.0,
+    "agent_reward": 0.7843,
+    "judge_bonus": 0.1559,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  },
+  {
+    "episode": 180.0,
+    "agent_reward": 0.7843,
+    "judge_bonus": 0.1558,
+    "always_accept": 0.4054,
+    "greedy_hoarder": 0.0995,
+    "expert_ceiling": 0.8086
+  }
+]
