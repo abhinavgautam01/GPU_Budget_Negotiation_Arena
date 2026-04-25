@@ -8,14 +8,24 @@ from pathlib import Path
 PALETTE = ["#5A7FFF", "#6CBF84", "#F0B34A", "#D96666", "#8B6FDB"]
 
 
+def _display_policy(policy: str) -> list[str]:
+    label_map = {
+        "always_accept": ["always", "accept"],
+        "greedy_hoarder": ["greedy", "hoarder"],
+        "random_validish": ["random", "validish"],
+        "rule_based_expert": ["rule-based", "expert"],
+    }
+    return label_map.get(policy, policy.replace("_", " ").split())
+
+
 def _svg_bar_chart(summary: dict[str, object]) -> str:
     task_types = list(summary.keys())
     policies = list(next(iter(summary.values())).keys())
-    chart_width = 340
-    chart_height = 240
+    chart_width = 390
+    chart_height = 280
     margin_left = 56
-    margin_bottom = 48
-    panel_gap = 28
+    margin_bottom = 78
+    panel_gap = 34
     total_width = len(task_types) * chart_width + max(0, len(task_types) - 1) * panel_gap
     total_height = chart_height + 70
 
@@ -33,7 +43,7 @@ def _svg_bar_chart(summary: dict[str, object]) -> str:
         '<style>',
         'text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1c2434; }',
         '.title { font-size: 18px; font-weight: 700; }',
-        '.axis { font-size: 11px; }',
+        '.axis { font-size: 10px; }',
         '.panel-title { font-size: 13px; font-weight: 600; }',
         '.value { font-size: 10px; }',
         '</style>',
@@ -64,7 +74,11 @@ def _svg_bar_chart(summary: dict[str, object]) -> str:
             rect_y = min(value_y, zero_y)
             rect_h = abs(zero_y - value_y)
             parts.append(f'<rect x="{bar_x}" y="{rect_y}" width="{bar_w}" height="{max(1, rect_h)}" fill="{color}" rx="4"/>')
-            parts.append(f'<text x="{bar_x + bar_w / 2}" y="{plot_y + plot_h + 16}" text-anchor="middle" class="axis">{policy}</text>')
+            parts.append(f'<text x="{bar_x + bar_w / 2}" y="{plot_y + plot_h + 18}" text-anchor="middle" class="axis">')
+            for line_index, label_line in enumerate(_display_policy(policy)):
+                dy = 0 if line_index == 0 else 12
+                parts.append(f'<tspan x="{bar_x + bar_w / 2}" dy="{dy}">{label_line}</tspan>')
+            parts.append("</text>")
             label_y = rect_y - 6 if value >= 0 else rect_y + rect_h + 12
             parts.append(f'<text x="{bar_x + bar_w / 2}" y="{label_y}" text-anchor="middle" class="value">{value:.3f}</text>')
 

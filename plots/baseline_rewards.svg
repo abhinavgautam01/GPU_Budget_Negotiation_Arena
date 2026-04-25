@@ -1,59 +1,95 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1076" height="310" viewBox="0 0 1076 310">
+<svg xmlns="http://www.w3.org/2000/svg" width="1238" height="350" viewBox="0 0 1238 350">
 <style>
 text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1c2434; }
 .title { font-size: 18px; font-weight: 700; }
-.axis { font-size: 11px; }
+.axis { font-size: 10px; }
 .panel-title { font-size: 13px; font-weight: 600; }
 .value { font-size: 10px; }
 </style>
-<rect width="1076" height="310" fill="#fbfcfe"/>
-<text x="538.0" y="24" text-anchor="middle" class="title">GPU Budget Negotiation Arena Baseline Comparison</text>
-<rect x="0" y="34" width="340" height="240" rx="6" fill="#ffffff" stroke="#d9dfeb"/>
-<text x="170.0" y="54" text-anchor="middle" class="panel-title">single_trade</text>
-<line x1="56" y1="44" x2="56" y2="236" stroke="#7a869c" stroke-width="1"/>
-<line x1="56" y1="231.58193548387098" x2="328" y2="231.58193548387098" stroke="#7a869c" stroke-width="1"/>
-<rect x="70.28" y="219.46322580645162" width="39.44" height="12.11870967741936" fill="#5A7FFF" rx="4"/>
-<text x="90.0" y="252" text-anchor="middle" class="axis">always_accept</text>
-<text x="90.0" y="213.46322580645162" text-anchor="middle" class="value">0.059</text>
-<rect x="138.28" y="219.46322580645162" width="39.44" height="12.11870967741936" fill="#6CBF84" rx="4"/>
-<text x="158.0" y="252" text-anchor="middle" class="axis">greedy_hoarder</text>
-<text x="158.0" y="213.46322580645162" text-anchor="middle" class="value">0.059</text>
-<rect x="206.28" y="216.16" width="39.44" height="15.421935483870982" fill="#F0B34A" rx="4"/>
-<text x="226.0" y="252" text-anchor="middle" class="axis">random_validish</text>
-<text x="226.0" y="210.16" text-anchor="middle" class="value">0.075</text>
-<rect x="274.28" y="177.42967741935485" width="39.44" height="54.15225806451613" fill="#D96666" rx="4"/>
-<text x="294.0" y="252" text-anchor="middle" class="axis">rule_based_expert</text>
-<text x="294.0" y="171.42967741935485" text-anchor="middle" class="value">0.262</text>
-<rect x="368" y="34" width="340" height="240" rx="6" fill="#ffffff" stroke="#d9dfeb"/>
-<text x="538.0" y="54" text-anchor="middle" class="panel-title">market_round</text>
-<line x1="424" y1="44" x2="424" y2="236" stroke="#7a869c" stroke-width="1"/>
-<line x1="424" y1="231.58193548387098" x2="696" y2="231.58193548387098" stroke="#7a869c" stroke-width="1"/>
-<rect x="438.28" y="175.32387096774193" width="39.44" height="56.25806451612905" fill="#5A7FFF" rx="4"/>
-<text x="458.0" y="252" text-anchor="middle" class="axis">always_accept</text>
-<text x="458.0" y="169.32387096774193" text-anchor="middle" class="value">0.273</text>
-<rect x="506.28" y="225.67741935483872" width="39.44" height="5.90451612903226" fill="#6CBF84" rx="4"/>
-<text x="526.0" y="252" text-anchor="middle" class="axis">greedy_hoarder</text>
-<text x="526.0" y="219.67741935483872" text-anchor="middle" class="value">0.029</text>
-<rect x="574.28" y="198.65290322580645" width="39.44" height="32.929032258064524" fill="#F0B34A" rx="4"/>
-<text x="594.0" y="252" text-anchor="middle" class="axis">random_validish</text>
-<text x="594.0" y="192.65290322580645" text-anchor="middle" class="value">0.160</text>
-<rect x="642.28" y="131.55612903225804" width="39.44" height="100.02580645161294" fill="#D96666" rx="4"/>
-<text x="662.0" y="252" text-anchor="middle" class="axis">rule_based_expert</text>
-<text x="662.0" y="125.55612903225804" text-anchor="middle" class="value">0.484</text>
-<rect x="736" y="34" width="340" height="240" rx="6" fill="#ffffff" stroke="#d9dfeb"/>
-<text x="906.0" y="54" text-anchor="middle" class="panel-title">coalition_market</text>
-<line x1="792" y1="44" x2="792" y2="236" stroke="#7a869c" stroke-width="1"/>
-<line x1="792" y1="231.58193548387098" x2="1064" y2="231.58193548387098" stroke="#7a869c" stroke-width="1"/>
-<rect x="806.28" y="147.88645161290322" width="39.44" height="83.69548387096776" fill="#5A7FFF" rx="4"/>
-<text x="826.0" y="252" text-anchor="middle" class="axis">always_accept</text>
-<text x="826.0" y="141.88645161290322" text-anchor="middle" class="value">0.405</text>
-<rect x="874.28" y="211.04" width="39.44" height="20.541935483870986" fill="#6CBF84" rx="4"/>
-<text x="894.0" y="252" text-anchor="middle" class="axis">greedy_hoarder</text>
-<text x="894.0" y="205.04" text-anchor="middle" class="value">0.100</text>
-<rect x="942.28" y="207.6541935483871" width="39.44" height="23.92774193548388" fill="#F0B34A" rx="4"/>
-<text x="962.0" y="252" text-anchor="middle" class="axis">random_validish</text>
-<text x="962.0" y="201.6541935483871" text-anchor="middle" class="value">0.116</text>
-<rect x="1010.28" y="64.64516129032259" width="39.44" height="166.9367741935484" fill="#D96666" rx="4"/>
-<text x="1030.0" y="252" text-anchor="middle" class="axis">rule_based_expert</text>
-<text x="1030.0" y="58.64516129032259" text-anchor="middle" class="value">0.809</text>
+<rect width="1238" height="350" fill="#fbfcfe"/>
+<text x="619.0" y="24" text-anchor="middle" class="title">GPU Budget Negotiation Arena Baseline Comparison</text>
+<rect x="0" y="34" width="390" height="280" rx="6" fill="#ffffff" stroke="#d9dfeb"/>
+<text x="195.0" y="54" text-anchor="middle" class="panel-title">single_trade</text>
+<line x1="56" y1="44" x2="56" y2="246" stroke="#7a869c" stroke-width="1"/>
+<line x1="56" y1="241.35182795698924" x2="378" y2="241.35182795698924" stroke="#7a869c" stroke-width="1"/>
+<rect x="72.905" y="228.60193548387096" width="46.69" height="12.74989247311828" fill="#5A7FFF" rx="4"/>
+<text x="96.25" y="264" text-anchor="middle" class="axis">
+<tspan x="96.25" dy="0">always</tspan>
+<tspan x="96.25" dy="12">accept</tspan>
+</text>
+<text x="96.25" y="222.60193548387096" text-anchor="middle" class="value">0.059</text>
+<rect x="153.405" y="228.60193548387096" width="46.69" height="12.74989247311828" fill="#6CBF84" rx="4"/>
+<text x="176.75" y="264" text-anchor="middle" class="axis">
+<tspan x="176.75" dy="0">greedy</tspan>
+<tspan x="176.75" dy="12">hoarder</tspan>
+</text>
+<text x="176.75" y="222.60193548387096" text-anchor="middle" class="value">0.059</text>
+<rect x="233.905" y="225.12666666666667" width="46.69" height="16.225161290322575" fill="#F0B34A" rx="4"/>
+<text x="257.25" y="264" text-anchor="middle" class="axis">
+<tspan x="257.25" dy="0">random</tspan>
+<tspan x="257.25" dy="12">validish</tspan>
+</text>
+<text x="257.25" y="219.12666666666667" text-anchor="middle" class="value">0.075</text>
+<rect x="314.405" y="184.37913978494623" width="46.69" height="56.97268817204301" fill="#D96666" rx="4"/>
+<text x="337.75" y="264" text-anchor="middle" class="axis">
+<tspan x="337.75" dy="0">rule-based</tspan>
+<tspan x="337.75" dy="12">expert</tspan>
+</text>
+<text x="337.75" y="178.37913978494623" text-anchor="middle" class="value">0.262</text>
+<rect x="424" y="34" width="390" height="280" rx="6" fill="#ffffff" stroke="#d9dfeb"/>
+<text x="619.0" y="54" text-anchor="middle" class="panel-title">market_round</text>
+<line x1="480" y1="44" x2="480" y2="246" stroke="#7a869c" stroke-width="1"/>
+<line x1="480" y1="241.35182795698924" x2="802" y2="241.35182795698924" stroke="#7a869c" stroke-width="1"/>
+<rect x="496.905" y="182.1636559139785" width="46.69" height="59.18817204301075" fill="#5A7FFF" rx="4"/>
+<text x="520.25" y="264" text-anchor="middle" class="axis">
+<tspan x="520.25" dy="0">always</tspan>
+<tspan x="520.25" dy="12">accept</tspan>
+</text>
+<text x="520.25" y="176.1636559139785" text-anchor="middle" class="value">0.273</text>
+<rect x="577.405" y="235.13978494623655" width="46.69" height="6.212043010752694" fill="#6CBF84" rx="4"/>
+<text x="600.75" y="264" text-anchor="middle" class="axis">
+<tspan x="600.75" dy="0">greedy</tspan>
+<tspan x="600.75" dy="12">hoarder</tspan>
+</text>
+<text x="600.75" y="229.13978494623655" text-anchor="middle" class="value">0.029</text>
+<rect x="657.905" y="206.70774193548385" width="46.69" height="34.64408602150539" fill="#F0B34A" rx="4"/>
+<text x="681.25" y="264" text-anchor="middle" class="axis">
+<tspan x="681.25" dy="0">random</tspan>
+<tspan x="681.25" dy="12">validish</tspan>
+</text>
+<text x="681.25" y="200.70774193548385" text-anchor="middle" class="value">0.160</text>
+<rect x="738.405" y="136.11634408602148" width="46.69" height="105.23548387096776" fill="#D96666" rx="4"/>
+<text x="761.75" y="264" text-anchor="middle" class="axis">
+<tspan x="761.75" dy="0">rule-based</tspan>
+<tspan x="761.75" dy="12">expert</tspan>
+</text>
+<text x="761.75" y="130.11634408602148" text-anchor="middle" class="value">0.484</text>
+<rect x="848" y="34" width="390" height="280" rx="6" fill="#ffffff" stroke="#d9dfeb"/>
+<text x="1043.0" y="54" text-anchor="middle" class="panel-title">coalition_market</text>
+<line x1="904" y1="44" x2="904" y2="246" stroke="#7a869c" stroke-width="1"/>
+<line x1="904" y1="241.35182795698924" x2="1226" y2="241.35182795698924" stroke="#7a869c" stroke-width="1"/>
+<rect x="920.905" y="153.29720430107528" width="46.69" height="88.05462365591396" fill="#5A7FFF" rx="4"/>
+<text x="944.25" y="264" text-anchor="middle" class="axis">
+<tspan x="944.25" dy="0">always</tspan>
+<tspan x="944.25" dy="12">accept</tspan>
+</text>
+<text x="944.25" y="147.29720430107528" text-anchor="middle" class="value">0.405</text>
+<rect x="1001.405" y="219.74" width="46.69" height="21.61182795698923" fill="#6CBF84" rx="4"/>
+<text x="1024.75" y="264" text-anchor="middle" class="axis">
+<tspan x="1024.75" dy="0">greedy</tspan>
+<tspan x="1024.75" dy="12">hoarder</tspan>
+</text>
+<text x="1024.75" y="213.74" text-anchor="middle" class="value">0.100</text>
+<rect x="1081.905" y="216.1778494623656" width="46.69" height="25.17397849462364" fill="#F0B34A" rx="4"/>
+<text x="1105.25" y="264" text-anchor="middle" class="axis">
+<tspan x="1105.25" dy="0">random</tspan>
+<tspan x="1105.25" dy="12">validish</tspan>
+</text>
+<text x="1105.25" y="210.1778494623656" text-anchor="middle" class="value">0.116</text>
+<rect x="1162.405" y="65.72043010752688" width="46.69" height="175.63139784946236" fill="#D96666" rx="4"/>
+<text x="1185.75" y="264" text-anchor="middle" class="axis">
+<tspan x="1185.75" dy="0">rule-based</tspan>
+<tspan x="1185.75" dy="12">expert</tspan>
+</text>
+<text x="1185.75" y="59.72043010752688" text-anchor="middle" class="value">0.809</text>
 </svg>
