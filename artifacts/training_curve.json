@@ -1,0 +1,667 @@
+[
+  {
+    "episode": 1,
+    "sampled_task": "single_trade",
+    "sampled_policy": "greedy_hoarder",
+    "sampled_reward": 0.1128,
+    "recent_train_reward": 0.1128,
+    "eval_mean_reward": 0.1133,
+    "eval_stdev_reward": 0.1287,
+    "judge_bonus": 0.0587,
+    "selected_policies": {
+      "single_trade": "greedy_hoarder",
+      "market_round": "random_validish",
+      "coalition_market": "random_validish"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.2255,
+        "greedy_hoarder": 0.3235,
+        "always_accept": 0.2255,
+        "rule_based_expert": 0.2255
+      },
+      "market_round": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      },
+      "coalition_market": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      }
+    }
+  },
+  {
+    "episode": 10,
+    "sampled_task": "single_trade",
+    "sampled_policy": "greedy_hoarder",
+    "sampled_reward": 0.008,
+    "recent_train_reward": 0.0972,
+    "eval_mean_reward": 0.1133,
+    "eval_stdev_reward": 0.1287,
+    "judge_bonus": 0.0548,
+    "selected_policies": {
+      "single_trade": "greedy_hoarder",
+      "market_round": "random_validish",
+      "coalition_market": "random_validish"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.2601,
+        "greedy_hoarder": 0.3708,
+        "always_accept": 0.2172,
+        "rule_based_expert": 0.1519
+      },
+      "market_round": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      },
+      "coalition_market": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      }
+    }
+  },
+  {
+    "episode": 20,
+    "sampled_task": "single_trade",
+    "sampled_policy": "greedy_hoarder",
+    "sampled_reward": -0.2641,
+    "recent_train_reward": 0.0978,
+    "eval_mean_reward": 0.1468,
+    "eval_stdev_reward": 0.0585,
+    "judge_bonus": 0.0647,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "random_validish",
+      "coalition_market": "random_validish"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.1642,
+        "greedy_hoarder": 0.1644,
+        "always_accept": 0.3335,
+        "rule_based_expert": 0.338
+      },
+      "market_round": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      },
+      "coalition_market": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      }
+    }
+  },
+  {
+    "episode": 30,
+    "sampled_task": "single_trade",
+    "sampled_policy": "rule_based_expert",
+    "sampled_reward": 0.191,
+    "recent_train_reward": 0.1604,
+    "eval_mean_reward": 0.1468,
+    "eval_stdev_reward": 0.0585,
+    "judge_bonus": 0.0765,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "random_validish",
+      "coalition_market": "random_validish"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.0963,
+        "greedy_hoarder": 0.1733,
+        "always_accept": 0.1706,
+        "rule_based_expert": 0.5597
+      },
+      "market_round": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      },
+      "coalition_market": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      }
+    }
+  },
+  {
+    "episode": 40,
+    "sampled_task": "single_trade",
+    "sampled_policy": "rule_based_expert",
+    "sampled_reward": 0.0999,
+    "recent_train_reward": 0.1284,
+    "eval_mean_reward": 0.1468,
+    "eval_stdev_reward": 0.0585,
+    "judge_bonus": 0.0894,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "random_validish",
+      "coalition_market": "random_validish"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.0432,
+        "greedy_hoarder": 0.0753,
+        "always_accept": 0.08,
+        "rule_based_expert": 0.8015
+      },
+      "market_round": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      },
+      "coalition_market": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      }
+    }
+  },
+  {
+    "episode": 50,
+    "sampled_task": "single_trade",
+    "sampled_policy": "rule_based_expert",
+    "sampled_reward": 0.191,
+    "recent_train_reward": 0.1819,
+    "eval_mean_reward": 0.1468,
+    "eval_stdev_reward": 0.0585,
+    "judge_bonus": 0.0918,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "random_validish",
+      "coalition_market": "random_validish"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.0345,
+        "greedy_hoarder": 0.058,
+        "always_accept": 0.0612,
+        "rule_based_expert": 0.8463
+      },
+      "market_round": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      },
+      "coalition_market": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      }
+    }
+  },
+  {
+    "episode": 60,
+    "sampled_task": "single_trade",
+    "sampled_policy": "rule_based_expert",
+    "sampled_reward": 0.131,
+    "recent_train_reward": 0.1558,
+    "eval_mean_reward": 0.1468,
+    "eval_stdev_reward": 0.0585,
+    "judge_bonus": 0.096,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "random_validish",
+      "coalition_market": "random_validish"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.021,
+        "greedy_hoarder": 0.0227,
+        "always_accept": 0.0308,
+        "rule_based_expert": 0.9255
+      },
+      "market_round": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      },
+      "coalition_market": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      }
+    }
+  },
+  {
+    "episode": 70,
+    "sampled_task": "market_round",
+    "sampled_policy": "rule_based_expert",
+    "sampled_reward": 0.3562,
+    "recent_train_reward": 0.4947,
+    "eval_mean_reward": 0.2763,
+    "eval_stdev_reward": 0.2136,
+    "judge_bonus": 0.132,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "rule_based_expert",
+      "coalition_market": "random_validish"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.021,
+        "greedy_hoarder": 0.0227,
+        "always_accept": 0.0308,
+        "rule_based_expert": 0.9255
+      },
+      "market_round": {
+        "random_validish": 0.0222,
+        "greedy_hoarder": 0.0222,
+        "always_accept": 0.032,
+        "rule_based_expert": 0.9236
+      },
+      "coalition_market": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      }
+    }
+  },
+  {
+    "episode": 80,
+    "sampled_task": "market_round",
+    "sampled_policy": "rule_based_expert",
+    "sampled_reward": 0.3102,
+    "recent_train_reward": 0.5033,
+    "eval_mean_reward": 0.2763,
+    "eval_stdev_reward": 0.2136,
+    "judge_bonus": 0.134,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "rule_based_expert",
+      "coalition_market": "random_validish"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.021,
+        "greedy_hoarder": 0.0227,
+        "always_accept": 0.0308,
+        "rule_based_expert": 0.9255
+      },
+      "market_round": {
+        "random_validish": 0.0095,
+        "greedy_hoarder": 0.0039,
+        "always_accept": 0.0248,
+        "rule_based_expert": 0.9618
+      },
+      "coalition_market": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      }
+    }
+  },
+  {
+    "episode": 90,
+    "sampled_task": "market_round",
+    "sampled_policy": "rule_based_expert",
+    "sampled_reward": 0.4358,
+    "recent_train_reward": 0.4979,
+    "eval_mean_reward": 0.2763,
+    "eval_stdev_reward": 0.2136,
+    "judge_bonus": 0.1343,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "rule_based_expert",
+      "coalition_market": "random_validish"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.021,
+        "greedy_hoarder": 0.0227,
+        "always_accept": 0.0308,
+        "rule_based_expert": 0.9255
+      },
+      "market_round": {
+        "random_validish": 0.0084,
+        "greedy_hoarder": 0.0035,
+        "always_accept": 0.021,
+        "rule_based_expert": 0.9672
+      },
+      "coalition_market": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      }
+    }
+  },
+  {
+    "episode": 100,
+    "sampled_task": "market_round",
+    "sampled_policy": "rule_based_expert",
+    "sampled_reward": 0.335,
+    "recent_train_reward": 0.5326,
+    "eval_mean_reward": 0.2763,
+    "eval_stdev_reward": 0.2136,
+    "judge_bonus": 0.1344,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "rule_based_expert",
+      "coalition_market": "random_validish"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.021,
+        "greedy_hoarder": 0.0227,
+        "always_accept": 0.0308,
+        "rule_based_expert": 0.9255
+      },
+      "market_round": {
+        "random_validish": 0.0079,
+        "greedy_hoarder": 0.0033,
+        "always_accept": 0.0193,
+        "rule_based_expert": 0.9696
+      },
+      "coalition_market": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      }
+    }
+  },
+  {
+    "episode": 110,
+    "sampled_task": "market_round",
+    "sampled_policy": "rule_based_expert",
+    "sampled_reward": 0.4283,
+    "recent_train_reward": 0.5195,
+    "eval_mean_reward": 0.2763,
+    "eval_stdev_reward": 0.2136,
+    "judge_bonus": 0.1356,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "rule_based_expert",
+      "coalition_market": "random_validish"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.021,
+        "greedy_hoarder": 0.0227,
+        "always_accept": 0.0308,
+        "rule_based_expert": 0.9255
+      },
+      "market_round": {
+        "random_validish": 0.0007,
+        "greedy_hoarder": 0.001,
+        "always_accept": 0.0059,
+        "rule_based_expert": 0.9924
+      },
+      "coalition_market": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      }
+    }
+  },
+  {
+    "episode": 120,
+    "sampled_task": "market_round",
+    "sampled_policy": "rule_based_expert",
+    "sampled_reward": 0.4371,
+    "recent_train_reward": 0.5016,
+    "eval_mean_reward": 0.2763,
+    "eval_stdev_reward": 0.2136,
+    "judge_bonus": 0.1356,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "rule_based_expert",
+      "coalition_market": "random_validish"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.021,
+        "greedy_hoarder": 0.0227,
+        "always_accept": 0.0308,
+        "rule_based_expert": 0.9255
+      },
+      "market_round": {
+        "random_validish": 0.0007,
+        "greedy_hoarder": 0.001,
+        "always_accept": 0.0059,
+        "rule_based_expert": 0.9923
+      },
+      "coalition_market": {
+        "random_validish": 0.25,
+        "greedy_hoarder": 0.25,
+        "always_accept": 0.25,
+        "rule_based_expert": 0.25
+      }
+    }
+  },
+  {
+    "episode": 130,
+    "sampled_task": "coalition_market",
+    "sampled_policy": "random_validish",
+    "sampled_reward": 0.202,
+    "recent_train_reward": 0.1439,
+    "eval_mean_reward": 0.3053,
+    "eval_stdev_reward": 0.188,
+    "judge_bonus": 0.1273,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "rule_based_expert",
+      "coalition_market": "greedy_hoarder"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.021,
+        "greedy_hoarder": 0.0227,
+        "always_accept": 0.0308,
+        "rule_based_expert": 0.9255
+      },
+      "market_round": {
+        "random_validish": 0.0007,
+        "greedy_hoarder": 0.001,
+        "always_accept": 0.0059,
+        "rule_based_expert": 0.9923
+      },
+      "coalition_market": {
+        "random_validish": 0.0988,
+        "greedy_hoarder": 0.7138,
+        "always_accept": 0.0937,
+        "rule_based_expert": 0.0937
+      }
+    }
+  },
+  {
+    "episode": 140,
+    "sampled_task": "coalition_market",
+    "sampled_policy": "greedy_hoarder",
+    "sampled_reward": 0.191,
+    "recent_train_reward": 0.1473,
+    "eval_mean_reward": 0.3053,
+    "eval_stdev_reward": 0.188,
+    "judge_bonus": 0.1246,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "rule_based_expert",
+      "coalition_market": "greedy_hoarder"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.021,
+        "greedy_hoarder": 0.0227,
+        "always_accept": 0.0308,
+        "rule_based_expert": 0.9255
+      },
+      "market_round": {
+        "random_validish": 0.0007,
+        "greedy_hoarder": 0.001,
+        "always_accept": 0.0059,
+        "rule_based_expert": 0.9923
+      },
+      "coalition_market": {
+        "random_validish": 0.0351,
+        "greedy_hoarder": 0.8912,
+        "always_accept": 0.0305,
+        "rule_based_expert": 0.0433
+      }
+    }
+  },
+  {
+    "episode": 150,
+    "sampled_task": "coalition_market",
+    "sampled_policy": "greedy_hoarder",
+    "sampled_reward": 0.1595,
+    "recent_train_reward": 0.2114,
+    "eval_mean_reward": 0.3053,
+    "eval_stdev_reward": 0.188,
+    "judge_bonus": 0.1317,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "rule_based_expert",
+      "coalition_market": "greedy_hoarder"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.021,
+        "greedy_hoarder": 0.0227,
+        "always_accept": 0.0308,
+        "rule_based_expert": 0.9255
+      },
+      "market_round": {
+        "random_validish": 0.0007,
+        "greedy_hoarder": 0.001,
+        "always_accept": 0.0059,
+        "rule_based_expert": 0.9923
+      },
+      "coalition_market": {
+        "random_validish": 0.0549,
+        "greedy_hoarder": 0.721,
+        "always_accept": 0.0482,
+        "rule_based_expert": 0.1759
+      }
+    }
+  },
+  {
+    "episode": 160,
+    "sampled_task": "coalition_market",
+    "sampled_policy": "rule_based_expert",
+    "sampled_reward": 0.667,
+    "recent_train_reward": 0.4316,
+    "eval_mean_reward": 0.449,
+    "eval_stdev_reward": 0.2576,
+    "judge_bonus": 0.1728,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "rule_based_expert",
+      "coalition_market": "rule_based_expert"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.021,
+        "greedy_hoarder": 0.0227,
+        "always_accept": 0.0308,
+        "rule_based_expert": 0.9255
+      },
+      "market_round": {
+        "random_validish": 0.0007,
+        "greedy_hoarder": 0.001,
+        "always_accept": 0.0059,
+        "rule_based_expert": 0.9923
+      },
+      "coalition_market": {
+        "random_validish": 0.0137,
+        "greedy_hoarder": 0.0253,
+        "always_accept": 0.0132,
+        "rule_based_expert": 0.9477
+      }
+    }
+  },
+  {
+    "episode": 170,
+    "sampled_task": "coalition_market",
+    "sampled_policy": "rule_based_expert",
+    "sampled_reward": 0.8903,
+    "recent_train_reward": 0.6796,
+    "eval_mean_reward": 0.449,
+    "eval_stdev_reward": 0.2576,
+    "judge_bonus": 0.1738,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "rule_based_expert",
+      "coalition_market": "rule_based_expert"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.021,
+        "greedy_hoarder": 0.0227,
+        "always_accept": 0.0308,
+        "rule_based_expert": 0.9255
+      },
+      "market_round": {
+        "random_validish": 0.0007,
+        "greedy_hoarder": 0.001,
+        "always_accept": 0.0059,
+        "rule_based_expert": 0.9923
+      },
+      "coalition_market": {
+        "random_validish": 0.0091,
+        "greedy_hoarder": 0.0156,
+        "always_accept": 0.0087,
+        "rule_based_expert": 0.9666
+      }
+    }
+  },
+  {
+    "episode": 180,
+    "sampled_task": "coalition_market",
+    "sampled_policy": "always_accept",
+    "sampled_reward": 0.1817,
+    "recent_train_reward": 0.5778,
+    "eval_mean_reward": 0.449,
+    "eval_stdev_reward": 0.2576,
+    "judge_bonus": 0.1752,
+    "selected_policies": {
+      "single_trade": "rule_based_expert",
+      "market_round": "rule_based_expert",
+      "coalition_market": "rule_based_expert"
+    },
+    "policy_probabilities": {
+      "single_trade": {
+        "random_validish": 0.021,
+        "greedy_hoarder": 0.0227,
+        "always_accept": 0.0308,
+        "rule_based_expert": 0.9255
+      },
+      "market_round": {
+        "random_validish": 0.0007,
+        "greedy_hoarder": 0.001,
+        "always_accept": 0.0059,
+        "rule_based_expert": 0.9923
+      },
+      "coalition_market": {
+        "random_validish": 0.0024,
+        "greedy_hoarder": 0.004,
+        "always_accept": 0.0006,
+        "rule_based_expert": 0.993
+      }
+    }
+  }
+]

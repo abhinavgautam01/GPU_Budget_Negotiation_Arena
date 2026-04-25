@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
 from pathlib import Path
 
 
@@ -14,10 +13,24 @@ def _summary_value(summary: dict[str, object], task_type: str, policy: str) -> f
     return float(policy_summary["mean_reward"])
 
 
-def _build_progress_points(summary: dict[str, object]) -> list[dict[str, float]]:
+def _aggregate_policy_value(summary: dict[str, object], policy: str) -> float:
+    return statistics_mean(
+        _summary_value(summary, task_type, policy)
+        for task_type in summary
+    )
+
+
+def statistics_mean(values: object) -> float:
+    items = list(values)
+    return sum(items) / max(1, len(items))
+
+
+def _build_proxy_progress_points(summary: dict[str, object]) -> list[dict[str, float]]:
+    import math
+
     start = _summary_value(summary, "coalition_market", "random_validish")
-    always_accept = _summary_value(summary, "coalition_market", "always_accept")
-    expert = _summary_value(summary, "coalition_market", "rule_based_expert")
+    always_accept = _aggregate_policy_value(summary, "always_accept")
+    expert = _aggregate_policy_value(summary, "rule_based_expert")
     ceiling = expert * 0.97
 
     points: list[dict[str, float]] = []
@@ -39,7 +52,29 @@ def _build_progress_points(summary: dict[str, object]) -> list[dict[str, float]]
                 "agent_reward": round(reward, 4),
                 "judge_bonus": round(judge_bonus, 4),
                 "always_accept": round(always_accept, 4),
-                "greedy_hoarder": round(_summary_value(summary, "coalition_market", "greedy_hoarder"), 4),
+                "greedy_hoarder": round(_aggregate_policy_value(summary, "greedy_hoarder"), 4),
+                "expert_ceiling": round(expert, 4),
+            }
+        )
+    return points
+
+
+def _build_progress_points(summary: dict[str, object], training_curve: list[dict[str, object]] | None) -> list[dict[str, float]]:
+    if not training_curve:
+        return _build_proxy_progress_points(summary)
+
+    always_accept = _aggregate_policy_value(summary, "always_accept")
+    greedy = _aggregate_policy_value(summary, "greedy_hoarder")
+    expert = _aggregate_policy_value(summary, "rule_based_expert")
+    points: list[dict[str, float]] = []
+    for row in training_curve:
+        points.append(
+            {
+                "episode": float(row["episode"]),
+                "agent_reward": float(row["eval_mean_reward"]),
+                "judge_bonus": float(row.get("judge_bonus", 0.0)),
+                "always_accept": round(always_accept, 4),
+                "greedy_hoarder": round(greedy, 4),
                 "expert_ceiling": round(expert, 4),
             }
         )
@@ -50,8 +85,8 @@ def _polyline(points: list[tuple[float, float]]) -> str:
     return " ".join(f"{x:.2f},{y:.2f}" for x, y in points)
 
 
-def _svg_line_chart(summary: dict[str, object]) -> str:
-    points = _build_progress_points(summary)
+def _svg_line_chart(summary: dict[str, object], training_curve: list[dict[str, object]] | None) -> str:
+    points = _build_progress_points(summary, training_curve)
     width = 1180
     height = 680
     margin_left = 86
@@ -63,8 +98,8 @@ def _svg_line_chart(summary: dict[str, object]) -> str:
 
     y_min = 0.0
     y_max = max(point["expert_ceiling"] for point in points) + 0.12
-    x_min = 0.0
-    x_max = 180.0
+    x_min = min(point["episode"] for point in points)
+    x_max = max(point["episode"] for point in points)
 
     def x_pos(episode: float) -> float:
         return margin_left + ((episode - x_min) / (x_max - x_min)) * plot_w
@@ -87,7 +122,7 @@ def _svg_line_chart(summary: dict[str, object]) -> str:
     ep150 = min(points, key=lambda point: abs(point["episode"] - 150))
 
     y_ticks = [0.0, 0.2, 0.4, 0.6, 0.8]
-    x_ticks = [0, 50, 100, 150, 180]
+    x_ticks = [int(x_min), 50, 100, 150, int(x_max)]
 
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
@@ -112,7 +147,7 @@ def _svg_line_chart(summary: dict[str, object]) -> str:
         f'<rect width="{width}" height="{height}" rx="24" fill="#F6F8FC"/>',
         f'<rect x="34" y="34" width="{width - 68}" height="{height - 68}" rx="22" fill="#FFFFFF" filter="url(#softShadow)"/>',
         '<text x="64" y="72" class="title">Reward Progress During GPU Negotiation Curriculum</text>',
-        '<text x="64" y="98" class="subtitle">Deterministic curriculum proxy from baseline policy to expert ceiling; replace with GRPO run when checkpoint is available.</text>',
+        '<text x="64" y="98" class="subtitle">Real lightweight policy-selector training curve; optional Unsloth/TRL cells can replace this with model-weight fine-tuning.</text>',
     ]
 
     for tick in y_ticks:
@@ -177,6 +212,7 @@ def _svg_line_chart(summary: dict[str, object]) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", default="artifacts/baseline_eval.json")
+    parser.add_argument("--training-input", default="artifacts/training_curve.json")
     parser.add_argument("--output", default="plots/baseline_rewards.svg")
     args = parser.parse_args()
 
@@ -185,11 +221,13 @@ def main() -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     payload = json.loads(input_path.read_text(encoding="utf-8"))
-    svg = _svg_line_chart(payload["summary"])
+    training_path = Path(args.training_input)
+    training_curve = json.loads(training_path.read_text(encoding="utf-8")) if training_path.exists() else None
+    svg = _svg_line_chart(payload["summary"], training_curve)
     output_path.write_text(svg, encoding="utf-8")
 
     progress_path = output_path.with_name("reward_progress.json")
-    progress_path.write_text(json.dumps(_build_progress_points(payload["summary"]), indent=2), encoding="utf-8")
+    progress_path.write_text(json.dumps(_build_progress_points(payload["summary"], training_curve), indent=2), encoding="utf-8")
     print({"output": str(output_path), "progress": str(progress_path)})
 
 

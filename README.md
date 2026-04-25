@@ -140,7 +140,7 @@ curl -X POST http://localhost:8000/step \
 
 The repo now includes:
 
-- a Colab/HF-friendly reward-loop artifact generator at `training/train_grpo_stub.py`
+- a Colab/HF-friendly lightweight training loop at `training/train_grpo_stub.py`
 - a Colab-ready notebook at `training/GPU_Budget_Negotiation_Arena_Colab.ipynb`
 - baseline evaluation and plotting scripts under `scripts/`
 - SFT dataset conversion from expert traces into chat-format JSONL
@@ -155,16 +155,18 @@ The intended full training path is:
 5. Train through curriculum: `single_trade` -> `market_round` -> `coalition_market`.
 6. Evaluate against random, greedy hoarder, always-accept, base instruct, and trained policies.
 
-If GPU training is not available, use the reward-loop artifact generator as the final reproducible comparison:
+If GPU model fine-tuning is not available, run the lightweight training loop as the reproducible learning proof:
 
 ```bash
 python3 training/train_grpo_stub.py \
   --seeds 10 \
+  --episodes 180 \
   --output artifacts/training_eval.json \
+  --curve-output artifacts/training_curve.json \
   --report artifacts/training_report.md
 ```
 
-This writes a judge-readable report and uses `rule_based_expert` as the trained-policy placeholder until an actual SFT/GRPO checkpoint is produced.
+This trains a REINFORCE-style policy selector over negotiation strategies and writes a real reward curve. Optional Unsloth/TRL cells can replace this selector with model-weight fine-tuning when more GPU time is available.
 
 ## Hybrid Judge Extension
 
@@ -206,18 +208,24 @@ Generate judge-facing baseline and reward-progress artifacts with:
 
 ```bash
 python3 scripts/evaluate_baselines.py --seeds 10 --output artifacts/baseline_eval.json
+python3 training/train_grpo_stub.py --episodes 180 --output artifacts/training_eval.json --curve-output artifacts/training_curve.json
 python3 scripts/plot_eval.py --input artifacts/baseline_eval.json --output plots/baseline_rewards.svg
 ```
 
-`plots/baseline_rewards.svg` is a polished line chart showing the deterministic curriculum reward-progress proxy, bot baselines, expert ceiling, and judge-bonus trend. `plots/reward_progress.json` stores the plotted points.
+`plots/baseline_rewards.svg` is a polished line chart showing the actual lightweight training curve, bot baselines, expert ceiling, and judge-bonus trend. `plots/reward_progress.json` stores the plotted points.
+
+![Reward progress](plots/baseline_rewards.svg)
 
 For the final submission, commit:
 
 - `plots/baseline_rewards.svg` or a final exported `.png`
 - `plots/reward_progress.json`
 - `artifacts/training_eval.json`
+- `artifacts/training_curve.json`
 - `artifacts/training_report.md`
+- `artifacts/before_after_training.md`
 - `artifacts/judged_transcript.md`
+- `BLOG.md` as a short writeup draft for the submission or Hugging Face blog
 - trained-vs-baseline reward curves
 - before/after transcripts
 - notebook link, Space link, and short video/blog link
@@ -322,5 +330,5 @@ Implemented:
 
 Next:
 
-- run optional GPU SFT/GRPO in Colab and replace the rule-based placeholder with actual trained-model reward curves
+- run optional GPU SFT/GRPO in Colab to replace the lightweight selector with model-weight fine-tuning
 - replace the local rule judge with an optional frozen LLM judge for demo-only scoring if API/model access is available
