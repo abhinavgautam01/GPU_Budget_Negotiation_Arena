@@ -183,6 +183,8 @@ python3 training/train_grpo_stub.py \
 
 This trains a REINFORCE-style policy selector over negotiation strategies and writes a real reward curve. Optional Unsloth/TRL cells can replace this selector with model-weight fine-tuning when more GPU time is available.
 
+For the optional SFT cell in Colab, use a GPU runtime before running it: `Runtime -> Change runtime type -> T4 GPU`. The notebook calls `training/run_unsloth_sft.py`, which checks for CUDA before importing Unsloth, uses `unsloth/Llama-3.2-3B-Instruct`, and exits cleanly on CPU instead of crashing.
+
 ## Hybrid Judge Extension
 
 The default environment remains deterministic and fully reproducible. For demos or auxiliary training signals, reset with `judge_mode="rule"` and use `make_pitch` or `counter_pitch` actions. In that mode:
