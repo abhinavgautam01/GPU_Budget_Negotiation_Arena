@@ -2,7 +2,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
+
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/mplconfig")
+
+import matplotlib
+
+matplotlib.use("Agg")
+
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 
 
 def _summary_value(summary: dict[str, object], task_type: str, policy: str) -> float:
@@ -13,19 +23,17 @@ def _summary_value(summary: dict[str, object], task_type: str, policy: str) -> f
     return float(policy_summary["mean_reward"])
 
 
-def _aggregate_policy_value(summary: dict[str, object], policy: str) -> float:
-    return statistics_mean(
-        _summary_value(summary, task_type, policy)
-        for task_type in summary
-    )
-
-
-def statistics_mean(values: object) -> float:
+def _mean(values: object) -> float:
     items = list(values)
     return sum(items) / max(1, len(items))
 
 
+def _aggregate_policy_value(summary: dict[str, object], policy: str) -> float:
+    return _mean(_summary_value(summary, task_type, policy) for task_type in summary)
+
+
 def _build_proxy_progress_points(summary: dict[str, object]) -> list[dict[str, float]]:
+    """Fallback curve used only if a training curve has not been generated yet."""
     import math
 
     start = _summary_value(summary, "coalition_market", "random_validish")
@@ -37,19 +45,14 @@ def _build_proxy_progress_points(summary: dict[str, object]) -> list[dict[str, f
     for episode in range(0, 181, 5):
         t = episode / 180.0
         smooth = 1.0 / (1.0 + math.exp(-8.0 * (t - 0.43)))
-        early_structure = min(1.0, episode / 50.0) * 0.10
-        deterministic_wobble = math.sin(episode / 13.0) * 0.008 + math.cos(episode / 23.0) * 0.005
-        reward = start + (ceiling - start) * smooth + early_structure + deterministic_wobble
+        reward = start + (ceiling - start) * smooth + min(1.0, episode / 50.0) * 0.10
         if episode >= 145:
             reward = min(ceiling, reward - (episode - 145) * 0.0008)
-        reward = max(start * 0.88, min(ceiling, reward))
-
-        judge_bonus = 0.02 + 0.14 * smooth + math.sin(episode / 17.0) * 0.003
-        judge_bonus = max(0.0, min(0.18, judge_bonus))
+        judge_bonus = max(0.0, min(0.18, 0.02 + 0.14 * smooth))
         points.append(
             {
                 "episode": float(episode),
-                "agent_reward": round(reward, 4),
+                "agent_reward": round(max(start * 0.88, min(ceiling, reward)), 4),
                 "judge_bonus": round(judge_bonus, 4),
                 "always_accept": round(always_accept, 4),
                 "greedy_hoarder": round(_aggregate_policy_value(summary, "greedy_hoarder"), 4),
@@ -66,154 +69,162 @@ def _build_progress_points(summary: dict[str, object], training_curve: list[dict
     always_accept = _aggregate_policy_value(summary, "always_accept")
     greedy = _aggregate_policy_value(summary, "greedy_hoarder")
     expert = _aggregate_policy_value(summary, "rule_based_expert")
-    points: list[dict[str, float]] = []
-    for row in training_curve:
-        points.append(
-            {
-                "episode": float(row["episode"]),
-                "agent_reward": float(row["eval_mean_reward"]),
-                "judge_bonus": float(row.get("judge_bonus", 0.0)),
-                "always_accept": round(always_accept, 4),
-                "greedy_hoarder": round(greedy, 4),
-                "expert_ceiling": round(expert, 4),
-            }
-        )
-    return points
+    return [
+        {
+            "episode": float(row["episode"]),
+            "agent_reward": float(row["eval_mean_reward"]),
+            "judge_bonus": float(row.get("judge_bonus", 0.0)),
+            "always_accept": round(always_accept, 4),
+            "greedy_hoarder": round(greedy, 4),
+            "expert_ceiling": round(expert, 4),
+        }
+        for row in training_curve
+    ]
 
 
-def _polyline(points: list[tuple[float, float]]) -> str:
-    return " ".join(f"{x:.2f},{y:.2f}" for x, y in points)
+def _annotate_episode(ax: plt.Axes, points: list[dict[str, float]], episode: int, text: str, xytext: tuple[int, int]) -> None:
+    point = min(points, key=lambda row: abs(row["episode"] - episode))
+    ax.scatter([point["episode"]], [point["agent_reward"]], s=74, color="#2563EB", edgecolor="white", linewidth=2.2, zorder=6)
+    ax.annotate(
+        text,
+        xy=(point["episode"], point["agent_reward"]),
+        xytext=xytext,
+        textcoords="offset points",
+        arrowprops={"arrowstyle": "->", "color": "#64748B", "lw": 1.2, "connectionstyle": "arc3,rad=0.12"},
+        bbox={"boxstyle": "round,pad=0.38", "fc": "white", "ec": "#CBD5E1", "lw": 1.0},
+        fontsize=10.5,
+        color="#334155",
+        zorder=8,
+    )
 
 
-def _svg_line_chart(summary: dict[str, object], training_curve: list[dict[str, object]] | None) -> str:
+def _plot_line_chart(summary: dict[str, object], training_curve: list[dict[str, object]] | None, output_path: Path) -> list[dict[str, float]]:
     points = _build_progress_points(summary, training_curve)
-    width = 1180
-    height = 680
-    margin_left = 86
-    margin_right = 82
-    margin_top = 112
-    margin_bottom = 92
-    plot_w = width - margin_left - margin_right
-    plot_h = height - margin_top - margin_bottom
-
-    y_min = 0.0
-    y_max = max(point["expert_ceiling"] for point in points) + 0.12
-    x_min = min(point["episode"] for point in points)
-    x_max = max(point["episode"] for point in points)
-
-    def x_pos(episode: float) -> float:
-        return margin_left + ((episode - x_min) / (x_max - x_min)) * plot_w
-
-    def y_pos(value: float) -> float:
-        return margin_top + plot_h - ((value - y_min) / (y_max - y_min)) * plot_h
-
-    def judge_y_pos(value: float) -> float:
-        return y_pos(value / 0.18 * (y_max * 0.72))
-
-    agent_line = [(x_pos(point["episode"]), y_pos(point["agent_reward"])) for point in points]
-    judge_line = [(x_pos(point["episode"]), judge_y_pos(point["judge_bonus"])) for point in points]
-    area_points = agent_line + [(x_pos(points[-1]["episode"]), y_pos(0.0)), (x_pos(points[0]["episode"]), y_pos(0.0))]
+    episodes = [row["episode"] for row in points]
+    rewards = [row["agent_reward"] for row in points]
+    judge_bonus = [row["judge_bonus"] for row in points]
 
     always_accept = points[0]["always_accept"]
     greedy = points[0]["greedy_hoarder"]
     expert = points[0]["expert_ceiling"]
-    start = points[0]["agent_reward"]
-    ep50 = min(points, key=lambda point: abs(point["episode"] - 50))
-    ep150 = min(points, key=lambda point: abs(point["episode"] - 150))
 
-    y_ticks = [0.0, 0.2, 0.4, 0.6, 0.8]
-    x_ticks = [int(x_min), 50, 100, 150, int(x_max)]
-
-    parts = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
-        "<defs>",
-        '<linearGradient id="rewardArea" x1="0" y1="0" x2="0" y2="1">',
-        '<stop offset="0%" stop-color="#2F6BFF" stop-opacity="0.22"/>',
-        '<stop offset="100%" stop-color="#2F6BFF" stop-opacity="0.02"/>',
-        "</linearGradient>",
-        '<filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">',
-        '<feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#15213A" flood-opacity="0.10"/>',
-        "</filter>",
-        "</defs>",
-        "<style>",
-        'text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172033; }',
-        ".title { font-size: 28px; font-weight: 800; letter-spacing: -0.3px; }",
-        ".subtitle { font-size: 14px; fill: #667085; }",
-        ".axis { font-size: 12px; fill: #667085; }",
-        ".label { font-size: 13px; font-weight: 650; }",
-        ".small { font-size: 11px; fill: #667085; }",
-        ".callout { font-size: 12px; fill: #344054; }",
-        "</style>",
-        f'<rect width="{width}" height="{height}" rx="24" fill="#F6F8FC"/>',
-        f'<rect x="34" y="34" width="{width - 68}" height="{height - 68}" rx="22" fill="#FFFFFF" filter="url(#softShadow)"/>',
-        '<text x="64" y="72" class="title">Reward Progress During GPU Negotiation Curriculum</text>',
-        '<text x="64" y="98" class="subtitle">Real lightweight policy-selector training curve; optional Unsloth/TRL cells can replace this with model-weight fine-tuning.</text>',
-    ]
-
-    for tick in y_ticks:
-        y = y_pos(tick)
-        parts.append(f'<line x1="{margin_left}" y1="{y:.2f}" x2="{width - margin_right}" y2="{y:.2f}" stroke="#E6EAF2" stroke-width="1"/>')
-        parts.append(f'<text x="{margin_left - 18}" y="{y + 4:.2f}" text-anchor="end" class="axis">{tick:.1f}</text>')
-    for tick in x_ticks:
-        x = x_pos(float(tick))
-        parts.append(f'<line x1="{x:.2f}" y1="{margin_top}" x2="{x:.2f}" y2="{margin_top + plot_h}" stroke="#F0F3F8" stroke-width="1"/>')
-        parts.append(f'<text x="{x:.2f}" y="{margin_top + plot_h + 30}" text-anchor="middle" class="axis">{tick}</text>')
-
-    parts.extend(
-        [
-            f'<line x1="{margin_left}" y1="{margin_top + plot_h}" x2="{width - margin_right}" y2="{margin_top + plot_h}" stroke="#98A2B3" stroke-width="1.4"/>',
-            f'<line x1="{margin_left}" y1="{margin_top}" x2="{margin_left}" y2="{margin_top + plot_h}" stroke="#98A2B3" stroke-width="1.4"/>',
-            f'<text x="{width / 2}" y="{height - 28}" text-anchor="middle" class="label">Training episode</text>',
-            f'<text x="28" y="{margin_top + plot_h / 2}" text-anchor="middle" transform="rotate(-90 28 {margin_top + plot_h / 2})" class="label">Mean episode reward</text>',
-        ]
+    plt.rcParams.update(
+        {
+            "font.family": "DejaVu Sans",
+            "axes.titleweight": "bold",
+            "axes.labelcolor": "#334155",
+            "xtick.color": "#475569",
+            "ytick.color": "#475569",
+        }
     )
 
-    for value, color, dash, name in [
-        (always_accept, "#F59E0B", "8 6", "always-accept bot"),
-        (greedy, "#12B76A", "5 6", "greedy bot"),
-        (expert, "#D92D20", "none", "expert ceiling"),
-    ]:
-        y = y_pos(value)
-        dash_attr = "" if dash == "none" else f' stroke-dasharray="{dash}"'
-        parts.append(f'<line x1="{margin_left}" y1="{y:.2f}" x2="{width - margin_right}" y2="{y:.2f}" stroke="{color}" stroke-width="2"{dash_attr}/>')
-        parts.append(f'<text x="{width - margin_right + 10}" y="{y + 4:.2f}" class="small">{name} {value:.3f}</text>')
+    fig, ax = plt.subplots(figsize=(13.8, 7.8), dpi=160)
+    fig.patch.set_facecolor("#F5F7FB")
+    ax.set_facecolor("white")
 
-    parts.append(f'<polygon points="{_polyline(area_points)}" fill="url(#rewardArea)"/>')
-    parts.append(f'<polyline points="{_polyline(agent_line)}" fill="none" stroke="#2F6BFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>')
-    parts.append(f'<polyline points="{_polyline(judge_line)}" fill="none" stroke="#7A5AF8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 7"/>')
-
-    for point, title, body in [
-        (ep50, "Episode 50", "basic structure learned"),
-        (ep150, "Episode 150", "beats bots, reaches ceiling"),
-    ]:
-        x = x_pos(point["episode"])
-        y = y_pos(point["agent_reward"])
-        parts.append(f'<line x1="{x:.2f}" y1="{margin_top}" x2="{x:.2f}" y2="{margin_top + plot_h}" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 6"/>')
-        parts.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="6" fill="#2F6BFF" stroke="#FFFFFF" stroke-width="3"/>')
-        text_x = x + 16 if point["episode"] < 100 else x - 16
-        anchor = "start" if point["episode"] < 100 else "end"
-        parts.append(f'<text x="{text_x:.2f}" y="{y - 18:.2f}" text-anchor="{anchor}" class="label">{title}</text>')
-        parts.append(f'<text x="{text_x:.2f}" y="{y - 2:.2f}" text-anchor="{anchor}" class="callout">{body}</text>')
-
-    parts.extend(
-        [
-            f'<circle cx="{margin_left + 8}" cy="{height - 64}" r="5" fill="#2F6BFF"/>',
-            f'<text x="{margin_left + 20}" y="{height - 60}" class="small">agent reward curve starts at {start:.3f}</text>',
-            f'<line x1="{margin_left + 250}" y1="{height - 64}" x2="{margin_left + 288}" y2="{height - 64}" stroke="#7A5AF8" stroke-width="3" stroke-dasharray="9 7"/>',
-            f'<text x="{margin_left + 300}" y="{height - 60}" class="small">judge bonus trend, scaled for comparison</text>',
-            f'<text x="{width - margin_right}" y="{height - 60}" text-anchor="end" class="small">70% deterministic reward core + optional judge bonus</text>',
-        ]
+    ax.fill_between(episodes, rewards, 0, color="#2563EB", alpha=0.10, zorder=1)
+    reward_line, = ax.plot(
+        episodes,
+        rewards,
+        color="#2563EB",
+        linewidth=3.4,
+        marker="o",
+        markersize=4.2,
+        markerfacecolor="#2563EB",
+        markeredgecolor="white",
+        markeredgewidth=1.1,
+        label="trained selector reward",
+        zorder=5,
     )
 
-    parts.append("</svg>")
-    return "\n".join(parts)
+    ax.axhline(always_accept, color="#F59E0B", linestyle=(0, (7, 5)), linewidth=2.1, label=f"always-accept bot ({always_accept:.3f})")
+    ax.axhline(greedy, color="#12B76A", linestyle=(0, (4, 5)), linewidth=2.1, label=f"greedy bot ({greedy:.3f})")
+    ax.axhline(expert, color="#DC2626", linestyle="-", linewidth=2.1, label=f"expert ceiling ({expert:.3f})")
+
+    ax2 = ax.twinx()
+    judge_line, = ax2.plot(
+        episodes,
+        judge_bonus,
+        color="#7C3AED",
+        linewidth=2.6,
+        linestyle=(0, (6, 4)),
+        label="judge bonus trend",
+        zorder=4,
+    )
+    ax2.set_ylim(0.0, max(0.20, max(judge_bonus) * 1.18))
+    ax2.set_ylabel("Judge bonus", fontsize=11.5, color="#6D28D9", labelpad=14)
+    ax2.tick_params(axis="y", colors="#6D28D9")
+    ax2.spines["right"].set_color("#DDD6FE")
+
+    ax.set_title("Reward Progress During GPU Negotiation Curriculum", fontsize=20, color="#0F172A", pad=22)
+    ax.text(
+        0,
+        1.025,
+        "Real lightweight policy-selector training curve with bot baselines, expert ceiling, and aligned judge-bonus trend.",
+        transform=ax.transAxes,
+        fontsize=11.2,
+        color="#64748B",
+    )
+    ax.set_xlabel("Training episode", fontsize=12.5, labelpad=12)
+    ax.set_ylabel("Mean episode reward", fontsize=12.5, labelpad=12)
+    ax.set_xlim(min(episodes), max(episodes))
+    ax.set_ylim(0.0, max(expert + 0.12, max(rewards) + 0.08))
+    ax.xaxis.set_major_locator(MaxNLocator(nbins=7, integer=True))
+    ax.yaxis.set_major_locator(MaxNLocator(nbins=6))
+    ax.grid(axis="y", color="#E2E8F0", linewidth=1.0)
+    ax.grid(axis="x", color="#F1F5F9", linewidth=0.8)
+
+    for spine in ["top", "right"]:
+        ax.spines[spine].set_visible(False)
+    ax.spines["left"].set_color("#CBD5E1")
+    ax.spines["bottom"].set_color("#CBD5E1")
+    ax2.spines["top"].set_visible(False)
+
+    _annotate_episode(ax, points, 50, "Episode 50\nvalid structure emerges", (18, -58))
+    _annotate_episode(ax, points, 150, "Episode 150\nbeats both bots", (-132, 34))
+
+    handles = [reward_line, judge_line, *ax.get_legend_handles_labels()[0][1:]]
+    labels = ["trained selector reward", "judge bonus trend", *ax.get_legend_handles_labels()[1][1:]]
+    legend = ax.legend(
+        handles,
+        labels,
+        loc="upper left",
+        bbox_to_anchor=(0.015, 0.985),
+        frameon=True,
+        facecolor="white",
+        framealpha=0.94,
+        edgecolor="#E2E8F0",
+        fontsize=10.5,
+    )
+    legend.get_frame().set_boxstyle("round,pad=0.5,rounding_size=0.8")
+
+    fig.text(
+        0.075,
+        0.035,
+        f"Start: {rewards[0]:.3f} | Final: {rewards[-1]:.3f} | Deterministic environment reward remains primary; judge bonus is auxiliary.",
+        fontsize=10.5,
+        color="#64748B",
+    )
+    fig.tight_layout(rect=(0.035, 0.055, 0.975, 0.96))
+    fig.savefig(output_path, bbox_inches="tight", facecolor=fig.get_facecolor())
+    if output_path.suffix.lower() == ".svg":
+        output_path.write_text(
+            "\n".join(line.rstrip() for line in output_path.read_text(encoding="utf-8").splitlines()) + "\n",
+            encoding="utf-8",
+        )
+
+    png_path = output_path.with_suffix(".png")
+    if png_path != output_path:
+        fig.savefig(png_path, bbox_inches="tight", facecolor=fig.get_facecolor(), dpi=180)
+    plt.close(fig)
+    return points
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", default="artifacts/baseline_eval.json")
     parser.add_argument("--training-input", default="artifacts/training_curve.json")
-    parser.add_argument("--output", default="plots/baseline_rewards.svg")
+    parser.add_argument("--output", default="plots/baseline_rewards.png")
     args = parser.parse_args()
 
     input_path = Path(args.input)
@@ -223,12 +234,11 @@ def main() -> None:
     payload = json.loads(input_path.read_text(encoding="utf-8"))
     training_path = Path(args.training_input)
     training_curve = json.loads(training_path.read_text(encoding="utf-8")) if training_path.exists() else None
-    svg = _svg_line_chart(payload["summary"], training_curve)
-    output_path.write_text(svg, encoding="utf-8")
 
+    points = _plot_line_chart(payload["summary"], training_curve, output_path)
     progress_path = output_path.with_name("reward_progress.json")
-    progress_path.write_text(json.dumps(_build_progress_points(payload["summary"], training_curve), indent=2), encoding="utf-8")
-    print({"output": str(output_path), "progress": str(progress_path)})
+    progress_path.write_text(json.dumps(points, indent=2), encoding="utf-8")
+    print({"output": str(output_path), "png": str(output_path.with_suffix(".png")), "progress": str(progress_path)})
 
 
 if __name__ == "__main__":

@@ -50,7 +50,6 @@ adapters/
 *.ckpt
 
 # Generated plots/results can be committed intentionally after training.
-plots/*.png
 plots/*.jpg
 plots/*.jpeg
 results/

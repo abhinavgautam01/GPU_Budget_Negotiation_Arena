@@ -20,7 +20,7 @@ The same environment can be connected to SFT or GRPO. The repo generates SFT tra
 
 Key artifacts:
 
-- `plots/baseline_rewards.svg`: reward progress curve with bot baselines, expert ceiling, and judge-bonus trend.
+- `plots/baseline_rewards.png`: matplotlib reward progress curve with bot baselines, expert ceiling, and judge-bonus trend.
 - `artifacts/training_report.md`: final reward table and selected trained policies.
 - `artifacts/before_after_training.md`: same-seed qualitative before/after transcript.
 - `artifacts/judged_transcript.md`: natural-language judged negotiation transcript.
