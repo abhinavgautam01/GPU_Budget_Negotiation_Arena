@@ -32,9 +32,11 @@ dist/
 logs/
 
 # Generated data and training artifacts
-data/
+# NOTE: small data/ and plots/ are committed so the Space can render them.
+# Only the large LoRA / SFT checkpoint folders stay out of git.
 artifacts/sft-checkpoint/
 artifacts/**/checkpoint-*/
+gpu_budget_negotiation_arena/
 huggingface_tokenizers_cache/
 unsloth_compiled_cache/
 checkpoints/
@@ -48,12 +50,13 @@ adapters/
 *.pt
 *.pth
 *.ckpt
+results/
 
-# Generated plots/results can be committed intentionally after training.
+# Hugging Face Spaces rejects raw binaries; use the .svg version instead
+# (or commit PNGs through Git LFS / Xet if you really need them).
 plots/*.png
 plots/*.jpg
 plots/*.jpeg
-results/
 
 # Jupyter
 .ipynb_checkpoints/

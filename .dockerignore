@@ -10,9 +10,6 @@ __pycache__
 venv
 env
 ENV
-artifacts
-plots
-data
 checkpoints
 outputs
 runs
@@ -21,6 +18,14 @@ models
 adapters
 huggingface_tokenizers_cache
 unsloth_compiled_cache
+
+# Keep small artifacts/, plots/, data/ that the front page renders,
+# but skip the large LoRA / SFT checkpoint folders which we never serve
+# from the Space (they live on Hugging Face Hub or Drive instead).
 artifacts/sft-checkpoint
+artifacts/**/checkpoint-*
+gpu_budget_negotiation_arena
+training
+
 tests
 openenv_hackathon_idea_pack.md

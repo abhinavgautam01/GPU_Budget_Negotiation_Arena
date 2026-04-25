@@ -221,8 +221,7 @@ _DOWNLOADS = [
     ("before_after_training.md", "/artifacts/before_after_training.md", _ART_DIR / "before_after_training.md", "Same-seed before vs after"),
     ("demo_transcript.md", "/artifacts/demo_transcript.md", _ART_DIR / "demo_transcript.md", "Expert demo (coalition_market · seed 5)"),
     ("judged_transcript.md", "/artifacts/judged_transcript.md", _ART_DIR / "judged_transcript.md", "Judged multi-lab debate transcript"),
-    ("baseline_rewards.svg", "/plots/baseline_rewards.svg", _PLOT_DIR / "baseline_rewards.svg", "Static plot · vector"),
-    ("baseline_rewards.png", "/plots/baseline_rewards.png", _PLOT_DIR / "baseline_rewards.png", "Static plot · raster"),
+    ("baseline_rewards.svg", "/plots/baseline_rewards.svg", _PLOT_DIR / "baseline_rewards.svg", "Static plot · vector (renders inline)"),
     ("reward_progress.json", "/plots/reward_progress.json", _PLOT_DIR / "reward_progress.json", "Training-progress timeseries"),
     ("sft_messages.jsonl", "/data/sft_messages.jsonl", _DATA_DIR / "sft_messages.jsonl", "SFT chat-formatted dataset"),
     ("sft_traces.jsonl", "/data/sft_traces.jsonl", _DATA_DIR / "sft_traces.jsonl", "SFT raw trace records"),
@@ -2159,7 +2158,10 @@ function drawProgress() {
     ctx.fillStyle = '#3a3530';
     ctx.font = `12px 'JetBrains Mono', monospace`;
     ctx.textAlign = 'center';
-    ctx.fillText('reward_progress.json not loaded', W/2, H/2);
+    ctx.fillText('plots/reward_progress.json not bundled in this build', W/2, H/2 - 8);
+    ctx.fillStyle = '#6b6357';
+    ctx.font = `10px 'JetBrains Mono', monospace`;
+    ctx.fillText('Re-deploy with the plots/ directory included.', W/2, H/2 + 10);
     return;
   }
 

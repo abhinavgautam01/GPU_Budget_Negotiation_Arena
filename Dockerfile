@@ -7,6 +7,9 @@ WORKDIR /app
 COPY requirements.txt pyproject.toml openenv.yaml ./
 COPY gpu_budget_arena ./gpu_budget_arena
 COPY server ./server
+COPY artifacts ./artifacts
+COPY plots ./plots
+COPY data ./data
 RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8000
 CMD ["uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "8000"]
