@@ -1,15 +1,260 @@
 from __future__ import annotations
 
+import json
 import os
+import re
+from pathlib import Path
+from typing import Any
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 
 from gpu_budget_arena.env import GpuBudgetNegotiationEnv
 from gpu_budget_arena.models import GpuNegotiationAction, ResetConfig
 
 app = FastAPI(title="GPU Budget Negotiation Arena", version="0.1.0")
 env = GpuBudgetNegotiationEnv()
+
+# ---------------------------------------------------------------------------
+# Locate repo-relative artifact directories. The Space must include these.
+# ---------------------------------------------------------------------------
+
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+_ART_DIR = _REPO_ROOT / "artifacts"
+_PLOT_DIR = _REPO_ROOT / "plots"
+_DATA_DIR = _REPO_ROOT / "data"
+
+for _name, _path in (("artifacts", _ART_DIR), ("plots", _PLOT_DIR), ("data", _DATA_DIR)):
+    if _path.is_dir():
+        app.mount(f"/{_name}", StaticFiles(directory=str(_path)), name=_name)
+
+
+def _safe_read_text(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8")
+    except (OSError, FileNotFoundError):
+        return ""
+
+
+def _safe_read_json(path: Path) -> Any:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+
+
+def _file_size(path: Path) -> str:
+    try:
+        b = path.stat().st_size
+    except OSError:
+        return "—"
+    if b < 1024:
+        return f"{b} B"
+    if b < 1024 * 1024:
+        return f"{b / 1024:.1f} KB"
+    return f"{b / 1024 / 1024:.2f} MB"
+
+
+def _parse_demo_transcript_md(md: str) -> list[dict[str, Any]]:
+    """Parse artifacts/demo_transcript.md into a list of step dicts."""
+    steps: list[dict[str, Any]] = []
+    block = re.split(r"^### Step \d+\s*$", md, flags=re.MULTILINE)
+    for chunk in block[1:]:
+        action = re.search(r"Action:\s*`(.+?)`", chunk)
+        result = re.search(r"Result:\s*`(.+?)`", chunk)
+        imm = re.search(r"Immediate reward:\s*`([\-\d.]+)`", chunk)
+        cum = re.search(r"Cumulative reward:\s*`([\-\d.]+)`", chunk)
+        if not (action and result and imm and cum):
+            continue
+        try:
+            res_msg = json.loads(result.group(1)).get("message", "")
+        except Exception:
+            res_msg = result.group(1)
+        steps.append(
+            {
+                "action": action.group(1),
+                "result": res_msg,
+                "reward": float(imm.group(1)),
+                "cum": float(cum.group(1)),
+            }
+        )
+    return steps
+
+
+def _parse_before_after_md(md: str) -> dict[str, Any]:
+    """Parse before_after_training.md into two ordered step lists."""
+
+    def _section_steps(block: str) -> list[dict[str, Any]]:
+        out: list[dict[str, Any]] = []
+        chunks = re.split(r"^### Step \d+\s*$", block, flags=re.MULTILINE)
+        for c in chunks[1:]:
+            action = re.search(r"Action:\s*`(.+?)`", c)
+            result = re.search(r"Result:\s*`(.+?)`", c)
+            reward = re.search(r"Reward:\s*`([\-\d.]+)`", c)
+            if not (action and result and reward):
+                continue
+            try:
+                res_msg = json.loads(result.group(1)).get("message", "")
+            except Exception:
+                res_msg = result.group(1)
+            out.append(
+                {
+                    "action": action.group(1),
+                    "result": res_msg,
+                    "reward": float(reward.group(1)),
+                }
+            )
+        return out
+
+    parts = re.split(r"^## After Training\s*$", md, flags=re.MULTILINE)
+    before_block = re.split(r"^## Before Training\s*$", parts[0], flags=re.MULTILINE)[-1] if parts else ""
+    after_block = parts[1] if len(parts) > 1 else ""
+
+    def _meta(block: str) -> dict[str, Any]:
+        return {
+            "policy": (re.search(r"Policy:\s*`(.+?)`", block) or [None, ""])[1],
+            "task": (re.search(r"Task:\s*`(.+?)`", block) or [None, ""])[1],
+            "seed": (re.search(r"Seed:\s*`(.+?)`", block) or [None, ""])[1],
+            "reward": float((re.search(r"Episode reward:\s*`([\-\d.]+)`", block) or [None, "0"])[1]),
+        }
+
+    return {
+        "before": {**_meta(before_block), "steps": _section_steps(before_block)},
+        "after": {**_meta(after_block), "steps": _section_steps(after_block)},
+    }
+
+
+def _parse_judged_round0(md: str) -> dict[str, Any]:
+    """Extract the first round of a judged transcript for inline display."""
+    m = re.search(r"^## Round 0\s*\n(.*?)(?=^## Round |\Z)", md, flags=re.MULTILINE | re.DOTALL)
+    if not m:
+        return {}
+    block = m.group(1)
+    pitches: list[dict[str, str]] = []
+    for line in block.splitlines():
+        pm = re.match(r"-\s*`(lab_\d+)`:\s*(.*)", line.strip())
+        if pm:
+            pitches.append({"lab": pm.group(1), "pitch": pm.group(2)})
+    winner_m = re.search(r"Winner:\s*`(lab_\d+)`", block)
+    scores_m = re.search(r"Scores:\s*`(\{.*?\})`", block)
+    reason_m = re.search(r"Reason:\s*([^\n]+)", block)
+    breakdown_m = re.search(r"Reward breakdown:\s*`(\{.*?\})`", block)
+    try:
+        scores = json.loads(scores_m.group(1)) if scores_m else {}
+    except Exception:
+        scores = {}
+    try:
+        breakdown = json.loads(breakdown_m.group(1)) if breakdown_m else {}
+    except Exception:
+        breakdown = {}
+    return {
+        "round": 0,
+        "pitches": pitches,
+        "winner": winner_m.group(1) if winner_m else "",
+        "scores": scores,
+        "reason": (reason_m.group(1).strip() if reason_m else ""),
+        "breakdown": breakdown,
+    }
+
+
+def _load_sft_sample(path: Path) -> dict[str, Any]:
+    """Read first JSONL line and return the user/assistant pair (compact)."""
+    try:
+        with path.open(encoding="utf-8") as f:
+            line = f.readline()
+        rec = json.loads(line)
+        msgs = rec.get("messages", [])
+        user = next((m for m in msgs if m.get("role") == "user"), {})
+        asst = next((m for m in msgs if m.get("role") == "assistant"), {})
+        sys = next((m for m in msgs if m.get("role") == "system"), {})
+        # Pretty print observation block from user content
+        u = user.get("content", "")
+        obs_m = re.search(r"Observation:\s*(\{.*\})", u, flags=re.DOTALL)
+        obs_pretty = u
+        if obs_m:
+            try:
+                obs_pretty = "Observation:\n" + json.dumps(
+                    json.loads(obs_m.group(1)), indent=2
+                )
+            except Exception:
+                pass
+        try:
+            asst_pretty = json.dumps(json.loads(asst.get("content", "")), indent=2)
+        except Exception:
+            asst_pretty = asst.get("content", "")
+        return {
+            "task_type": rec.get("task_type", ""),
+            "seed": rec.get("seed", 0),
+            "round_index": rec.get("round_index", 0),
+            "system": sys.get("content", ""),
+            "user": obs_pretty,
+            "assistant": asst_pretty,
+        }
+    except Exception:
+        return {}
+
+
+def _extract_training_headline(md: str) -> dict[str, Any]:
+    """Pull headline numbers from artifacts/training_report.md."""
+
+    def _f(pattern: str, default: float) -> float:
+        m = re.search(pattern, md)
+        try:
+            return float(m.group(1)) if m else default
+        except Exception:
+            return default
+
+    return {
+        "episodes": int(_f(r"Training episodes:\s*`(\d+)`", 0)),
+        "start": _f(r"Eval reward start:\s*`([\d.\-]+)`", 0.0),
+        "final": _f(r"Eval reward final:\s*`([\d.\-]+)`", 0.0),
+    }
+
+
+_DOWNLOADS = [
+    ("baseline_eval.json", "/artifacts/baseline_eval.json", _ART_DIR / "baseline_eval.json", "Per-policy eval (training seeds)"),
+    ("holdout_eval.json", "/artifacts/holdout_eval.json", _ART_DIR / "holdout_eval.json", "Per-policy eval (holdout seeds)"),
+    ("training_curve.json", "/artifacts/training_curve.json", _ART_DIR / "training_curve.json", "Per-episode policy probabilities"),
+    ("training_eval.json", "/artifacts/training_eval.json", _ART_DIR / "training_eval.json", "Full per-step training trace"),
+    ("training_report.md", "/artifacts/training_report.md", _ART_DIR / "training_report.md", "Final training summary table"),
+    ("before_after_training.md", "/artifacts/before_after_training.md", _ART_DIR / "before_after_training.md", "Same-seed before vs after"),
+    ("demo_transcript.md", "/artifacts/demo_transcript.md", _ART_DIR / "demo_transcript.md", "Expert demo (coalition_market · seed 5)"),
+    ("judged_transcript.md", "/artifacts/judged_transcript.md", _ART_DIR / "judged_transcript.md", "Judged multi-lab debate transcript"),
+    ("baseline_rewards.svg", "/plots/baseline_rewards.svg", _PLOT_DIR / "baseline_rewards.svg", "Static plot · vector"),
+    ("baseline_rewards.png", "/plots/baseline_rewards.png", _PLOT_DIR / "baseline_rewards.png", "Static plot · raster"),
+    ("reward_progress.json", "/plots/reward_progress.json", _PLOT_DIR / "reward_progress.json", "Training-progress timeseries"),
+    ("sft_messages.jsonl", "/data/sft_messages.jsonl", _DATA_DIR / "sft_messages.jsonl", "SFT chat-formatted dataset"),
+    ("sft_traces.jsonl", "/data/sft_traces.jsonl", _DATA_DIR / "sft_traces.jsonl", "SFT raw trace records"),
+]
+
+
+def _build_data_payload() -> dict[str, Any]:
+    baseline = _safe_read_json(_ART_DIR / "baseline_eval.json") or {}
+    holdout = _safe_read_json(_ART_DIR / "holdout_eval.json") or {}
+    progress = _safe_read_json(_PLOT_DIR / "reward_progress.json") or []
+    demo_md = _safe_read_text(_ART_DIR / "demo_transcript.md")
+    ba_md = _safe_read_text(_ART_DIR / "before_after_training.md")
+    judged_md = _safe_read_text(_ART_DIR / "judged_transcript.md")
+    report_md = _safe_read_text(_ART_DIR / "training_report.md")
+
+    downloads: list[dict[str, str]] = []
+    for label, url, path, desc in _DOWNLOADS:
+        downloads.append(
+            {"label": label, "url": url, "size": _file_size(path), "desc": desc}
+        )
+
+    return {
+        "baseline": baseline.get("summary", {}) if isinstance(baseline, dict) else {},
+        "holdout": holdout.get("summary", {}) if isinstance(holdout, dict) else {},
+        "progress": progress if isinstance(progress, list) else [],
+        "demo": _parse_demo_transcript_md(demo_md),
+        "before_after": _parse_before_after_md(ba_md),
+        "judged": _parse_judged_round0(judged_md),
+        "sft": _load_sft_sample(_DATA_DIR / "sft_messages.jsonl"),
+        "headline": _extract_training_headline(report_md),
+        "downloads": downloads,
+    }
 
 # ---------------------------------------------------------------------------
 # Front-page HTML (served at /)
@@ -907,6 +1152,177 @@ footer a:hover { color: var(--paper); }
   100% { opacity: 0; transform: translate(-50%,-50%) rotate(-12deg) scale(1.05); }
 }
 
+/* ── Train vs Holdout toggle ─────────────────────────────── */
+.split-row { display:flex; gap: 8px; margin: 0 0 14px; flex-wrap: wrap; align-items: center; }
+.split-row .split-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 1.6px;
+  color: var(--ink-soft); margin-right: 6px;
+}
+.split-tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px; letter-spacing: 1.6px;
+  border: 1.5px solid var(--ink); background: var(--paper); color: var(--ink);
+  padding: 6px 12px; cursor: pointer;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform .14s ease, box-shadow .14s ease, background .14s ease, color .14s ease;
+}
+.split-tab:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink); background: var(--riso-yellow); }
+.split-tab.active { background: var(--ink); color: var(--paper); box-shadow: 3px 3px 0 var(--riso-blue); }
+
+/* ── Training-progress chart ─────────────────────────────── */
+#progressCanvas {
+  width:100%; height: 280px; display:block;
+  background: var(--paper-2);
+  border: 1.5px solid var(--ink);
+  border-radius: 0;
+}
+.progress-wrap {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+  padding: 22px;
+}
+
+/* ── Before / After ──────────────────────────────────────── */
+.ba-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 720px) { .ba-grid { grid-template-columns: 1fr; } }
+.ba-col {
+  background: var(--paper); border: 1.5px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink); padding: 18px;
+  position: relative;
+}
+.ba-col::before {
+  content: attr(data-label);
+  position: absolute; top: -10px; left: 14px;
+  background: var(--ink); color: var(--paper);
+  padding: 2px 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 2px;
+}
+.ba-col.after-col::before { background: var(--riso-red); }
+.ba-meta { display:flex; gap:6px; align-items:baseline; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-soft); }
+.ba-meta span { letter-spacing: 1.4px; }
+.ba-meta b { color: var(--ink); margin-right: 12px; font-weight: 700; }
+.ba-total {
+  margin: 12px 0 14px; padding: 10px 12px;
+  background: var(--paper-2);
+  border: 1px dashed var(--ink);
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  display:flex; justify-content: space-between; align-items: baseline;
+}
+.ba-total b { font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; color: var(--ink); }
+.ba-delta { color: var(--riso-red); font-family: 'Fraunces', serif; font-style: italic; font-weight: 900; font-size: 18px; }
+.ba-steps { display:flex; flex-direction: column; gap: 8px; max-height: 360px; overflow:auto; padding-right: 4px; }
+.ba-step {
+  background: var(--paper); border: 1.5px solid var(--ink);
+  padding: 8px 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+}
+.ba-step-head { color: var(--riso-red); font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
+.ba-action { color: var(--ink); word-break: break-all; }
+.ba-result { color: var(--ink-soft); margin-top: 2px; font-size: 10.5px; }
+.ba-reward { float:right; font-family: 'Fraunces', serif; font-style: italic; font-weight: 900; }
+.ba-reward.pos { color: var(--riso-blue); }
+.ba-reward.neg { color: var(--riso-red); }
+
+/* ── Judged round ────────────────────────────────────────── */
+.judged-wrap {
+  background: var(--paper); border: 1.5px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink); padding: 22px;
+}
+.jr-head {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 1.6px;
+  color: var(--ink); margin-bottom: 6px;
+}
+.jr-head b { color: var(--riso-red); font-family: 'Fraunces', serif; font-style: italic; font-weight: 900; font-size: 22px; }
+.jr-reason { font-size: 13px; color: var(--ink-soft); margin-bottom: 16px; max-width: 760px; }
+.jr-pitches { display: grid; gap: 10px; margin-bottom: 16px; }
+.pitch {
+  background: var(--paper-2); border: 1.5px solid var(--ink);
+  padding: 10px 14px;
+  position: relative;
+}
+.pitch.pitch-win { border-color: var(--riso-red); box-shadow: 4px 4px 0 var(--riso-red); }
+.pitch-head { display:flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.pitch-lab {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1.6px;
+  background: var(--ink); color: var(--paper); padding: 2px 8px;
+}
+.pitch.pitch-win .pitch-lab { background: var(--riso-red); }
+.pitch-score {
+  font-family: 'Fraunces', serif; font-style: italic; font-weight: 900; font-size: 16px; color: var(--ink);
+}
+.pitch-text { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--ink); }
+.pitch-bar {
+  margin-top: 8px; height: 6px; background: var(--paper); border: 1px solid var(--ink);
+}
+.pitch-bar span { display:block; height: 100%; background: var(--ink); }
+.pitch.pitch-win .pitch-bar span { background: var(--riso-red); }
+.jr-breakdown { display:flex; flex-wrap:wrap; gap: 10px; padding-top: 12px; border-top: 1.5px dashed var(--ink); }
+.rb-item {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-soft);
+  background: var(--paper-2); border: 1px solid var(--ink); padding: 4px 8px;
+}
+.rb-item b { color: var(--ink); }
+
+/* ── SFT sample ──────────────────────────────────────────── */
+.sft-wrap {
+  background: var(--paper); border: 1.5px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink); padding: 22px;
+}
+.sft-meta {
+  display:flex; flex-wrap:wrap; gap: 6px 14px; margin-bottom: 12px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-soft);
+}
+.sft-meta b { color: var(--ink); margin-right: 10px; }
+.sft-role {
+  display:inline-block; margin: 14px 0 4px;
+}
+.sft-role span {
+  background: var(--ink); color: var(--paper);
+  font-family: 'JetBrains Mono', monospace;
+  padding: 3px 10px; font-size: 10.5px; letter-spacing: 1.6px;
+}
+.sft-pre {
+  background: var(--paper-2);
+  border: 1.5px dashed var(--ink);
+  padding: 12px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 320px;
+  overflow: auto;
+}
+.sft-pre.sft-asst { border-color: var(--riso-red); background: rgba(255,59,48,.06); }
+
+/* ── Downloads grid ──────────────────────────────────────── */
+.dl-grid {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.dl-card {
+  display:block; text-decoration:none; color: var(--ink);
+  background: var(--paper); border: 1.5px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  padding: 14px 16px;
+  transition: transform .14s ease, box-shadow .14s ease, background .14s ease;
+}
+.dl-card:hover { transform: translate(-3px,-3px); box-shadow: 7px 7px 0 var(--riso-red); background: var(--paper-2); }
+.dl-row { display:flex; justify-content: space-between; align-items: baseline; gap:8px; }
+.dl-label { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12.5px; }
+.dl-size {
+  font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+  background: var(--ink); color: var(--paper);
+  padding: 2px 8px;
+}
+.dl-desc { font-family: 'Inter', sans-serif; font-size: 12.5px; color: var(--ink-soft); margin-top: 6px; }
+.dl-cta {
+  margin-top: 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1.6px;
+  color: var(--riso-red);
+}
+
 /* ── Reduced motion ──────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -947,6 +1363,8 @@ footer a:hover { color: var(--paper); }
     <div class="stat-card"><div class="stat-value">12</div><div class="stat-label">Action Types</div></div>
     <div class="stat-card"><div class="stat-value">10</div><div class="stat-label">Reward Signals</div></div>
     <div class="stat-card"><div class="stat-value">6</div><div class="stat-label">Baseline Policies</div></div>
+    <div class="stat-card"><div class="stat-value" id="stat-eps">180</div><div class="stat-label">Train Episodes</div></div>
+    <div class="stat-card"><div class="stat-value" id="stat-final">0.45</div><div class="stat-label">Final Eval Reward</div></div>
     <div class="stat-card"><div class="stat-value" id="stat-health">…</div><div class="stat-label">API Status</div></div>
     <div class="stat-card"><div class="stat-value">0.81</div><div class="stat-label">Expert Reward (Hard)</div></div>
   </div>
@@ -1002,16 +1420,54 @@ footer a:hover { color: var(--paper); }
 <div class="section fade-up d3">
 <div class="wrap">
   <p class="section-label">Evaluation Results</p>
-  <p class="section-title">Baseline Policy Performance (10 Seeds)</p>
+  <p class="section-title">Baseline Policy Performance · with Std-Dev Whiskers</p>
   <div class="chart-wrap">
+    <div class="split-row">
+      <span class="split-label">SPLIT</span>
+      <button class="split-tab active" data-split="train">Training seeds</button>
+      <button class="split-tab"        data-split="holdout">Holdout seeds</button>
+    </div>
     <div class="chart-tabs">
       <button class="chart-tab active" data-task="single_trade">Easy — Single Trade</button>
       <button class="chart-tab"        data-task="market_round">Medium — Market Round</button>
       <button class="chart-tab"        data-task="coalition_market">Hard — Coalition Market</button>
     </div>
-    <canvas id="baselineCanvas"></canvas>
+    <canvas id="baselineCanvas" style="height:260px;display:block;width:100%;"></canvas>
     <div class="legend" id="legend"></div>
   </div>
+</div>
+</div>
+
+<!-- ══════════ TRAINING PROGRESS ══════════ -->
+<div class="section fade-up d3">
+<div class="wrap">
+  <p class="section-label">Training Trajectory</p>
+  <p class="section-title">Reward Progress · 180 Episodes</p>
+  <div class="progress-wrap">
+    <canvas id="progressCanvas"></canvas>
+    <div class="legend" id="progressLegend" style="margin-top:14px;"></div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════ BEFORE / AFTER ══════════ -->
+<div class="section fade-up d3">
+<div class="wrap">
+  <p class="section-label">Qualitative Evidence</p>
+  <p class="section-title">Before vs After Training · Same Task &amp; Seed</p>
+  <div class="ba-grid">
+    <div class="ba-col" data-label="Before Training" id="baBefore"></div>
+    <div class="ba-col after-col" data-label="After Training" id="baAfter"></div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════ JUDGED ROUND ══════════ -->
+<div class="section fade-up d4">
+<div class="wrap">
+  <p class="section-label">Judge Mode</p>
+  <p class="section-title">Judged Negotiation · Round 0 Pitches</p>
+  <div class="judged-wrap" id="judgedBox"></div>
 </div>
 </div>
 
@@ -1061,6 +1517,24 @@ footer a:hover { color: var(--paper); }
     <div class="action-card"><div class="action-name">wait</div><div class="action-desc">Pass the turn; useful when watching market shocks.</div></div>
     <div class="action-card"><div class="action-name">finish</div><div class="action-desc">Signal episode end; triggers final settlement.</div></div>
   </div>
+</div>
+</div>
+
+<!-- ══════════ SFT SAMPLE ══════════ -->
+<div class="section fade-up d4">
+<div class="wrap">
+  <p class="section-label">SFT Dataset</p>
+  <p class="section-title">One Training Sample · Chat Format</p>
+  <div class="sft-wrap" id="sftBox"></div>
+</div>
+</div>
+
+<!-- ══════════ ARTIFACTS / DOWNLOADS ══════════ -->
+<div class="section fade-up d4">
+<div class="wrap">
+  <p class="section-label">Artifacts &amp; Downloads</p>
+  <p class="section-title">Every File · Served from this Space</p>
+  <div class="dl-grid" id="downloadsGrid"></div>
 </div>
 </div>
 
@@ -1235,50 +1709,50 @@ function inkStamp(text, x, y) {
   setTimeout(() => s.remove(), 700);
 }
 
-// ── Baseline data (from artifacts/baseline_eval.json summary) ───────────────
-const BASELINE = {
-  single_trade: {
-    always_accept:          0.0587,
-    base_instruct_naive:    0.0771,
-    greedy_hoarder:         0.0587,
-    no_negotiation:         0.0587,
-    random_validish:        0.0747,
-    rule_based_expert:      0.2623,
-  },
-  market_round: {
-    always_accept:          0.2725,
-    base_instruct_naive:   -0.0069,
-    greedy_hoarder:         0.0286,
-    no_negotiation:         0.0286,
-    random_validish:        0.1595,
-    rule_based_expert:      0.4845,
-  },
-  coalition_market: {
-    always_accept:          0.3722,
-    base_instruct_naive:   -0.0355,
-    greedy_hoarder:         0.0995,
-    no_negotiation:         0.0995,
-    random_validish:        0.1709,
-    rule_based_expert:      0.8149,
-  },
+// ── Live data injected by the server at render time ────────────────────────
+const APP_DATA = __APP_DATA_PAYLOAD__;
+const BASELINE_RICH = APP_DATA && APP_DATA.baseline ? APP_DATA.baseline : {};
+const HOLDOUT_RICH  = APP_DATA && APP_DATA.holdout  ? APP_DATA.holdout  : {};
+
+function _flatBaseline(rich) {
+  const out = {};
+  for (const task of Object.keys(rich || {})) {
+    out[task] = {};
+    for (const pol of Object.keys(rich[task] || {})) {
+      const v = rich[task][pol];
+      out[task][pol] = (v && typeof v === 'object') ? (v.mean_reward ?? 0) : v;
+    }
+  }
+  return out;
+}
+
+const _FALLBACK_BASELINE = {
+  single_trade:     { always_accept: 0.0587, base_instruct_naive: 0.0771, greedy_hoarder: 0.0587, no_negotiation_allocator: 0.0587, random_validish: 0.0747, rule_based_expert: 0.2623 },
+  market_round:     { always_accept: 0.2725, base_instruct_naive: -0.0069, greedy_hoarder: 0.0286, no_negotiation_allocator: 0.0286, random_validish: 0.1595, rule_based_expert: 0.4845 },
+  coalition_market: { always_accept: 0.3722, base_instruct_naive: -0.0355, greedy_hoarder: 0.0995, no_negotiation_allocator: 0.0995, random_validish: 0.1709, rule_based_expert: 0.8149 },
 };
 
+const BASELINE = Object.keys(BASELINE_RICH).length ? _flatBaseline(BASELINE_RICH) : _FALLBACK_BASELINE;
+const HOLDOUT  = Object.keys(HOLDOUT_RICH).length  ? _flatBaseline(HOLDOUT_RICH)  : null;
+
 const POLICY_COLORS = {
-  rule_based_expert:   '#1234ff',
-  always_accept:       '#ff3b30',
-  random_validish:     '#f7c548',
-  base_instruct_naive: '#6a4cff',
-  greedy_hoarder:      '#0fa991',
-  no_negotiation:      '#3a3530',
+  rule_based_expert:        '#1234ff',
+  always_accept:            '#ff3b30',
+  random_validish:          '#f7c548',
+  base_instruct_naive:      '#6a4cff',
+  greedy_hoarder:           '#0fa991',
+  no_negotiation_allocator: '#3a3530',
+  no_negotiation:           '#3a3530',
 };
 
 const POLICY_LABELS = {
-  rule_based_expert:   'Rule-Based Expert',
-  always_accept:       'Always Accept',
-  random_validish:     'Random Valid',
-  base_instruct_naive: 'Base Instruct Naive',
-  greedy_hoarder:      'Greedy Hoarder',
-  no_negotiation:      'No-Negotiation Alloc.',
+  rule_based_expert:        'Rule-Based Expert',
+  always_accept:            'Always Accept',
+  random_validish:          'Random Valid',
+  base_instruct_naive:      'Base Instruct Naive',
+  greedy_hoarder:           'Greedy Hoarder',
+  no_negotiation_allocator: 'No-Negotiation Alloc.',
+  no_negotiation:           'No-Negotiation Alloc.',
 };
 
 // ── Demo transcript (from artifacts/demo_transcript.md) ─────────────────────
@@ -1348,11 +1822,17 @@ function drawBaseline(taskKey) {
 
   const W = rect.width, H = rect.height;
   const padL = 50, padR = 20, padT = 20, padB = 30;
-  const data = BASELINE[taskKey];
+
+  const richSrc = currentSplit === 'holdout' ? HOLDOUT_RICH : BASELINE_RICH;
+  const useRich = richSrc && richSrc[taskKey];
+  const flatSrc = currentSplit === 'holdout' ? (HOLDOUT || BASELINE) : BASELINE;
+  const data = flatSrc[taskKey] || {};
   const policies = Object.keys(data);
-  const values = Object.values(data);
-  const minV = Math.min(0, ...values);
-  const maxV = Math.max(...values) * 1.15;
+  const values = policies.map((p) => +data[p] || 0);
+  const stdevs = policies.map((p) => useRich && richSrc[taskKey][p] && typeof richSrc[taskKey][p] === 'object'
+    ? +(richSrc[taskKey][p].stdev_reward || 0) : 0);
+  const minV = Math.min(0, ...values, ...values.map((v, i) => v - stdevs[i]));
+  const maxV = Math.max(...values, ...values.map((v, i) => v + stdevs[i])) * 1.15 || 1;
   const range = maxV - minV;
   const gW = W - padL - padR;
   const gH = H - padT - padB;
@@ -1403,11 +1883,23 @@ function drawBaseline(taskKey) {
     ctx.lineWidth = 1.5;
     ctx.strokeRect(x - barW/2, barY, barW, barH);
 
+    // Stdev whisker (if available)
+    const sd = stdevs[i] || 0;
+    if (sd > 0 && range > 0) {
+      const yTop = padT + gH - (Math.min(maxV, v + sd) - minV) / range * gH;
+      const yBot = padT + gH - (Math.max(minV, v - sd) - minV) / range * gH;
+      ctx.strokeStyle = '#0c0a08';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(x, yTop); ctx.lineTo(x, yBot); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x - 6, yTop); ctx.lineTo(x + 6, yTop); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x - 6, yBot); ctx.lineTo(x + 6, yBot); ctx.stroke();
+    }
+
     // Value label (ink)
     ctx.fillStyle = '#0c0a08';
     ctx.font = `bold 11px 'JetBrains Mono', monospace`;
     ctx.textAlign = 'center';
-    ctx.fillText(v.toFixed(3), x, v >= 0 ? barY - 6 : barY + barH + 14);
+    ctx.fillText(v.toFixed(3), x, v >= 0 ? barY - 8 : barY + barH + 14);
   });
 
   // Legend
@@ -1594,45 +2086,298 @@ document.getElementById('runBtn').addEventListener('click', async () => {
   inkStamp('Settled', r.left + r.width / 2, r.top + r.height / 2);
 });
 
-// ── Artifact transcript ────────────────────────────────────────────────────────
-const TRANSCRIPT = [
-  { task: 'coalition_market', seed: 5, policy: 'rule_based_expert', cumulative: 1.3412, steps: [
-    { action: '{"action_type":"accept_offer","offer_id":"o_1"}', result: 'Accepted offer o_1.', reward: 0.1097, cum: 0.1097 },
-    { action: '{"action_type":"reject_offer","offer_id":"o_2"}', result: 'Rejected offer o_2.', reward: 0.0080, cum: 0.1177 },
-    { action: '{"action_type":"reject_offer","offer_id":"o_3"}', result: 'Rejected offer o_3.', reward: 0.0080, cum: 0.1257 },
-    { action: '{"action_type":"accept_offer","offer_id":"o_7"}', result: 'Accepted offer o_7.', reward: 0.1205, cum: 0.2462 },
-    { action: '{"action_type":"allocate_to_job","block_ids":["b_0_1","b_1_0"],"job_id":"j_0_1"}', result: 'Allocated capacity to j_0_1.', reward: 0.1910, cum: 0.4372 },
-    { action: '{"action_type":"allocate_to_job","block_ids":["b_4_0"],"job_id":"j_0_2"}',         result: 'Allocated capacity to j_0_2.', reward: 0.1910, cum: 0.6282 },
-    { action: '{"action_type":"form_coalition","target_lab_id":"lab_2","message":"shared capacity for urgent deadlines"}', result: 'Created coalition c_1.', reward: 0.1280, cum: 0.7562 },
-    { action: '{"action_type":"accept_offer","offer_id":"o_8"}', result: 'Accepted offer o_8.', reward: 0.1660, cum: 0.9222 },
-    { action: '{"action_type":"allocate_to_job","block_ids":["b_2_2"],"job_id":"j_0_surge_8"}', result: 'Final settlement.', reward: 0.2280, cum: 1.3412 },
-  ]}
+// ── Artifact transcript (real demo_transcript.md) ─────────────────────────
+const DEMO_STEPS = (APP_DATA && APP_DATA.demo) ? APP_DATA.demo : [];
+const DEMO_FALLBACK = [
+  { action: '{"action_type":"accept_offer","offer_id":"o_1"}', result: 'Accepted offer o_1.', reward: 0.1097, cum: 0.1097 },
+  { action: '{"action_type":"reject_offer","offer_id":"o_2"}', result: 'Rejected offer o_2.', reward: 0.008,  cum: 0.1177 },
+  { action: '{"action_type":"reject_offer","offer_id":"o_3"}', result: 'Rejected offer o_3.', reward: 0.008,  cum: 0.1257 },
+  { action: '{"action_type":"accept_offer","offer_id":"o_7"}', result: 'Accepted offer o_7.', reward: 0.1205, cum: 0.2462 },
+  { action: '{"action_type":"allocate_to_job","block_ids":["b_0_1","b_1_0"],"job_id":"j_0_1"}', result: 'Allocated capacity to j_0_1.', reward: 0.191, cum: 0.4372 },
 ];
+const TRANSCRIPT_STEPS = DEMO_STEPS.length ? DEMO_STEPS : DEMO_FALLBACK;
 
 function renderArtifact() {
-  const t = TRANSCRIPT[0];
   const box = document.getElementById('artifactBox');
-  let html = `<div><span style="color:var(--accent)">task_type:</span> ${t.task} &nbsp;|&nbsp; <span style="color:var(--accent)">seed:</span> ${t.seed} &nbsp;|&nbsp; <span style="color:var(--accent)">policy:</span> ${t.policy} &nbsp;|&nbsp; <span style="color:var(--accent)">final_reward:</span> <span style="color:var(--accent2)">${t.cumulative}</span></div>`;
-  t.steps.forEach((s, i) => {
+  if (!box) return;
+  const cum = TRANSCRIPT_STEPS.length ? TRANSCRIPT_STEPS[TRANSCRIPT_STEPS.length - 1].cum : 0;
+  let html = `<div style="margin-bottom:14px;">
+    <span style="color:var(--accent)">task_type:</span> coalition_market &nbsp;|&nbsp;
+    <span style="color:var(--accent)">seed:</span> 5 &nbsp;|&nbsp;
+    <span style="color:var(--accent)">policy:</span> rule_based_expert &nbsp;|&nbsp;
+    <span style="color:var(--accent)">final_reward:</span> <span style="color:var(--accent2)">${(+cum).toFixed(4)}</span>
+  </div>`;
+  TRANSCRIPT_STEPS.forEach((s, i) => {
     html += `
 <div class="artifact-step-head">── STEP ${i+1} ──────────────────────</div>
 <div class="artifact-action">action  : ${s.action}</div>
 <div class="artifact-result">result  : ${s.result}</div>
-<div class="artifact-reward">reward  : +${s.reward.toFixed(4)} &nbsp; cumulative: ${s.cum.toFixed(4)}</div>`;
+<div class="artifact-reward">reward  : ${s.reward >= 0 ? '+' : ''}${(+s.reward).toFixed(4)} &nbsp; cumulative: ${(+s.cum).toFixed(4)}</div>`;
   });
   box.innerHTML = html;
 }
 renderArtifact();
+
+// ── Train vs Holdout split toggle ─────────────────────────────────────────
+let currentSplit = 'train';
+document.querySelectorAll('.split-tab').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('active')) return;
+    document.querySelectorAll('.split-tab').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentSplit = btn.dataset.split;
+    const t = document.querySelector('.chart-tab.active')?.dataset.task || 'single_trade';
+    drawBaseline(t);
+  });
+});
+
+// ── Training-progress multi-line chart ─────────────────────────────────────
+const PROGRESS = (APP_DATA && APP_DATA.progress) ? APP_DATA.progress : [];
+const PROGRESS_SERIES = [
+  { key: 'agent_reward',    label: 'Agent (training)', color: '#ff3b30', emphasis: true },
+  { key: 'expert_ceiling',  label: 'Expert ceiling',   color: '#1234ff', dashed: true },
+  { key: 'always_accept',   label: 'Always accept',    color: '#0fa991' },
+  { key: 'judge_bonus',     label: 'Judge bonus',      color: '#6a4cff' },
+];
+
+function drawProgress() {
+  const canvas = document.getElementById('progressCanvas');
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width  = rect.width  * dpr;
+  canvas.height = rect.height * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const W = rect.width, H = rect.height;
+  const padL = 50, padR = 18, padT = 18, padB = 32;
+  const gW = W - padL - padR, gH = H - padT - padB;
+
+  ctx.fillStyle = '#ebe3cf'; ctx.fillRect(0, 0, W, H);
+
+  if (!PROGRESS.length) {
+    ctx.fillStyle = '#3a3530';
+    ctx.font = `12px 'JetBrains Mono', monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillText('reward_progress.json not loaded', W/2, H/2);
+    return;
+  }
+
+  const xs = PROGRESS.map((d) => +d.episode);
+  const allVals = [];
+  PROGRESS_SERIES.forEach((s) => PROGRESS.forEach((d) => allVals.push(+d[s.key] || 0)));
+  const minV = Math.min(0, ...allVals);
+  const maxV = Math.max(...allVals) * 1.1 || 1;
+  const range = maxV - minV;
+  const minX = Math.min(...xs), maxX = Math.max(...xs);
+
+  const toX = (e) => padL + ((e - minX) / Math.max(maxX - minX, 1)) * gW;
+  const toY = (v) => padT + gH - ((v - minV) / range) * gH;
+
+  // Grid + Y labels
+  const ticks = 5;
+  for (let i = 0; i <= ticks; i++) {
+    const v = minV + (range / ticks) * i;
+    const y = toY(v);
+    ctx.strokeStyle = 'rgba(12,10,8,.16)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+    ctx.fillStyle = '#3a3530';
+    ctx.font = `10px 'JetBrains Mono', monospace`;
+    ctx.textAlign = 'right';
+    ctx.fillText(v.toFixed(2), padL - 6, y + 4);
+  }
+
+  // X axis episodes
+  ctx.fillStyle = '#3a3530';
+  ctx.textAlign = 'center';
+  const xticks = [minX, Math.round((minX + maxX) / 2), maxX];
+  xticks.forEach((x) => ctx.fillText(`ep ${x}`, toX(x), H - 10));
+
+  // Each series
+  PROGRESS_SERIES.forEach((s) => {
+    ctx.beginPath();
+    PROGRESS.forEach((d, i) => {
+      const x = toX(+d.episode);
+      const y = toY(+d[s.key] || 0);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = s.color;
+    ctx.lineWidth = s.emphasis ? 2.6 : 1.6;
+    if (s.dashed) ctx.setLineDash([6, 5]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    if (s.emphasis) {
+      PROGRESS.forEach((d) => {
+        const x = toX(+d.episode);
+        const y = toY(+d[s.key] || 0);
+        ctx.beginPath(); ctx.arc(x, y, 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = s.color; ctx.fill();
+        ctx.lineWidth = 1.2; ctx.strokeStyle = '#0c0a08'; ctx.stroke();
+      });
+    }
+  });
+
+  // Legend
+  const lg = document.getElementById('progressLegend');
+  if (lg) {
+    lg.innerHTML = PROGRESS_SERIES.map((s) =>
+      `<span class="legend-item"><span class="legend-dot" style="background:${s.color}"></span>${s.label}</span>`
+    ).join('');
+  }
+}
+window.addEventListener('resize', drawProgress);
+setTimeout(drawProgress, 120);
+
+// ── Before/After renderer ────────────────────────────────────────────────
+const BEFORE_AFTER = (APP_DATA && APP_DATA.before_after) ? APP_DATA.before_after : null;
+function renderBeforeAfter() {
+  if (!BEFORE_AFTER) return;
+  const before = BEFORE_AFTER.before || {}, after = BEFORE_AFTER.after || {};
+  const fmt = (s) => s.steps?.map((st, i) => `
+    <div class="ba-step">
+      <div class="ba-step-head">STEP ${i+1}</div>
+      <div class="ba-action">${st.action}</div>
+      <div class="ba-result">${st.result}</div>
+      <div class="ba-reward ${st.reward >= 0 ? 'pos' : 'neg'}">${st.reward >= 0 ? '+' : ''}${(+st.reward).toFixed(4)}</div>
+    </div>`).join('') || '';
+  const beforeBox = document.getElementById('baBefore');
+  const afterBox  = document.getElementById('baAfter');
+  if (beforeBox) {
+    beforeBox.innerHTML = `
+      <div class="ba-meta"><span>policy</span><b>${before.policy || ''}</b></div>
+      <div class="ba-meta"><span>task</span><b>${before.task || ''}</b></div>
+      <div class="ba-meta"><span>seed</span><b>${before.seed || ''}</b></div>
+      <div class="ba-total">Episode reward · <b>${(+(before.reward || 0)).toFixed(4)}</b></div>
+      <div class="ba-steps">${fmt(before)}</div>`;
+  }
+  if (afterBox) {
+    const delta = (+(after.reward || 0)) - (+(before.reward || 0));
+    afterBox.innerHTML = `
+      <div class="ba-meta"><span>policy</span><b>${after.policy || ''}</b></div>
+      <div class="ba-meta"><span>task</span><b>${after.task || ''}</b></div>
+      <div class="ba-meta"><span>seed</span><b>${after.seed || ''}</b></div>
+      <div class="ba-total">Episode reward · <b>${(+(after.reward || 0)).toFixed(4)}</b>
+        <span class="ba-delta">${delta >= 0 ? '+' : ''}${delta.toFixed(4)}</span>
+      </div>
+      <div class="ba-steps">${fmt(after)}</div>`;
+  }
+}
+renderBeforeAfter();
+
+// ── Judged round renderer ────────────────────────────────────────────────
+const JUDGED = (APP_DATA && APP_DATA.judged) ? APP_DATA.judged : null;
+function renderJudged() {
+  const box = document.getElementById('judgedBox');
+  if (!box || !JUDGED || !JUDGED.pitches?.length) return;
+  const scores = JUDGED.scores || {};
+  const winner = JUDGED.winner;
+  const pitches = JUDGED.pitches.map((p) => {
+    const s = scores[p.lab] ?? 0;
+    const isWinner = p.lab === winner;
+    return `
+      <div class="pitch ${isWinner ? 'pitch-win' : ''}">
+        <div class="pitch-head">
+          <span class="pitch-lab">${p.lab}</span>
+          <span class="pitch-score">${(+s).toFixed(3)}${isWinner ? ' · winner' : ''}</span>
+        </div>
+        <div class="pitch-text">${p.pitch}</div>
+        <div class="pitch-bar"><span style="width:${Math.max(0, Math.min(100, (+s) * 100))}%"></span></div>
+      </div>`;
+  }).join('');
+  const breakdown = Object.entries(JUDGED.breakdown || {})
+    .filter(([, v]) => +v !== 0)
+    .map(([k, v]) => `<span class="rb-item">${k}: <b>${(+v).toFixed(4)}</b></span>`)
+    .join('');
+  box.innerHTML = `
+    <div class="jr-head">Round ${JUDGED.round} · Winner: <b>${winner}</b></div>
+    <div class="jr-reason">${JUDGED.reason || ''}</div>
+    <div class="jr-pitches">${pitches}</div>
+    <div class="jr-breakdown">${breakdown || '<span class="rb-item">no nonzero terms</span>'}</div>`;
+}
+renderJudged();
+
+// ── SFT sample renderer ──────────────────────────────────────────────────
+const SFT = (APP_DATA && APP_DATA.sft) ? APP_DATA.sft : null;
+function renderSft() {
+  const box = document.getElementById('sftBox');
+  if (!box || !SFT) return;
+  const safe = (s) => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  box.innerHTML = `
+    <div class="sft-meta">
+      <span>task</span><b>${safe(SFT.task_type)}</b>
+      <span>seed</span><b>${safe(SFT.seed)}</b>
+      <span>round</span><b>${safe(SFT.round_index)}</b>
+    </div>
+    <div class="sft-role"><span>system</span></div>
+    <pre class="sft-pre">${safe(SFT.system)}</pre>
+    <div class="sft-role"><span>user</span></div>
+    <pre class="sft-pre">${safe(SFT.user)}</pre>
+    <div class="sft-role"><span>assistant</span></div>
+    <pre class="sft-pre sft-asst">${safe(SFT.assistant)}</pre>`;
+}
+renderSft();
+
+// ── Downloads grid renderer ──────────────────────────────────────────────
+const DOWNLOADS = (APP_DATA && APP_DATA.downloads) ? APP_DATA.downloads : [];
+function renderDownloads() {
+  const box = document.getElementById('downloadsGrid');
+  if (!box) return;
+  if (!DOWNLOADS.length) { box.innerHTML = '<div class="placeholder">no artifacts found in repo</div>'; return; }
+  box.innerHTML = DOWNLOADS.map((d) => `
+    <a class="dl-card" href="${d.url}" target="_blank" rel="noreferrer">
+      <div class="dl-row">
+        <span class="dl-label">${d.label}</span>
+        <span class="dl-size">${d.size}</span>
+      </div>
+      <div class="dl-desc">${d.desc}</div>
+      <div class="dl-cta">↓ open</div>
+    </a>`).join('');
+}
+renderDownloads();
+
+// ── Headline number override (real training_report.md) ───────────────────
+(function applyHeadline() {
+  const h = APP_DATA && APP_DATA.headline;
+  if (!h) return;
+  const final = document.getElementById('stat-final');
+  if (final && h.final) final.textContent = (+h.final).toFixed(2);
+  const eps = document.getElementById('stat-eps');
+  if (eps && h.episodes) eps.textContent = h.episodes;
+})();
 </script>
 </body>
 </html>
 """
 
 
+def _json_for_script(obj: Any) -> str:
+    """JSON-encode for safe embedding inside a <script> tag."""
+    return (
+        json.dumps(obj, separators=(",", ":"), ensure_ascii=False, default=str)
+        .replace("</", "<\\/")
+        .replace("\u2028", "\\u2028")
+        .replace("\u2029", "\\u2029")
+    )
+
+
+def _render_index_html() -> str:
+    payload = _build_data_payload()
+    return _INDEX_HTML.replace("__APP_DATA_PAYLOAD__", _json_for_script(payload))
+
+
 @app.get("/", response_class=HTMLResponse)
 def index() -> str:
-    """Render the project front-page."""
-    return _INDEX_HTML
+    """Render the project front-page with live artifact data."""
+    return _render_index_html()
+
+
+@app.get("/api/data")
+def api_data() -> dict[str, Any]:
+    """Return the same data payload used by the front-page (JSON)."""
+    return _build_data_payload()
 
 
 @app.get("/health")
