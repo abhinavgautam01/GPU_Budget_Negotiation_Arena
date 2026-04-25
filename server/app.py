@@ -364,9 +364,199 @@ footer a:hover { text-decoration: underline; }
 @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
 .d1 { animation-delay:.1s } .d2 { animation-delay:.25s }
 .d3 { animation-delay:.4s  } .d4 { animation-delay:.55s }
+
+/* ── Theme v2: Aurora Glass (override layer) ─────────────────────────────── */
+:root {
+  --bg: #07060f;
+  --surface: rgba(20, 18, 36, 0.64);
+  --surface-strong: rgba(14, 12, 28, 0.86);
+  --border: rgba(255, 255, 255, 0.15);
+  --text: #eff3ff;
+  --muted: #a0a8c8;
+  --accent: #66f6ff;
+  --accent2: #8f7dff;
+  --accent3: #ff78c6;
+  --accent4: #ffd166;
+  --glass-shadow: 0 16px 50px rgba(5, 8, 28, 0.48);
+}
+
+body {
+  background:
+    radial-gradient(circle at 10% -10%, rgba(102, 246, 255, 0.18), transparent 40%),
+    radial-gradient(circle at 85% 5%, rgba(143, 125, 255, 0.2), transparent 38%),
+    radial-gradient(circle at 50% 120%, rgba(255, 120, 198, 0.16), transparent 48%),
+    linear-gradient(165deg, #07060f 0%, #0b0a18 45%, #120f28 100%);
+  color: var(--text);
+}
+body::before { opacity: .25; }
+body::after {
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  animation: gridDrift 24s linear infinite;
+}
+
+#cursorGlow {
+  position: fixed;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  mix-blend-mode: screen;
+  filter: blur(32px);
+  background: radial-gradient(circle, rgba(102,246,255,.26) 0%, rgba(143,125,255,.12) 45%, rgba(255,120,198,0) 72%);
+  transform: translate(-50%, -50%);
+  opacity: .8;
+}
+
+.wrap { position: relative; z-index: 3; }
+
+header {
+  margin: 22px auto 0;
+  max-width: 1180px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  backdrop-filter: blur(14px);
+  box-shadow: var(--glass-shadow);
+}
+h1 {
+  filter: none;
+  background: linear-gradient(140deg, #b6fbff 0%, #9f8bff 48%, #ff8bd0 100%);
+  text-shadow: 0 8px 28px rgba(143,125,255,.22);
+}
+.tagline { color: #c8d0ef; }
+
+.badge {
+  border-radius: 999px;
+  padding: 6px 14px;
+  letter-spacing: 1.4px;
+}
+
+.section {
+  border-bottom: none;
+  padding: 42px 0;
+}
+
+.stat-card,
+.panel,
+.chart-wrap,
+.reward-item,
+.action-card,
+.api-card,
+.artifact-box {
+  background: linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(10px);
+}
+
+.panel-head, .api-card-head {
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.stat-card::before {
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+}
+
+.stat-card,
+.action-card,
+.api-card,
+.reward-item,
+.panel {
+  transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease;
+}
+
+.stat-card:hover,
+.action-card:hover,
+.api-card:hover,
+.reward-item:hover,
+.panel:hover {
+  transform: translateY(-6px);
+  border-color: rgba(143,125,255,.45);
+  box-shadow: 0 16px 44px rgba(80, 75, 188, 0.35);
+}
+
+.task-btn,
+.chart-tab {
+  border-radius: 999px;
+  border-color: rgba(255,255,255,.18);
+  color: #ced5f3;
+  background: rgba(255,255,255,.02);
+}
+.task-btn.active,
+.task-btn:hover,
+.chart-tab.active,
+.chart-tab:hover {
+  color: #fff;
+  border-color: rgba(102,246,255,.55);
+  background: linear-gradient(120deg, rgba(102,246,255,.2), rgba(143,125,255,.2));
+  box-shadow: 0 0 18px rgba(102,246,255,.2);
+}
+
+.run-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  border-color: rgba(102,246,255,.55);
+  color: #fff;
+  background: linear-gradient(120deg, rgba(102,246,255,.28), rgba(143,125,255,.36), rgba(255,120,198,.3));
+}
+.run-btn::after {
+  content: "";
+  position: absolute;
+  top: -120%;
+  left: -40%;
+  width: 40%;
+  height: 340%;
+  transform: rotate(18deg);
+  background: linear-gradient(to right, transparent, rgba(255,255,255,.42), transparent);
+  transition: left .45s ease;
+}
+.run-btn:hover::after { left: 115%; }
+.run-btn:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 10px 26px rgba(143,125,255,.4);
+}
+
+.transcript, .artifact-box { color: #edf1ff; }
+.t-step {
+  border-left-width: 3px;
+  border-left-color: rgba(255,255,255,.2);
+  background: rgba(255,255,255,.02);
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+.t-step:hover { background: rgba(255,255,255,.045); }
+
+#rewardCanvas, #baselineCanvas {
+  border-radius: 12px;
+  background: rgba(7, 7, 18, 0.5);
+}
+
+.action-name, .panel-title, .reward-name, .endpoint { color: #f4f6ff; }
+.action-desc, .api-desc, .t-result, .artifact-result { color: #b4bcdd; }
+
+footer {
+  border-top: 1px solid rgba(255,255,255,.14);
+  margin-top: 10px;
+}
+
+/* Respect motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
 </style>
 </head>
 <body>
+<div id="cursorGlow" aria-hidden="true"></div>
 
 <!-- ══════════ HEADER ══════════ -->
 <header>
@@ -555,6 +745,34 @@ footer a:hover { text-decoration: underline; }
 </footer>
 
 <script>
+// ── Microinteractions ─────────────────────────────────────────────────────────
+const cursorGlow = document.getElementById('cursorGlow');
+if (cursorGlow && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  window.addEventListener('pointermove', (e) => {
+    cursorGlow.style.left = `${e.clientX}px`;
+    cursorGlow.style.top = `${e.clientY}px`;
+  });
+}
+
+function enableMagnetic(selector, strength = 10) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll(selector).forEach((el) => {
+    el.style.transition = 'transform .22s ease';
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width / 2) / r.width;
+      const y = (e.clientY - r.top - r.height / 2) / r.height;
+      el.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
+    });
+    el.addEventListener('pointerleave', () => {
+      el.style.transform = '';
+    });
+  });
+}
+
+enableMagnetic('.run-btn', 8);
+enableMagnetic('.task-btn, .chart-tab', 5);
+
 // ── Baseline data (from artifacts/baseline_eval.json summary) ───────────────
 const BASELINE = {
   single_trade: {
