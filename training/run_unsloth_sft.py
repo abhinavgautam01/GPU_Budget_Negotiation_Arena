@@ -44,7 +44,7 @@ def main() -> None:
     if not data_path.exists():
         raise FileNotFoundError(f"Missing {data_path}. Run scripts/check_submission.py or build_sft_dataset.py first.")
 
-    dataset = load_dataset("json", data_files=str(data_path), split="train")
+    raw_dataset = load_dataset("json", data_files=str(data_path), split="train")
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=args.model_name,
         max_seq_length=args.max_seq_length,
@@ -57,19 +57,24 @@ def main() -> None:
         target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
     )
 
-    def formatting_func(example: dict[str, object]) -> list[str]:
+    def render_text(example: dict[str, object]) -> dict[str, str]:
         messages = example["messages"]
         if not isinstance(messages, list):
             raise ValueError("Expected each SFT row to contain a messages list.")
-        return [tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)]
+        text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
+        if not isinstance(text, str):
+            raise TypeError("chat template must render to a string")
+        return {"text": text}
+
+    dataset = raw_dataset.map(render_text, remove_columns=raw_dataset.column_names)
 
     trainer_kwargs = {
         "model": model,
         "train_dataset": dataset,
-        "formatting_func": formatting_func,
         "args": SFTConfig(
             output_dir=args.output,
             max_steps=args.max_steps,
+            dataset_text_field="text",
             per_device_train_batch_size=1,
             gradient_accumulation_steps=4,
             learning_rate=2e-4,
