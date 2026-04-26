@@ -1336,7 +1336,7 @@ footer a:hover { color: var(--paper); }
 .jr-progress-label #jrCounter { color: var(--ink); font-weight: 700; }
 .jr-score-trend { color: var(--riso-red); font-family: 'Fraunces', serif; font-style: italic; font-weight: 900; font-size: 16px; letter-spacing: 0; }
 #jrTrendCanvas {
-  width: 100%; height: 60px; display: block;
+  width: 100%; height: 88px; display: block;
   background: var(--paper-2);
   border: 1.5px solid var(--ink);
 }
@@ -2592,11 +2592,34 @@ renderBeforeAfter();
 // ── Judged rounds renderer (with forward / back navigation) ──────────────
 const JUDGED = (APP_DATA && APP_DATA.judged) ? APP_DATA.judged : null;
 const JUDGED_ROUNDS = (JUDGED && Array.isArray(JUDGED.rounds)) ? JUDGED.rounds : [];
+const CONTROLLED_LAB = 'lab_0';
 let _jrIndex = 0;
 
 function _jrWinnerScore(r) {
   if (!r || !r.scores || !r.winner) return 0;
   return +r.scores[r.winner] || 0;
+}
+
+function _jrControlledScore(r) {
+  if (!r || !r.scores) return 0;
+  return +r.scores[CONTROLLED_LAB] || 0;
+}
+
+function _jrBestOpponentScore(r) {
+  if (!r || !r.scores) return 0;
+  let best = 0;
+  for (const [lab, val] of Object.entries(r.scores)) {
+    if (lab === CONTROLLED_LAB) continue;
+    if (+val > best) best = +val;
+  }
+  return best;
+}
+
+function _jrCrossoverIndex() {
+  for (let i = 0; i < JUDGED_ROUNDS.length; i++) {
+    if (JUDGED_ROUNDS[i].winner === CONTROLLED_LAB) return i;
+  }
+  return -1;
 }
 
 function _renderJrRound(idx) {
@@ -2649,10 +2672,11 @@ function _renderJrRound(idx) {
 
   const trend = document.getElementById('jrScoreTrend');
   if (trend) {
-    const first = _jrWinnerScore(JUDGED_ROUNDS[0]);
-    const cur   = _jrWinnerScore(round);
+    const first = _jrControlledScore(JUDGED_ROUNDS[0]);
+    const cur   = _jrControlledScore(round);
     const arrow = cur >= first ? '↗' : '↘';
-    trend.textContent = `${first.toFixed(3)} ${arrow} ${cur.toFixed(3)}`;
+    const wins  = JUDGED_ROUNDS.filter(r => r.winner === CONTROLLED_LAB).length;
+    trend.textContent = `${CONTROLLED_LAB}: ${first.toFixed(3)} ${arrow} ${cur.toFixed(3)} · wins ${wins}/${JUDGED_ROUNDS.length}`;
   }
   _drawJrTrend();
 }
@@ -2669,14 +2693,18 @@ function _drawJrTrend() {
   const W = rect.width, H = rect.height;
   ctx.fillStyle = '#ebe3cf'; ctx.fillRect(0, 0, W, H);
 
-  const padL = 28, padR = 14, padT = 8, padB = 8;
+  const padL = 30, padR = 56, padT = 10, padB = 10;
   const gW = W - padL - padR, gH = H - padT - padB;
-  const scores = JUDGED_ROUNDS.map(_jrWinnerScore);
-  const minV = Math.min(0.5, Math.min(...scores) - 0.02);
-  const maxV = Math.max(1.0, Math.max(...scores) + 0.02);
+
+  const ctrl = JUDGED_ROUNDS.map(_jrControlledScore);
+  const opp  = JUDGED_ROUNDS.map(_jrBestOpponentScore);
+  const all  = ctrl.concat(opp);
+  const minV = Math.min(0.45, Math.min(...all) - 0.03);
+  const maxV = Math.max(1.0,  Math.max(...all) + 0.03);
   const range = (maxV - minV) || 1;
 
-  ctx.strokeStyle = 'rgba(12,10,8,.18)';
+  // Gridlines
+  ctx.strokeStyle = 'rgba(12,10,8,.16)';
   ctx.lineWidth = 1;
   for (let i = 0; i <= 2; i++) {
     const y = padT + (gH / 2) * i;
@@ -2691,34 +2719,78 @@ function _drawJrTrend() {
   const toX = (i) => padL + (i / Math.max(JUDGED_ROUNDS.length - 1, 1)) * gW;
   const toY = (v) => padT + gH - ((v - minV) / range) * gH;
 
-  ctx.beginPath();
-  ctx.moveTo(toX(0), toY(0));
-  scores.forEach((v, i) => ctx.lineTo(toX(i), toY(v)));
-  ctx.lineTo(toX(scores.length - 1), toY(0));
-  ctx.closePath();
-  ctx.fillStyle = 'rgba(255,59,48,.10)';
-  ctx.fill();
+  // Highlight crossover round (where lab_0 first wins) with a subtle vertical band
+  const crossover = _jrCrossoverIndex();
+  if (crossover >= 0) {
+    const x = toX(crossover);
+    ctx.fillStyle = 'rgba(18,52,255,.08)';
+    ctx.fillRect(x, padT, (W - padR) - x, gH);
+    ctx.strokeStyle = 'rgba(18,52,255,.45)';
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + gH); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#1234ff';
+    ctx.font = `9px 'JetBrains Mono', monospace`;
+    ctx.textAlign = 'left';
+    ctx.fillText(`lab_0 wins ▶ r${JUDGED_ROUNDS[crossover].round}`, x + 4, padT + 9);
+  }
 
+  // Best-opponent line (red, dashed)
   ctx.beginPath();
-  scores.forEach((v, i) => {
+  opp.forEach((v, i) => {
     const x = toX(i), y = toY(v);
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   });
   ctx.strokeStyle = '#ff3b30';
-  ctx.lineWidth = 2.0;
+  ctx.lineWidth = 1.6;
+  ctx.setLineDash([4, 3]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Controlled lab_0 line (blue, bold) with subtle area fill
+  ctx.beginPath();
+  ctx.moveTo(toX(0), toY(minV));
+  ctrl.forEach((v, i) => ctx.lineTo(toX(i), toY(v)));
+  ctx.lineTo(toX(ctrl.length - 1), toY(minV));
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(18,52,255,.10)';
+  ctx.fill();
+
+  ctx.beginPath();
+  ctrl.forEach((v, i) => {
+    const x = toX(i), y = toY(v);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.strokeStyle = '#1234ff';
+  ctx.lineWidth = 2.2;
   ctx.stroke();
 
-  scores.forEach((v, i) => {
+  // Round dots (lab_0 line)
+  ctrl.forEach((v, i) => {
     const x = toX(i), y = toY(v);
     const isCurrent = i === _jrIndex;
+    const isWinner = JUDGED_ROUNDS[i].winner === CONTROLLED_LAB;
     ctx.beginPath();
     ctx.arc(x, y, isCurrent ? 5 : 2.6, 0, Math.PI * 2);
-    ctx.fillStyle = isCurrent ? '#1234ff' : '#ff3b30';
+    ctx.fillStyle = isCurrent ? '#0c0a08' : (isWinner ? '#1234ff' : '#ebe3cf');
     ctx.fill();
-    ctx.lineWidth = isCurrent ? 1.6 : 1;
-    ctx.strokeStyle = '#0c0a08';
+    ctx.lineWidth = isCurrent ? 1.8 : 1;
+    ctx.strokeStyle = '#1234ff';
     ctx.stroke();
   });
+
+  // Legend (top-right)
+  ctx.textAlign = 'left';
+  ctx.font = `10px 'JetBrains Mono', monospace`;
+  const legendX = W - padR + 4;
+  ctx.fillStyle = '#1234ff';
+  ctx.fillRect(legendX, padT + 2, 10, 2);
+  ctx.fillStyle = '#0c0a08';
+  ctx.fillText('lab_0', legendX + 14, padT + 7);
+  ctx.fillStyle = '#ff3b30';
+  ctx.fillRect(legendX, padT + 16, 10, 2);
+  ctx.fillStyle = '#0c0a08';
+  ctx.fillText('best bot', legendX + 14, padT + 21);
 }
 
 (function _bindJudgedNav() {
