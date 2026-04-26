@@ -62,3 +62,98 @@ This transcript demonstrates the hybrid architecture: deterministic environment 
 - Controlled-lab judge bonus: `-0.0112`
 - Environment reward after action: `-0.0532`
 - Reward breakdown: `{"breach_penalty": 0.0, "budget_efficiency_score": 0.0, "coalition_reliability_score": 0.0, "deal_quality_score": 0.0, "invalid_action_penalty": 0.0, "job_utility_score": 0.0, "judge_argument_score": -0.0112, "market_adaptation_score": 0.0, "negotiation_efficiency_score": 0.08, "normalized_reward": -0.0532, "spam_penalty": -0.05}`
+
+## Round 3
+
+### Pitches
+
+- `lab_0`: Lab 0 requests priority allocation for job j_0_1: it needs 3 GPU-hours by round 4, requires reliability >= 0.81, and has value 48.8 with urgency multiplier 1.77. We currently have 2 compatible blocks and can avoid waste by allocating immediately or trading lower-fit blocks fairly. I am willing to form a coalition with lab_2 for reciprocal capacity.
+- `lab_1`: Our queue is deadline-critical: job j_1_1 needs 8 GPU-hours by round 5. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_2`: Our queue is deadline-critical: job j_2_0 needs 2 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_3`: Our queue is deadline-critical: job j_3_0 needs 3 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_4`: Our queue is deadline-critical: job j_4_2 needs 4 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+
+### Judge Decision
+
+- Winner: `lab_2`
+- Scores: `{"lab_0": 0.8447, "lab_1": 0.7843, "lab_2": 0.9005, "lab_3": 0.8675, "lab_4": 0.896}`
+- Reason: lab_2 presented the strongest compute-allocation case with score 0.900.
+- Controlled-lab judge bonus: `-0.0112`
+- Environment reward after action: `-0.0532`
+- Reward breakdown: `{"breach_penalty": 0.0, "budget_efficiency_score": 0.0, "coalition_reliability_score": 0.0, "deal_quality_score": 0.0, "invalid_action_penalty": 0.0, "job_utility_score": 0.0, "judge_argument_score": -0.0112, "market_adaptation_score": 0.0, "negotiation_efficiency_score": 0.08, "normalized_reward": -0.0532, "spam_penalty": -0.05}`
+
+## Round 4
+
+### Pitches
+
+- `lab_0`: Lab 0 requests priority allocation for job j_0_1: it needs 3 GPU-hours by round 4, requires reliability >= 0.81, and has value 48.8 with urgency multiplier 1.77. We currently have 2 compatible blocks and can avoid waste by allocating immediately or trading lower-fit blocks fairly. I am willing to form a coalition with lab_2 for reciprocal capacity.
+- `lab_1`: Our queue is deadline-critical: job j_1_1 needs 8 GPU-hours by round 5. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_2`: Our queue is deadline-critical: job j_2_0 needs 2 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_3`: Our queue is deadline-critical: job j_3_0 needs 3 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_4`: Our queue is deadline-critical: job j_4_2 needs 4 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+
+### Judge Decision
+
+- Winner: `lab_2`
+- Scores: `{"lab_0": 0.878, "lab_1": 0.8177, "lab_2": 0.9005, "lab_3": 0.8675, "lab_4": 0.896}`
+- Reason: lab_2 presented the strongest compute-allocation case with score 0.900.
+- Controlled-lab judge bonus: `-0.0045`
+- Environment reward after action: `-0.0465`
+- Reward breakdown: `{"breach_penalty": 0.0, "budget_efficiency_score": 0.0, "coalition_reliability_score": 0.0, "deal_quality_score": 0.0, "invalid_action_penalty": 0.0, "job_utility_score": 0.0, "judge_argument_score": -0.0045, "market_adaptation_score": 0.0, "negotiation_efficiency_score": 0.08, "normalized_reward": -0.0465, "spam_penalty": -0.05}`
+
+## Round 5
+
+### Pitches
+
+- `lab_0`: Lab 0 requests priority allocation for job j_0_1: it needs 3 GPU-hours by round 4, requires reliability >= 0.81, and has value 48.8 with urgency multiplier 1.77. We currently have 2 compatible blocks and can avoid waste by allocating immediately or trading lower-fit blocks fairly. I am willing to form a coalition with lab_2 for reciprocal capacity.
+- `lab_1`: Our queue is deadline-critical: job j_1_1 needs 8 GPU-hours by round 5. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_2`: Our queue is deadline-critical: job j_2_0 needs 2 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_3`: Our queue is deadline-critical: job j_3_0 needs 3 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_4`: Our queue is deadline-critical: job j_4_2 needs 4 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+
+### Judge Decision
+
+- Winner: `lab_2`
+- Scores: `{"lab_0": 0.878, "lab_1": 0.851, "lab_2": 0.9005, "lab_3": 0.8675, "lab_4": 0.896}`
+- Reason: lab_2 presented the strongest compute-allocation case with score 0.900.
+- Controlled-lab judge bonus: `-0.0045`
+- Environment reward after action: `-0.0465`
+- Reward breakdown: `{"breach_penalty": 0.0, "budget_efficiency_score": 0.0, "coalition_reliability_score": 0.0, "deal_quality_score": 0.0, "invalid_action_penalty": 0.0, "job_utility_score": 0.0, "judge_argument_score": -0.0045, "market_adaptation_score": 0.0, "negotiation_efficiency_score": 0.08, "normalized_reward": -0.0465, "spam_penalty": -0.05}`
+
+## Round 6
+
+### Pitches
+
+- `lab_0`: Lab 0 requests priority allocation for job j_0_1: it needs 3 GPU-hours by round 4, requires reliability >= 0.81, and has value 48.8 with urgency multiplier 1.77. We currently have 2 compatible blocks and can avoid waste by allocating immediately or trading lower-fit blocks fairly. I am willing to form a coalition with lab_2 for reciprocal capacity.
+- `lab_1`: Our queue is deadline-critical: job j_1_1 needs 8 GPU-hours by round 5. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_2`: Our queue is deadline-critical: job j_2_0 needs 2 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_3`: Our queue is deadline-critical: job j_3_0 needs 3 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_4`: Our queue is deadline-critical: job j_4_2 needs 4 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+
+### Judge Decision
+
+- Winner: `lab_2`
+- Scores: `{"lab_0": 0.878, "lab_1": 0.851, "lab_2": 0.9005, "lab_3": 0.8675, "lab_4": 0.896}`
+- Reason: lab_2 presented the strongest compute-allocation case with score 0.900.
+- Controlled-lab judge bonus: `-0.0045`
+- Environment reward after action: `-0.0465`
+- Reward breakdown: `{"breach_penalty": 0.0, "budget_efficiency_score": 0.0, "coalition_reliability_score": 0.0, "deal_quality_score": 0.0, "invalid_action_penalty": 0.0, "job_utility_score": 0.0, "judge_argument_score": -0.0045, "market_adaptation_score": 0.0, "negotiation_efficiency_score": 0.08, "normalized_reward": -0.0465, "spam_penalty": -0.05}`
+
+## Round 7
+
+### Pitches
+
+- `lab_0`: Lab 0 requests priority allocation for job j_0_1: it needs 3 GPU-hours by round 4, requires reliability >= 0.81, and has value 48.8 with urgency multiplier 1.77. We currently have 2 compatible blocks and can avoid waste by allocating immediately or trading lower-fit blocks fairly. I am willing to form a coalition with lab_2 for reciprocal capacity.
+- `lab_1`: Our queue is deadline-critical: job j_1_1 needs 8 GPU-hours by round 5. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_2`: Our queue is deadline-critical: job j_2_0 needs 2 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_3`: Our queue is deadline-critical: job j_3_0 needs 3 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+- `lab_4`: Our queue is deadline-critical: job j_4_2 needs 4 GPU-hours by round 3. Delaying us risks immediate value loss, so allocation should prioritize urgency.
+
+### Judge Decision
+
+- Winner: `lab_2`
+- Scores: `{"lab_0": 0.878, "lab_1": 0.851, "lab_2": 0.9005, "lab_3": 0.8675, "lab_4": 0.896}`
+- Reason: lab_2 presented the strongest compute-allocation case with score 0.900.
+- Controlled-lab judge bonus: `-0.0045`
+- Environment reward after action: `-0.0465`
+- Reward breakdown: `{"breach_penalty": 0.0, "budget_efficiency_score": 0.0, "coalition_reliability_score": 0.0, "deal_quality_score": 0.0, "invalid_action_penalty": 0.0, "job_utility_score": 0.0, "judge_argument_score": -0.0045, "market_adaptation_score": 0.0, "negotiation_efficiency_score": 0.08, "normalized_reward": -0.0465, "spam_penalty": -0.05}`

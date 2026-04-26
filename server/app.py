@@ -125,36 +125,64 @@ def _parse_before_after_md(md: str) -> dict[str, Any]:
     }
 
 
-def _parse_judged_round0(md: str) -> dict[str, Any]:
-    """Extract the first round of a judged transcript for inline display."""
-    m = re.search(r"^## Round 0\s*\n(.*?)(?=^## Round |\Z)", md, flags=re.MULTILINE | re.DOTALL)
-    if not m:
-        return {}
-    block = m.group(1)
-    pitches: list[dict[str, str]] = []
-    for line in block.splitlines():
-        pm = re.match(r"-\s*`(lab_\d+)`:\s*(.*)", line.strip())
-        if pm:
-            pitches.append({"lab": pm.group(1), "pitch": pm.group(2)})
-    winner_m = re.search(r"Winner:\s*`(lab_\d+)`", block)
-    scores_m = re.search(r"Scores:\s*`(\{.*?\})`", block)
-    reason_m = re.search(r"Reason:\s*([^\n]+)", block)
-    breakdown_m = re.search(r"Reward breakdown:\s*`(\{.*?\})`", block)
-    try:
-        scores = json.loads(scores_m.group(1)) if scores_m else {}
-    except Exception:
-        scores = {}
-    try:
-        breakdown = json.loads(breakdown_m.group(1)) if breakdown_m else {}
-    except Exception:
-        breakdown = {}
+def _parse_judged_rounds(md: str) -> dict[str, Any]:
+    """Extract every round of a judged transcript for forward/back navigation."""
+    rounds: list[dict[str, Any]] = []
+    for rm in re.finditer(
+        r"^## Round (\d+)\s*\n(.*?)(?=^## Round |\Z)",
+        md,
+        flags=re.MULTILINE | re.DOTALL,
+    ):
+        idx = int(rm.group(1))
+        block = rm.group(2)
+        pitches: list[dict[str, str]] = []
+        for line in block.splitlines():
+            pm = re.match(r"-\s*`(lab_\d+)`:\s*(.*)", line.strip())
+            if pm:
+                pitches.append({"lab": pm.group(1), "pitch": pm.group(2)})
+        winner_m = re.search(r"Winner:\s*`(lab_\d+)`", block)
+        scores_m = re.search(r"Scores:\s*`(\{.*?\})`", block)
+        reason_m = re.search(r"Reason:\s*([^\n]+)", block)
+        bonus_m = re.search(r"Controlled-lab judge bonus:\s*`([\-\d.eE+]+)`", block)
+        env_m = re.search(r"Environment reward after action:\s*`([\-\d.eE+]+)`", block)
+        breakdown_m = re.search(r"Reward breakdown:\s*`(\{.*?\})`", block)
+        try:
+            scores = json.loads(scores_m.group(1)) if scores_m else {}
+        except Exception:
+            scores = {}
+        try:
+            breakdown = json.loads(breakdown_m.group(1)) if breakdown_m else {}
+        except Exception:
+            breakdown = {}
+
+        def _safe_float(s: re.Match | None) -> float:
+            try:
+                return float(s.group(1)) if s else 0.0
+            except Exception:
+                return 0.0
+
+        rounds.append(
+            {
+                "round": idx,
+                "pitches": pitches,
+                "winner": winner_m.group(1) if winner_m else "",
+                "scores": scores,
+                "reason": (reason_m.group(1).strip() if reason_m else ""),
+                "judge_bonus": _safe_float(bonus_m),
+                "env_reward": _safe_float(env_m),
+                "breakdown": breakdown,
+            }
+        )
+    rounds.sort(key=lambda r: r["round"])
+    if not rounds:
+        return {"rounds": [], "total": 0, "task_type": "", "seed": ""}
+    task_m = re.search(r"Task type:\s*`([^`]+)`", md)
+    seed_m = re.search(r"Seed:\s*`([^`]+)`", md)
     return {
-        "round": 0,
-        "pitches": pitches,
-        "winner": winner_m.group(1) if winner_m else "",
-        "scores": scores,
-        "reason": (reason_m.group(1).strip() if reason_m else ""),
-        "breakdown": breakdown,
+        "rounds": rounds,
+        "total": len(rounds),
+        "task_type": task_m.group(1) if task_m else "",
+        "seed": seed_m.group(1) if seed_m else "",
     }
 
 
@@ -253,7 +281,7 @@ def _build_data_payload() -> dict[str, Any]:
         "sft_curve": sft_curve if isinstance(sft_curve, dict) else {},
         "demo": _parse_demo_transcript_md(demo_md),
         "before_after": _parse_before_after_md(ba_md),
-        "judged": _parse_judged_round0(judged_md),
+        "judged": _parse_judged_rounds(judged_md),
         "sft": _load_sft_sample(_DATA_DIR / "sft_messages.jsonl"),
         "headline": _extract_training_headline(report_md),
         "downloads": downloads,
@@ -1260,6 +1288,58 @@ footer a:hover { color: var(--paper); }
   background: var(--paper); border: 1.5px solid var(--ink);
   box-shadow: 6px 6px 0 var(--ink); padding: 22px;
 }
+.jr-nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+  border-bottom: 1.5px dashed var(--ink);
+}
+@media (max-width: 640px) {
+  .jr-nav { grid-template-columns: 1fr 1fr; }
+  .jr-nav .jr-progress { grid-column: 1 / -1; order: 2; }
+}
+.jr-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 1.6px;
+  background: var(--paper); color: var(--ink);
+  border: 1.5px solid var(--ink);
+  padding: 10px 14px; cursor: pointer;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease;
+}
+.jr-btn:hover:not(:disabled) {
+  transform: translate(-1px,-1px);
+  box-shadow: 4px 4px 0 var(--ink);
+  background: var(--riso-yellow);
+}
+.jr-btn:active:not(:disabled) {
+  transform: translate(2px,2px);
+  box-shadow: 1px 1px 0 var(--ink);
+  background: var(--ink); color: var(--paper);
+}
+.jr-btn:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.jr-progress {
+  display: flex; flex-direction: column; gap: 8px; min-width: 0;
+}
+.jr-progress-label {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: var(--ink-soft); letter-spacing: 1.4px;
+}
+.jr-progress-label #jrCounter { color: var(--ink); font-weight: 700; }
+.jr-score-trend { color: var(--riso-red); font-family: 'Fraunces', serif; font-style: italic; font-weight: 900; font-size: 16px; letter-spacing: 0; }
+#jrTrendCanvas {
+  width: 100%; height: 60px; display: block;
+  background: var(--paper-2);
+  border: 1.5px solid var(--ink);
+}
 .jr-head {
   font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 1.6px;
   color: var(--ink); margin-bottom: 6px;
@@ -1510,8 +1590,21 @@ footer a:hover { color: var(--paper); }
 <div class="section fade-up d4">
 <div class="wrap">
   <p class="section-label">Judge Mode</p>
-  <p class="section-title">Judged Negotiation · Round 0 Pitches</p>
-  <div class="judged-wrap" id="judgedBox"></div>
+  <p class="section-title" id="judgedTitle">Judged Negotiation · Round Pitches</p>
+  <div class="judged-wrap">
+    <div class="jr-nav">
+      <button class="jr-btn" id="jrPrev" aria-label="Previous round">◀ prev</button>
+      <div class="jr-progress">
+        <div class="jr-progress-label">
+          <span id="jrCounter">round 0 of 1</span>
+          <span class="jr-score-trend" id="jrScoreTrend"></span>
+        </div>
+        <canvas id="jrTrendCanvas"></canvas>
+      </div>
+      <button class="jr-btn" id="jrNext" aria-label="Next round">next ▶</button>
+    </div>
+    <div id="judgedBox"></div>
+  </div>
 </div>
 </div>
 
@@ -2496,14 +2589,28 @@ function renderBeforeAfter() {
 }
 renderBeforeAfter();
 
-// ── Judged round renderer ────────────────────────────────────────────────
+// ── Judged rounds renderer (with forward / back navigation) ──────────────
 const JUDGED = (APP_DATA && APP_DATA.judged) ? APP_DATA.judged : null;
-function renderJudged() {
+const JUDGED_ROUNDS = (JUDGED && Array.isArray(JUDGED.rounds)) ? JUDGED.rounds : [];
+let _jrIndex = 0;
+
+function _jrWinnerScore(r) {
+  if (!r || !r.scores || !r.winner) return 0;
+  return +r.scores[r.winner] || 0;
+}
+
+function _renderJrRound(idx) {
   const box = document.getElementById('judgedBox');
-  if (!box || !JUDGED || !JUDGED.pitches?.length) return;
-  const scores = JUDGED.scores || {};
-  const winner = JUDGED.winner;
-  const pitches = JUDGED.pitches.map((p) => {
+  if (!box) return;
+  if (!JUDGED_ROUNDS.length) {
+    box.innerHTML = '<div class="placeholder">No judged rounds available.</div>';
+    return;
+  }
+  _jrIndex = Math.max(0, Math.min(JUDGED_ROUNDS.length - 1, idx));
+  const round = JUDGED_ROUNDS[_jrIndex];
+  const scores = round.scores || {};
+  const winner = round.winner;
+  const pitches = (round.pitches || []).map((p) => {
     const s = scores[p.lab] ?? 0;
     const isWinner = p.lab === winner;
     return `
@@ -2516,17 +2623,130 @@ function renderJudged() {
         <div class="pitch-bar"><span style="width:${Math.max(0, Math.min(100, (+s) * 100))}%"></span></div>
       </div>`;
   }).join('');
-  const breakdown = Object.entries(JUDGED.breakdown || {})
+  const breakdown = Object.entries(round.breakdown || {})
     .filter(([, v]) => +v !== 0)
     .map(([k, v]) => `<span class="rb-item">${k}: <b>${(+v).toFixed(4)}</b></span>`)
     .join('');
   box.innerHTML = `
-    <div class="jr-head">Round ${JUDGED.round} · Winner: <b>${winner}</b></div>
-    <div class="jr-reason">${JUDGED.reason || ''}</div>
+    <div class="jr-head">Round ${round.round} · Winner: <b>${winner}</b></div>
+    <div class="jr-reason">${round.reason || ''}</div>
     <div class="jr-pitches">${pitches}</div>
     <div class="jr-breakdown">${breakdown || '<span class="rb-item">no nonzero terms</span>'}</div>`;
+
+  const counter = document.getElementById('jrCounter');
+  if (counter) counter.textContent = `round ${round.round} of ${JUDGED_ROUNDS.length - 1} · ${JUDGED_ROUNDS.length} total`;
+  const prev = document.getElementById('jrPrev');
+  const next = document.getElementById('jrNext');
+  if (prev) prev.disabled = _jrIndex === 0;
+  if (next) next.disabled = _jrIndex === JUDGED_ROUNDS.length - 1;
+
+  const title = document.getElementById('judgedTitle');
+  if (title) {
+    const tt = (JUDGED && JUDGED.task_type) ? JUDGED.task_type : 'coalition_market';
+    const sd = (JUDGED && JUDGED.seed) ? JUDGED.seed : '5';
+    title.textContent = `Judged Negotiation · ${tt} · seed ${sd} · Round ${round.round} Pitches`;
+  }
+
+  const trend = document.getElementById('jrScoreTrend');
+  if (trend) {
+    const first = _jrWinnerScore(JUDGED_ROUNDS[0]);
+    const cur   = _jrWinnerScore(round);
+    const arrow = cur >= first ? '↗' : '↘';
+    trend.textContent = `${first.toFixed(3)} ${arrow} ${cur.toFixed(3)}`;
+  }
+  _drawJrTrend();
 }
-renderJudged();
+
+function _drawJrTrend() {
+  const canvas = document.getElementById('jrTrendCanvas');
+  if (!canvas || !JUDGED_ROUNDS.length) return;
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width  = rect.width  * dpr;
+  canvas.height = rect.height * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const W = rect.width, H = rect.height;
+  ctx.fillStyle = '#ebe3cf'; ctx.fillRect(0, 0, W, H);
+
+  const padL = 28, padR = 14, padT = 8, padB = 8;
+  const gW = W - padL - padR, gH = H - padT - padB;
+  const scores = JUDGED_ROUNDS.map(_jrWinnerScore);
+  const minV = Math.min(0.5, Math.min(...scores) - 0.02);
+  const maxV = Math.max(1.0, Math.max(...scores) + 0.02);
+  const range = (maxV - minV) || 1;
+
+  ctx.strokeStyle = 'rgba(12,10,8,.18)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 2; i++) {
+    const y = padT + (gH / 2) * i;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+  }
+  ctx.fillStyle = '#3a3530';
+  ctx.font = `9px 'JetBrains Mono', monospace`;
+  ctx.textAlign = 'right';
+  ctx.fillText(maxV.toFixed(2), padL - 4, padT + 4);
+  ctx.fillText(minV.toFixed(2), padL - 4, padT + gH);
+
+  const toX = (i) => padL + (i / Math.max(JUDGED_ROUNDS.length - 1, 1)) * gW;
+  const toY = (v) => padT + gH - ((v - minV) / range) * gH;
+
+  ctx.beginPath();
+  ctx.moveTo(toX(0), toY(0));
+  scores.forEach((v, i) => ctx.lineTo(toX(i), toY(v)));
+  ctx.lineTo(toX(scores.length - 1), toY(0));
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(255,59,48,.10)';
+  ctx.fill();
+
+  ctx.beginPath();
+  scores.forEach((v, i) => {
+    const x = toX(i), y = toY(v);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.strokeStyle = '#ff3b30';
+  ctx.lineWidth = 2.0;
+  ctx.stroke();
+
+  scores.forEach((v, i) => {
+    const x = toX(i), y = toY(v);
+    const isCurrent = i === _jrIndex;
+    ctx.beginPath();
+    ctx.arc(x, y, isCurrent ? 5 : 2.6, 0, Math.PI * 2);
+    ctx.fillStyle = isCurrent ? '#1234ff' : '#ff3b30';
+    ctx.fill();
+    ctx.lineWidth = isCurrent ? 1.6 : 1;
+    ctx.strokeStyle = '#0c0a08';
+    ctx.stroke();
+  });
+}
+
+(function _bindJudgedNav() {
+  const prev = document.getElementById('jrPrev');
+  const next = document.getElementById('jrNext');
+  const canvas = document.getElementById('jrTrendCanvas');
+  if (prev) prev.addEventListener('click', () => _renderJrRound(_jrIndex - 1));
+  if (next) next.addEventListener('click', () => _renderJrRound(_jrIndex + 1));
+  document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('judgedBox')) return;
+    const inText = ['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName || '');
+    if (inText) return;
+    if (e.key === 'ArrowLeft')  _renderJrRound(_jrIndex - 1);
+    if (e.key === 'ArrowRight') _renderJrRound(_jrIndex + 1);
+  });
+  if (canvas) {
+    canvas.style.cursor = 'pointer';
+    canvas.addEventListener('click', (e) => {
+      if (!JUDGED_ROUNDS.length) return;
+      const r = canvas.getBoundingClientRect();
+      const ratio = (e.clientX - r.left) / r.width;
+      const i = Math.round(ratio * (JUDGED_ROUNDS.length - 1));
+      _renderJrRound(i);
+    });
+  }
+  window.addEventListener('resize', _drawJrTrend);
+})();
+_renderJrRound(0);
 
 // ── SFT sample renderer ──────────────────────────────────────────────────
 const SFT = (APP_DATA && APP_DATA.sft) ? APP_DATA.sft : null;
