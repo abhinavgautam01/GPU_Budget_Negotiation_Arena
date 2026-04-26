@@ -257,6 +257,7 @@ _DOWNLOADS = [
     ("sft_loss_curve.svg", "/plots/sft_loss_curve.svg", _PLOT_DIR / "sft_loss_curve.svg", "Static SFT loss-curve plot · vector"),
     ("trained_llm_vs_baselines.svg", "/plots/trained_llm_vs_baselines.svg", _PLOT_DIR / "trained_llm_vs_baselines.svg", "Static trained-LLM bar chart · vector"),
     ("grpo_reward_curve.svg", "/plots/grpo_reward_curve.svg", _PLOT_DIR / "grpo_reward_curve.svg", "Static GRPO reward curve · vector"),
+    ("training_dashboard.svg", "/plots/training_dashboard.svg", _PLOT_DIR / "training_dashboard.svg", "Six-panel SFT → GRPO training dashboard · vector"),
     ("reward_progress.json", "/plots/reward_progress.json", _PLOT_DIR / "reward_progress.json", "Training-progress timeseries"),
     ("sft_messages.jsonl", "/data/sft_messages.jsonl", _DATA_DIR / "sft_messages.jsonl", "SFT chat-formatted dataset"),
     ("sft_traces.jsonl", "/data/sft_traces.jsonl", _DATA_DIR / "sft_traces.jsonl", "SFT raw trace records"),
@@ -1292,6 +1293,22 @@ footer a:hover { color: var(--paper); }
 }
 .tl-meta b { color: var(--ink); }
 
+/* ── Training dashboard (combined SFT + GRPO panels) ───── */
+.dash-wrap {
+  background: #ffffff;
+  border: 1.5px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+  padding: 14px;
+  margin-top: 6px;
+}
+.dash-svg { width: 100%; height: auto; display: block; }
+.dash-meta {
+  margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: var(--ink-soft);
+}
+.dash-meta a { color: var(--ink); border-bottom: 1px dotted var(--ink-soft); }
+.dash-meta a:hover { border-bottom-color: var(--ink); }
+
 /* ── Before / After ──────────────────────────────────────── */
 .ba-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 @media (max-width: 720px) { .ba-grid { grid-template-columns: 1fr; } }
@@ -1667,6 +1684,32 @@ footer a:hover { color: var(--paper); }
     <div class="legend" id="grpoCurveLegend" style="margin-top:14px;"></div>
   </div>
   <div class="sft-curve-note" id="grpoCurveNote"></div>
+</div>
+</div>
+
+<!-- ══════════ TRAINING DYNAMICS DASHBOARD ══════════ -->
+<div class="section fade-up d3">
+<div class="wrap">
+  <p class="section-label">Training Dynamics · One-Glance Overview</p>
+  <p class="section-title">SFT → GRPO Training Dashboard</p>
+  <p class="section-sub" style="margin:-6px 0 18px; max-width:820px; color:#3a3530;">
+    Both training stages on a single page. Top row tracks the live GRPO loop —
+    pure environment reward, JSON format compliance, and within-batch reward
+    spread. Bottom row tracks the SFT pass that warm-started GRPO — combined
+    reward trajectory, training loss (log scale), and the
+    resumed-from-checkpoint LR schedule (two cosine phases, joined where the
+    earlier crash recovered). All six panels are generated directly from
+    <code>artifacts/grpo_training_curve.json</code> and
+    <code>artifacts/sft_training_curve.json</code> — no synthetic data.
+  </p>
+  <div class="dash-wrap">
+    <object data="/plots/training_dashboard.svg" type="image/svg+xml" class="dash-svg" aria-label="SFT to GRPO training dashboard">
+      <a href="/plots/training_dashboard.svg">training_dashboard.svg</a>
+    </object>
+  </div>
+  <div class="dash-meta">
+    Vector source · <a href="/plots/training_dashboard.svg" target="_blank" rel="noopener">plots/training_dashboard.svg</a>
+  </div>
 </div>
 </div>
 
