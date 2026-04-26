@@ -1,0 +1,103 @@
+{
+  "tasks": [
+    "single_trade",
+    "market_round",
+    "coalition_market"
+  ],
+  "rows": [
+    {
+      "policy": "rule_based_expert",
+      "label": "Rule expert (ceiling)",
+      "single_trade_mean": 0.2035,
+      "single_trade_stdev": 0.034,
+      "market_round_mean": 0.526,
+      "market_round_stdev": 0.1754,
+      "coalition_market_mean": 0.6238,
+      "coalition_market_stdev": 0.1245,
+      "overall_mean": 0.4511
+    },
+    {
+      "policy": "always_accept",
+      "label": "Always-accept bot",
+      "single_trade_mean": 0.1711,
+      "single_trade_stdev": 0.0763,
+      "market_round_mean": 0.4001,
+      "market_round_stdev": 0.1227,
+      "coalition_market_mean": 0.2266,
+      "coalition_market_stdev": 0.1074,
+      "overall_mean": 0.2659
+    },
+    {
+      "policy": "trained_llm_sft",
+      "label": "trained_llm_sft",
+      "single_trade_mean": 0.1642,
+      "single_trade_stdev": 0.0983,
+      "market_round_mean": 0.189,
+      "market_round_stdev": 0.1272,
+      "coalition_market_mean": 0.4162,
+      "coalition_market_stdev": 0.4068,
+      "overall_mean": 0.2565
+    },
+    {
+      "policy": "greedy_hoarder",
+      "label": "Greedy hoarder",
+      "single_trade_mean": 0.1572,
+      "single_trade_stdev": 0.0595,
+      "market_round_mean": 0.1921,
+      "market_round_stdev": 0.0738,
+      "coalition_market_mean": 0.0825,
+      "coalition_market_stdev": 0.3663,
+      "overall_mean": 0.1439
+    },
+    {
+      "policy": "no_negotiation_allocator",
+      "label": "Allocator only",
+      "single_trade_mean": 0.1572,
+      "single_trade_stdev": 0.0595,
+      "market_round_mean": 0.1921,
+      "market_round_stdev": 0.0738,
+      "coalition_market_mean": 0.0825,
+      "coalition_market_stdev": 0.3663,
+      "overall_mean": 0.1439
+    },
+    {
+      "policy": "random_validish",
+      "label": "Random valid",
+      "single_trade_mean": 0.0805,
+      "single_trade_stdev": 0.0526,
+      "market_round_mean": 0.1865,
+      "market_round_stdev": 0.0157,
+      "coalition_market_mean": 0.1103,
+      "coalition_market_stdev": 0.0755,
+      "overall_mean": 0.1258
+    },
+    {
+      "policy": "base_instruct_naive",
+      "label": "Naive instruct",
+      "single_trade_mean": 0.0775,
+      "single_trade_stdev": 0.014,
+      "market_round_mean": -0.0065,
+      "market_round_stdev": 0.014,
+      "coalition_market_mean": -0.0953,
+      "coalition_market_stdev": 0.142,
+      "overall_mean": -0.0081
+    },
+    {
+      "policy": "base_instruct_llm",
+      "label": "Base Llama (untrained)",
+      "single_trade_mean": 0.0495,
+      "single_trade_stdev": 0.0118,
+      "market_round_mean": -0.0505,
+      "market_round_stdev": 0.0118,
+      "coalition_market_mean": -0.2805,
+      "coalition_market_stdev": 0.0118,
+      "overall_mean": -0.0938
+    }
+  ],
+  "trained_policies": [
+    "trained_llm_sft"
+  ],
+  "parse_failure_rate": 0.5059,
+  "model_path": "artifacts/sft-checkpoint",
+  "base_model": "unsloth/Llama-3.2-3B-Instruct"
+}

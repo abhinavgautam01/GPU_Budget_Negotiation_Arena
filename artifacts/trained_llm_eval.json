@@ -1,0 +1,848 @@
+{
+  "summary": {
+    "single_trade": {
+      "base_instruct_llm": {
+        "mean_reward": 0.0495,
+        "stdev_reward": 0.0118,
+        "episodes": 5,
+        "min_reward": 0.0309,
+        "max_reward": 0.0642
+      },
+      "trained_llm_sft": {
+        "mean_reward": 0.1642,
+        "stdev_reward": 0.0983,
+        "episodes": 5,
+        "min_reward": 0.0858,
+        "max_reward": 0.3576
+      }
+    },
+    "market_round": {
+      "base_instruct_llm": {
+        "mean_reward": -0.0505,
+        "stdev_reward": 0.0118,
+        "episodes": 5,
+        "min_reward": -0.0691,
+        "max_reward": -0.0358
+      },
+      "trained_llm_sft": {
+        "mean_reward": 0.189,
+        "stdev_reward": 0.1272,
+        "episodes": 5,
+        "min_reward": -0.0233,
+        "max_reward": 0.3278
+      }
+    },
+    "coalition_market": {
+      "base_instruct_llm": {
+        "mean_reward": -0.2805,
+        "stdev_reward": 0.0118,
+        "episodes": 5,
+        "min_reward": -0.2991,
+        "max_reward": -0.2658
+      },
+      "trained_llm_sft": {
+        "mean_reward": 0.4162,
+        "stdev_reward": 0.4068,
+        "episodes": 5,
+        "min_reward": -0.3086,
+        "max_reward": 0.8729
+      }
+    }
+  },
+  "episodes": [
+    {
+      "task_type": "single_trade",
+      "seed": 0,
+      "policy": "trained_llm_sft",
+      "steps": 3,
+      "episode_reward": 0.0858,
+      "final_reward": 0.1642,
+      "reward_trace": [
+        0.1216,
+        -0.1,
+        0.1642
+      ],
+      "action_types": [
+        "allocate_to_job",
+        "form_coalition",
+        "form_coalition"
+      ],
+      "wait_actions": 0,
+      "wall_seconds": 10.582
+    },
+    {
+      "task_type": "market_round",
+      "seed": 0,
+      "policy": "trained_llm_sft",
+      "steps": 5,
+      "episode_reward": 0.308,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1096,
+        -0.1,
+        0.1624,
+        0.128,
+        0.008
+      ],
+      "action_types": [
+        "accept_offer",
+        "accept_offer",
+        "allocate_to_job",
+        "form_coalition",
+        "finish"
+      ],
+      "wait_actions": 0,
+      "wall_seconds": 7.047
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 0,
+      "policy": "trained_llm_sft",
+      "steps": 9,
+      "episode_reward": 0.3209,
+      "final_reward": 0.138,
+      "reward_trace": [
+        0.1099,
+        -0.1,
+        -0.1,
+        0.1204,
+        0.1163,
+        0.1162,
+        0.1201,
+        -0.1,
+        0.138
+      ],
+      "action_types": [
+        "accept_offer",
+        "accept_offer",
+        "accept_offer",
+        "accept_offer",
+        "accept_offer",
+        "accept_offer",
+        "accept_offer",
+        "allocate_to_job",
+        "allocate_to_job"
+      ],
+      "wait_actions": 0,
+      "wall_seconds": 13.079
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 1,
+      "policy": "trained_llm_sft",
+      "steps": 3,
+      "episode_reward": 0.3576,
+      "final_reward": 0.1605,
+      "reward_trace": [
+        0.0868,
+        0.1103,
+        0.1605
+      ],
+      "action_types": [
+        "allocate_to_job",
+        "accept_offer",
+        "wait"
+      ],
+      "wait_actions": 1,
+      "wall_seconds": 5.487
+    },
+    {
+      "task_type": "market_round",
+      "seed": 1,
+      "policy": "trained_llm_sft",
+      "steps": 5,
+      "episode_reward": -0.0233,
+      "final_reward": 0.159,
+      "reward_trace": [
+        0.1097,
+        0.008,
+        -0.1,
+        -0.1,
+        0.159
+      ],
+      "action_types": [
+        "accept_offer",
+        "reject_offer",
+        "allocate_to_job",
+        "allocate_to_job",
+        "allocate_to_job"
+      ],
+      "wait_actions": 0,
+      "wall_seconds": 8.803
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 1,
+      "policy": "trained_llm_sft",
+      "steps": 9,
+      "episode_reward": 0.5025,
+      "final_reward": 0.2218,
+      "reward_trace": [
+        0.1097,
+        -0.1,
+        -0.1,
+        0.191,
+        -0.1,
+        0.086,
+        -0.1,
+        0.166,
+        0.2218
+      ],
+      "action_types": [
+        "accept_offer",
+        "accept_offer",
+        "accept_offer",
+        "allocate_to_job",
+        "accept_offer",
+        "accept_offer",
+        "accept_offer",
+        "accept_offer",
+        "form_coalition"
+      ],
+      "wait_actions": 0,
+      "wall_seconds": 12.436
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 2,
+      "policy": "trained_llm_sft",
+      "steps": 3,
+      "episode_reward": 0.1139,
+      "final_reward": 0.1309,
+      "reward_trace": [
+        0.183,
+        -0.1,
+        0.1309
+      ],
+      "action_types": [
+        "allocate_to_job",
+        "form_coalition",
+        "form_coalition"
+      ],
+      "wait_actions": 0,
+      "wall_seconds": 5.066
+    },
+    {
+      "task_type": "market_round",
+      "seed": 2,
+      "policy": "trained_llm_sft",
+      "steps": 5,
+      "episode_reward": 0.3278,
+      "final_reward": 0.008,
+      "reward_trace": [
+        0.1088,
+        -0.1,
+        0.183,
+        0.128,
+        0.008
+      ],
+      "action_types": [
+        "accept_offer",
+        "accept_offer",
+        "allocate_to_job",
+        "form_coalition",
+        "finish"
+      ],
+      "wait_actions": 0,
+      "wall_seconds": 7.338
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 2,
+      "policy": "trained_llm_sft",
+      "steps": 9,
+      "episode_reward": 0.8729,
+      "final_reward": 0.228,
+      "reward_trace": [
+        0.1092,
+        0.008,
+        -0.1,
+        0.1169,
+        0.1186,
+        0.119,
+        0.0211,
+        0.1241,
+        0.228
+      ],
+      "action_types": [
+        "accept_offer",
+        "reject_offer",
+        "accept_offer",
+        "accept_offer",
+        "accept_offer",
+        "accept_offer",
+        "allocate_to_job",
+        "accept_offer",
+        "form_coalition"
+      ],
+      "wait_actions": 0,
+      "wall_seconds": 12.966
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 3,
+      "policy": "trained_llm_sft",
+      "steps": 3,
+      "episode_reward": 0.139,
+      "final_reward": 0.156,
+      "reward_trace": [
+        0.183,
+        -0.1,
+        0.156
+      ],
+      "action_types": [
+        "allocate_to_job",
+        "form_coalition",
+        "form_coalition"
+      ],
+      "wait_actions": 0,
+      "wall_seconds": 4.994
+    },
+    {
+      "task_type": "market_round",
+      "seed": 3,
+      "policy": "trained_llm_sft",
+      "steps": 5,
+      "episode_reward": 0.1928,
+      "final_reward": 0.1651,
+      "reward_trace": [
+        0.1107,
+        -0.1,
+        0.109,
+        0.008,
+        0.1651
+      ],
+      "action_types": [
+        "accept_offer",
+        "accept_offer",
+        "accept_offer",
+        "reject_offer",
+        "allocate_to_job"
+      ],
+      "wait_actions": 0,
+      "wall_seconds": 6.83
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 3,
+      "policy": "trained_llm_sft",
+      "steps": 9,
+      "episode_reward": 0.6935,
+      "final_reward": 0.228,
+      "reward_trace": [
+        0.1103,
+        -0.1,
+        -0.1,
+        0.086,
+        0.191,
+        0.128,
+        0.128,
+        -0.1,
+        0.228
+      ],
+      "action_types": [
+        "accept_offer",
+        "accept_offer",
+        "accept_offer",
+        "accept_offer",
+        "allocate_to_job",
+        "form_coalition",
+        "commit_to_coalition",
+        "allocate_to_job",
+        "accept_offer"
+      ],
+      "wait_actions": 0,
+      "wall_seconds": 13.715
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 4,
+      "policy": "trained_llm_sft",
+      "steps": 3,
+      "episode_reward": 0.1245,
+      "final_reward": 0.1415,
+      "reward_trace": [
+        0.183,
+        -0.1,
+        0.1415
+      ],
+      "action_types": [
+        "allocate_to_job",
+        "form_coalition",
+        "form_coalition"
+      ],
+      "wait_actions": 0,
+      "wall_seconds": 5.322
+    },
+    {
+      "task_type": "market_round",
+      "seed": 4,
+      "policy": "trained_llm_sft",
+      "steps": 5,
+      "episode_reward": 0.1396,
+      "final_reward": 0.1466,
+      "reward_trace": [
+        0.11,
+        -0.1,
+        0.183,
+        -0.1,
+        0.1466
+      ],
+      "action_types": [
+        "accept_offer",
+        "accept_offer",
+        "allocate_to_job",
+        "accept_offer",
+        "accept_offer"
+      ],
+      "wait_actions": 0,
+      "wall_seconds": 6.47
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 4,
+      "policy": "trained_llm_sft",
+      "steps": 9,
+      "episode_reward": -0.3086,
+      "final_reward": 0.1163,
+      "reward_trace": [
+        0.1091,
+        -0.1,
+        -0.1,
+        -0.1,
+        -0.1,
+        0.166,
+        -0.1,
+        -0.1,
+        0.1163
+      ],
+      "action_types": [
+        "accept_offer",
+        "accept_offer",
+        "accept_offer",
+        "allocate_to_job",
+        "allocate_to_job",
+        "accept_offer",
+        "allocate_to_job",
+        "allocate_to_job",
+        "allocate_to_job"
+      ],
+      "wait_actions": 0,
+      "wall_seconds": 16.344
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 0,
+      "policy": "base_instruct_llm",
+      "steps": 3,
+      "episode_reward": 0.0642,
+      "final_reward": 0.1142,
+      "reward_trace": [
+        0.0,
+        0.0,
+        0.1142
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 3,
+      "wall_seconds": 6.199
+    },
+    {
+      "task_type": "market_round",
+      "seed": 0,
+      "policy": "base_instruct_llm",
+      "steps": 5,
+      "episode_reward": -0.0358,
+      "final_reward": 0.1142,
+      "reward_trace": [
+        0.0,
+        0.0,
+        -0.05,
+        -0.05,
+        0.1142
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 5,
+      "wall_seconds": 15.901
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 0,
+      "policy": "base_instruct_llm",
+      "steps": 9,
+      "episode_reward": -0.2658,
+      "final_reward": 0.0842,
+      "reward_trace": [
+        0.0,
+        0.0,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        0.0842
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 9,
+      "wall_seconds": 33.922
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 1,
+      "policy": "base_instruct_llm",
+      "steps": 3,
+      "episode_reward": 0.0548,
+      "final_reward": 0.1048,
+      "reward_trace": [
+        0.0,
+        0.0,
+        0.1048
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 3,
+      "wall_seconds": 8.342
+    },
+    {
+      "task_type": "market_round",
+      "seed": 1,
+      "policy": "base_instruct_llm",
+      "steps": 5,
+      "episode_reward": -0.0452,
+      "final_reward": 0.1048,
+      "reward_trace": [
+        0.0,
+        0.0,
+        -0.05,
+        -0.05,
+        0.1048
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 5,
+      "wall_seconds": 9.585
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 1,
+      "policy": "base_instruct_llm",
+      "steps": 9,
+      "episode_reward": -0.2752,
+      "final_reward": 0.0748,
+      "reward_trace": [
+        0.0,
+        0.0,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        0.0748
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 9,
+      "wall_seconds": 29.449
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 2,
+      "policy": "base_instruct_llm",
+      "steps": 3,
+      "episode_reward": 0.0309,
+      "final_reward": 0.0809,
+      "reward_trace": [
+        0.0,
+        0.0,
+        0.0809
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 3,
+      "wall_seconds": 5.93
+    },
+    {
+      "task_type": "market_round",
+      "seed": 2,
+      "policy": "base_instruct_llm",
+      "steps": 5,
+      "episode_reward": -0.0691,
+      "final_reward": 0.0809,
+      "reward_trace": [
+        0.0,
+        0.0,
+        -0.05,
+        -0.05,
+        0.0809
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 5,
+      "wall_seconds": 14.625
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 2,
+      "policy": "base_instruct_llm",
+      "steps": 9,
+      "episode_reward": -0.2991,
+      "final_reward": 0.0509,
+      "reward_trace": [
+        0.0,
+        0.0,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        0.0509
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 9,
+      "wall_seconds": 35.814
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 3,
+      "policy": "base_instruct_llm",
+      "steps": 3,
+      "episode_reward": 0.056,
+      "final_reward": 0.106,
+      "reward_trace": [
+        0.0,
+        0.0,
+        0.106
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 3,
+      "wall_seconds": 7.099
+    },
+    {
+      "task_type": "market_round",
+      "seed": 3,
+      "policy": "base_instruct_llm",
+      "steps": 5,
+      "episode_reward": -0.044,
+      "final_reward": 0.106,
+      "reward_trace": [
+        0.0,
+        0.0,
+        -0.05,
+        -0.05,
+        0.106
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 5,
+      "wall_seconds": 14.097
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 3,
+      "policy": "base_instruct_llm",
+      "steps": 9,
+      "episode_reward": -0.274,
+      "final_reward": 0.076,
+      "reward_trace": [
+        0.0,
+        0.0,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        0.076
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 9,
+      "wall_seconds": 28.684
+    },
+    {
+      "task_type": "single_trade",
+      "seed": 4,
+      "policy": "base_instruct_llm",
+      "steps": 3,
+      "episode_reward": 0.0415,
+      "final_reward": 0.0915,
+      "reward_trace": [
+        0.0,
+        0.0,
+        0.0915
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 3,
+      "wall_seconds": 6.849
+    },
+    {
+      "task_type": "market_round",
+      "seed": 4,
+      "policy": "base_instruct_llm",
+      "steps": 5,
+      "episode_reward": -0.0585,
+      "final_reward": 0.0915,
+      "reward_trace": [
+        0.0,
+        0.0,
+        -0.05,
+        -0.05,
+        0.0915
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 5,
+      "wall_seconds": 18.89
+    },
+    {
+      "task_type": "coalition_market",
+      "seed": 4,
+      "policy": "base_instruct_llm",
+      "steps": 9,
+      "episode_reward": -0.2885,
+      "final_reward": 0.0615,
+      "reward_trace": [
+        0.0,
+        0.0,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        -0.05,
+        0.0615
+      ],
+      "action_types": [
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait",
+        "wait"
+      ],
+      "wait_actions": 9,
+      "wall_seconds": 35.406
+    }
+  ],
+  "parse_failure_rate": 0.5059,
+  "action_distribution": {
+    "trained_llm_sft": {
+      "accept_offer": 42,
+      "allocate_to_job": 23,
+      "form_coalition": 13,
+      "reject_offer": 3,
+      "finish": 2,
+      "wait": 1,
+      "commit_to_coalition": 1
+    },
+    "base_instruct_llm": {
+      "wait": 85
+    }
+  },
+  "trained_policy_name": "trained_llm_sft",
+  "tasks": [
+    "single_trade",
+    "market_round",
+    "coalition_market"
+  ],
+  "seeds": 5,
+  "temperature": 0.6,
+  "model_path": "artifacts/sft-checkpoint",
+  "base_model": "unsloth/Llama-3.2-3B-Instruct",
+  "load_in_4bit": true,
+  "device": "cuda:0",
+  "base_model_info": {
+    "model_path": "unsloth/Llama-3.2-3B-Instruct",
+    "base_model": "unsloth/Llama-3.2-3B-Instruct",
+    "temperature": 0.6,
+    "load_in_4bit": true,
+    "device": "cuda:0"
+  }
+}
