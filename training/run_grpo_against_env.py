@@ -180,6 +180,17 @@ def main() -> None:
         action="store_true",
         help="Train GRPO from the base model without the SFT LoRA warm start.",
     )
+    parser.add_argument(
+        "--resume-from-checkpoint",
+        default="",
+        help=(
+            "Resume GRPO from a HuggingFace Trainer checkpoint under --output. "
+            "Use the path to a subfolder, e.g. artifacts/grpo-checkpoint/checkpoint-200. "
+            "Or set to 'true' or 'latest' to load the most recent checkpoint in --output. "
+            "Set --max-steps to the *total* step count you want (e.g. you finished at 300 "
+            "and want 200 more grpo updates → use --max-steps 500). "
+        ),
+    )
     args = parser.parse_args()
 
     try:
@@ -303,6 +314,9 @@ def main() -> None:
             )
         return rewards
 
+    # Save often enough that you can resume without losing a long run (also caps disk).
+    _save_steps = max(25, min(100, max(1, args.max_steps // 6)))
+
     grpo_config = GRPOConfig(
         output_dir=args.output,
         max_steps=args.max_steps,
@@ -314,7 +328,7 @@ def main() -> None:
         max_completion_length=args.max_completion_length,
         temperature=args.temperature,
         logging_steps=args.logging_steps,
-        save_steps=max(50, args.max_steps // 2),
+        save_steps=_save_steps,
         report_to=[],
     )
 
@@ -329,7 +343,23 @@ def main() -> None:
     except TypeError:
         trainer = GRPOTrainer(tokenizer=tokenizer, **trainer_kwargs)
 
-    trainer.train()
+    resume: str | bool | None
+    if args.resume_from_checkpoint:
+        v = args.resume_from_checkpoint.strip().lower()
+        if v in ("true", "1", "yes", "latest"):
+            resume = True
+        else:
+            resume = args.resume_from_checkpoint
+            p = Path(resume)
+            if not p.is_dir() or not p.exists():
+                raise FileNotFoundError(
+                    f"--resume-from-checkpoint: not a directory: {resume}\n"
+                    f"  Example: {args.output}/checkpoint-200"
+                )
+    else:
+        resume = None
+
+    trainer.train(resume_from_checkpoint=resume)
     trainer.save_model(args.output)
 
     summary = {
@@ -344,6 +374,7 @@ def main() -> None:
         "started_from": "sft_checkpoint" if use_sft else "base_model",
         "base_model": args.base_model,
         "sft_checkpoint": sft_path if use_sft else None,
+        "resume_from_checkpoint": args.resume_from_checkpoint or None,
         "first_step_mean_reward": round(curve_points[0]["mean_reward"], 4) if curve_points else None,
         "last_step_mean_reward": round(curve_points[-1]["mean_reward"], 4) if curve_points else None,
         "best_step_mean_reward": (
@@ -377,6 +408,7 @@ def main() -> None:
                 "curve": args.curve_output,
                 "plot": args.plot_output,
                 "summary": summary,
+                "resumed_from": args.resume_from_checkpoint or None,
             },
             indent=2,
         )

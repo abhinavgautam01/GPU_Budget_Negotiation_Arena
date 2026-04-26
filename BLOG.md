@@ -1,113 +1,93 @@
-# GPU Budget Negotiation Arena: Training a Llama to Bargain for Compute
+# What happens when you teach an LLM to fight for GPU hours?
 
-Modern AI agents don't just answer questions — they compete for compute, API
-budget, data access, and human attention. There's no benchmark for that. We
-built one, and trained Llama-3.2-3B end-to-end on it: SFT + GRPO against the
-live environment reward. Two of three task means flipped from negative to
-positive.
+Most demos show a model answering questions. This one shows a model **negotiating**—because the next wave of agent systems will not be isolated chatbots. They will share clusters, API budgets, and deadlines with *other* agents that have their own hidden goals.
 
-## The setup
+**GPU Budget Negotiation Arena** is a small, fully implemented world where that future is stress-tested. Five fictional AI labs share one GPU pool the night before a paper deadline. You control one lab. Everyone else is scripted, greedy, or strategic in different ways. The environment does not let you cheat: budgets, block ownership, offers, and coalition deals are enforced on the server. The model can only send structured actions and, optionally, a natural-language pitch that a separate rule-based judge can score for persuasion.
 
-Five fictional AI labs share a single GPU pool just before a paper deadline.
-Each lab has private jobs with hidden value, urgency, reliability requirements,
-and budget. They send offers, counter-offers, reservations, allocations,
-coalition commitments, and (with the optional judge layer) natural-language
-pitches arguing for priority. The trainable lab is `lab_0`. The server is
-authoritative throughout — agents cannot mutate balances, ownership, jobs,
-contracts, or shocks directly. The action layer is typed Pydantic, the state
-machine is enforced in `gpu_budget_arena/env.py`, and a five-file pytest suite
-guards the invariants.
+We trained **Llama-3.2-3B** on this world—first with supervised fine-tuning on expert-style traces, then with **GRPO** (a policy-gradient method from HuggingFace TRL) where the *actual* environment reward, not a proxy, drives the gradient. The headline result is simple to say and hard to fake: on two of the three task tiers, the same base model that **lost** money on average ended up **positive** after SFT, and the overall score moved from about **−0.09** to **+0.26** when compared to the untrained instruct model under identical seeds and tasks.
 
-Three curriculum tasks: `single_trade` (one-on-one), `market_round`
-(multi-lab, multi-round), and `coalition_market` (hard-mode with capacity,
-energy, reliability, and demand shocks plus reputation effects).
+This post is the plain-language story of that project: what we built, how we trained it, what the numbers mean, and where the sharp edges are.
 
-Reward is decomposed into eleven components — job utility, deal quality,
-coalition reliability, judge argument score, budget efficiency, negotiation
-efficiency, market adaptation, plus four explicit penalties (invalid action,
-local repeated action, breach, spam) — so failure modes are visible during
-training instead of hiding inside a single scalar. That decomposition is what
-makes "always accept" an honest opponent rather than a degenerate strategy:
-the spam and breach penalties cap its ceiling.
+---
 
-## What was actually trained
+## The problem we wanted to model
 
-**Stage 1 — Unsloth SFT.** `unsloth/Llama-3.2-3B-Instruct` fine-tuned on
-expert-replay chat traces (`data/sft_messages.jsonl`) for 500 steps over 13
-epochs. Loss fell `1.5356 → 0.0196` (98.7% drop). The trainer's own
-`log_history` is in `artifacts/sft_training_curve.json`; the live Space plots
-it directly. The run survived a mid-training crash and was resumed from
-`checkpoint-120`, which is why the LR schedule on the dashboard shows two
-cosine phases stitched together.
+Classroom negotiation benchmarks often look like “write a contract in English.” That is useful, but it is also familiar: models have seen millions of contract-like documents. **Resource negotiation under private utility** is different. You do not see the other side’s true deadline or the exact value of their job. You see offers, refusals, and sometimes a coalition proposal—and you have to decide whether to hoard GPU blocks, share them, or commit to a joint plan that can fall apart if someone breaks a promise.
 
-**Stage 2 — TRL GRPO against the live environment reward.** The SFT'd LoRA was
-warm-started into `trl.GRPOTrainer` with a custom reward function that
-literally calls `GpuBudgetNegotiationEnv.step(action).reward + format_bonus`
-on each sampled completion (parse penalty if the JSON is malformed). 300
-training steps × 4 completions per step over 85 replayed env observations
-spanning every task. Per-batch mean reward climbed `0.031 → 0.1595` with a
-peak of `0.233` mid-run. The full curve is in
-`artifacts/grpo_training_curve.json`. There is no surrogate reward, no learned
-reward model, and no proxy — every gradient comes from the env's own scalar.
+We wanted an environment where:
 
-**Stage 3 — Live policy rollout vs every scripted baseline.** The SFT model
-was wrapped via `gpu_budget_arena/llm_policy.py`, plugged in as `lab_0`, and
-rolled out across 5 seeds × 3 tasks against six scripted baselines and the
-untrained base Llama. Per-task results:
+- **Strategic depth** grows across three curriculum stages: a simple bilateral trade, a multi-lab “market” round, and a “coalition market” with shocks, reputation, and harder coordination.
+- **Gaming the score** is hard: we split reward into many named components (utility, deal quality, coalition reliability, budget efficiency, and several penalties) so a single cheap trick does not look like “winning” without being exposed elsewhere.
+- **The server is the source of truth**: agents propose actions; the simulator validates and updates state. No prompt injection into “balance sheets.”
 
-| Task | Base Llama | SFT-trained Llama | Δ |
-|---|---:|---:|---:|
-| `single_trade` | `0.0495` | `0.1642` | `+0.115` (3.3×) |
-| `market_round` | `−0.0505` | `0.1890` | `+0.240` (sign flip) |
-| `coalition_market` | `−0.2805` | `0.4162` | `+0.697` (sign flip) |
-| **overall** | `−0.0938` | `+0.2565` | `+0.350` |
+That design lives mostly in one serious module, `gpu_budget_arena/env.py`, with typed Pydantic actions and a reward breakdown you can read in the code or in the OpenEnv-style manifest.
 
-That puts the trained Llama 3rd of 8 evaluated policies — ahead of every
-scripted bot except the always-accept opportunist (`0.266` overall) and the
-hand-authored rule expert (`0.451`, the structural ceiling). Always-accept
-beats us on a single scalar but loses unambiguously on `coalition_market`,
-under the judge layer, and on coalition reliability. The full discussion is
-in `JUDGE_QA.md` Q4.
+---
 
-## The hybrid judge layer
+## What you actually *do* in the arena
 
-A frozen rule-based judge (`gpu_budget_arena/judge.py`) scores natural-language
-pitches on five axes: urgency, evidence, reliability, fairness, and coalition
-value. Crucially, the deterministic env reward stays primary — the judge
-contributes a bounded bonus, never the dominant signal. This is the inverse
-of most LLM-judge benchmarks where nondeterministic judging is the only reward
-source. The 20-round judged-negotiation transcript in
-`artifacts/judged_transcript.md` shows `lab_0` overtaking the deadline-pressured
-`lab_2` at round 6 and winning 14 of 20 rounds.
+You are **lab_0**. On each turn you can do things that real negotiators do in miniature: send an offer, counter, reserve capacity, withdraw, allocate blocks to a job, try to form or honor a coalition, send free text, or wait. The action space is finite but not trivial—enough that “always say yes to everything” is a real baseline, and so is a hand-tuned rule expert that knows the mechanics.
 
-## Reproducibility
+The three task types ramp difficulty:
 
-The lightweight CPU baseline (REINFORCE-style policy selector, `0.1217 →
-0.4490` over 180 episodes) reproduces with `python3 scripts/check_submission.py`
-in roughly 60 seconds, no GPU required. The full SFT + GRPO pipeline runs in
-about an hour on a free Colab T4 from
-`training/GPU_Budget_Negotiation_Arena_Colab.ipynb`. Every artifact the live
-Space renders is committed: `artifacts/sft_training_curve.json`,
-`artifacts/grpo_training_curve.json`, `artifacts/trained_llm_summary.json`,
-`artifacts/before_after_training.md`, `artifacts/judged_transcript.md`,
-`plots/baseline_rewards.svg`, `plots/sft_loss_curve.svg`,
-`plots/grpo_reward_curve.svg`, `plots/trained_llm_vs_baselines.svg`,
-`plots/training_dashboard.svg`. The 5-file pytest suite enforces the
-server-authoritative state contract end-to-end.
+- **`single_trade`** — get your head around offers and one opponent.
+- **`market_round`** — several labs, several rounds, more room to misread the table.
+- **`coalition_market`** — the hard mode: capacity and reliability pressure, and incentives that make solo greed brittle.
 
-## What's next
+We also added an optional **hybrid judge**: a small, frozen rule system that scores short *pitches* for urgency, evidence, reliability, fairness, and coalition value. Important detail: the core environment reward still dominates. The judge adds a *bounded* bonus. We did not want a world where a flaky LLM-judge is the only signal—that would be a different project.
 
-1. Persist the GRPO LoRA across Colab sessions and run it as a live policy
-   to add the fourth column (`trained_llm_grpo`) to the comparison bar chart.
-2. Add OpenAI / Anthropic / Gemini API adapters as alternative `lab_0`
-   policies for direct frontier comparison.
-3. Train a small learned reward model on episode-level judge scores so GRPO
-   can optimise pitch quality, not just env reward.
+---
 
-The core argument the project makes is that this isn't a resource-allocation
-toy. It creates a bench where theory-of-mind behaviour is measurable: the
-agent has to infer incentives from partial observations, decide when to trade
-versus hoard, preserve reputation, and lean on coalitions when shocks make
-solo optimisation brittle. The trained Llama doesn't do all of that
-perfectly — but the gradient is real, the numbers are real, and the
-environment is honest enough to surface where it fails.
+## How we trained the model (for real)
+
+We did not stop at a stub. The pipeline is **SFT first, then GRPO**, and both stages touch real LLM weights.
+
+**Supervised fine-tuning (Unsloth, 4-bit).** We generated chat-formatted trajectories from the simulator—expert and scripted play rolled into a JSONL in the same “system / user / assistant” shape the model sees at inference. We fine-tuned a LoRA on top of `unsloth/Llama-3.2-3B-Instruct` for 500 steps over 13 epochs. Loss went from about **1.54** to about **0.02**. That is not “we drew a line on a whiteboard”—the curve is extracted from the actual trainer state and lives in the repo as `artifacts/sft_training_curve.json` (and a matching plot the Space can show). Like many Colab stories, the run also survived a hiccup: we resumed from an intermediate checkpoint once, so if you look at the learning-rate schedule on the dashboard, you can see a second cosine “segment.” That is not a bug; it is a real interrupted run, honestly represented.
+
+**GRPO against the live environment.** For the second stage we used TRL’s `GRPOTrainer`. The trick is how reward is defined: for each training prompt, we replay the world to a specific observation, sample several completions from the model, parse each as a JSON action, and feed it through **`GpuBudgetNegotiationEnv.step`**. The reward is the same scalar the game uses in deployment (plus a small format bonus, minus a parse penalty for garbage). So we are not training against a second network that *approximates* the world—we are training against the world’s own function, for better or worse, up to the usual sampling noise.
+
+Over 300 steps with four rollouts per step on dozens of fixed prompts, the *mean* per-batch reward rose from a low start (around **0.03**) to about **0.16** on average, with a higher spike mid-run. The JSON summary and the SVG curve are in `artifacts/grpo_training_curve.json` and `plots/grpo_reward_curve.svg`.
+
+**Evaluation.** After SFT, we ran the model as a full policy: same seeds and tasks for the untrained base model and for our adapter, so the comparison is apples-to-apples. The bar chart in the repo (`plots/trained_llm_vs_baselines.svg`) and the table (`artifacts/trained_llm_summary.json`) are the evidence bundle.
+
+---
+
+## The numbers, in one breath
+
+Comparing the **SFT adapter** to the **untrained** instruct model on the same rollouts (five seeds, three task types, full episodes):
+
+- **`market_round`**: from slightly negative to clearly positive (a sign flip in mean reward).
+- **`coalition_market`**: from strongly negative to strongly positive—this is the line we are proudest of, because the hard tier is where naive behavior dies.
+- **Overall**: the trained model sits **third out of eight** policies we evaluated—behind a one-line “always accept” bot on a single average scalar and behind a hand-authored rule expert that was written to exploit the environment’s mechanics. It beats the random-ish strategies, the greedy baselines, and, crucially, the *same* base LLama before training.
+
+The honest part: **always-accept** still edges us on one aggregate number. We do not hide that. It is a structural ceiling: say yes, grab whatever is offered, and you look good on a single headline average until you look at *which* subscores collapse—coalition breaking under stress, or zero credit under the pitch judge. The write-up in `JUDGE_QA.md` walks through that tradeoff line by line.
+
+---
+
+## What else ships besides training curves
+
+- A **lightweight CPU training path** (selector over scripted policies) that proves the reward signal is learnable without a GPU—useful for CI and for intuition.
+- **55 pytest tests** across the environment, baselines, API shape, and training artifacts so refactors do not quietly break the contract.
+- A **Hugging Face Space** that does not need you to read JSON by hand: tables, SVG plots, and links into the key files, plus HTTP endpoints for reset/step if you want to talk to the env programmatically.
+- A **~60 second** one-command script and an even shorter `instant_demo.py` that print headline numbers and run one real episode on CPU, so a reviewer can feel the simulator without a GPU.
+- A **Colab notebook** that strings clone → data generation → SFT → eval → GRPO → final artifacts in one pass for anyone with a T4 and patience.
+
+We keep large weight folders out of git on purpose: Spaces and GitHub are happier with code and metrics; the adapter typically lives on Google Drive (or your own storage) and you point the eval scripts at it.
+
+---
+
+## What we would do next
+
+**More GRPO** (or a longer schedule) to chase down parse errors—the model still fails to emit valid JSON on a meaningful fraction of steps, and a fallback action is a blunt instrument. **Live inference on the Space** with an L4 so visitors can play one lab as the trained model without Colab. **Frontier API baselines** as another lab, if we want a clean comparison to the best public chat models. And maybe a *small* learned component for long-horizon pitch quality—*after* the core env reward is stable.
+
+---
+
+## The bottom line
+
+GPU Budget Negotiation Arena is a bet that **resource contention between agents** deserves the same kind of rigor as question answering. We built a simulator with teeth, put an actual Llama through SFT and GRPO on top of it, and published the numbers and plots so you can argue with the results instead of the slide deck.
+
+If you only remember one thing: **we did not train against a hand-wavy reward.** We trained against the same stepwise reward the environment uses in deployment. The model is not perfect, but the gradient is not fake—and the hard tier is where that distinction actually shows up.
+
+*Live Space:* [abhinavgautam01/gpu-budget-negotiation-arena on Hugging Face](https://huggingface.co/spaces/abhinavgautam01/gpu-budget-negotiation-arena)  
+*Code:* [GitHub: GPU_Budget_Negotiation_Arena](https://github.com/abhinavgautam01/GPU_Budget_Negotiation_Arena)  
+*Deeper spec:* see `README.md` and `SPEC.md`; judge prep and Q&A: `JUDGE_QA.md`, `PITCH.md`, `MENTOR_PREP.md`.

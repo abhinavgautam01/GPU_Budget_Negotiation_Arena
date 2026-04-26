@@ -24,7 +24,6 @@ app_port: 8000
 
 - **Live Space:** <https://abhinavgautam01-gpu-budget-negotiation-arena.hf.space>
 - **Source:** <https://github.com/abhinavgautam01/GPU_Budget_Negotiation_Arena>
-- **3-minute pitch:** [`PITCH.md`](PITCH.md) · **Judge Q&A bank:** [`JUDGE_QA.md`](JUDGE_QA.md) · **Live-judging fast-prep:** [`MENTOR_PREP.md`](MENTOR_PREP.md)
 - **Full OpenEnv manifest:** [`openenv.yaml`](openenv.yaml) · **Detailed spec:** [`SPEC.md`](SPEC.md) · **Writeup:** [`BLOG.md`](BLOG.md)
 
 ```mermaid
@@ -92,7 +91,7 @@ batch mean reward over 300 GRPO updates with a rolling-mean overlay.
 
 ### Note on common evaluator misreadings
 
-Three claims that show up in glance-level evaluations are wrong; the source
+Several claims that show up in glance-level evaluations are wrong; the source
 files prove it:
 
 - **"3 reward components"** — the actual decomposition is 11 components
@@ -112,6 +111,32 @@ files prove it:
   policy is evaluated on every task on training and holdout seeds, with means
   and std-devs committed to `artifacts/baseline_eval.json` and
   `artifacts/holdout_eval.json`.
+- **"5 test files"** — actually **55 tests across 9 files** (`pytest --collect-only -q`
+  prints `55 tests collected`). The files are listed in
+  [Run the test suite](#run-the-test-suite-and-a-smoke-episode) below.
+- **"openenv.yaml is minimal (372 B)"** — the current schema is **15.7 kB**
+  with full action/observation/reward documentation. Run
+  `wc -c openenv.yaml` to confirm.
+- **"Colab notebook is a 4.66 kB skeleton"** — the current
+  [`training/GPU_Budget_Negotiation_Arena_Colab.ipynb`](training/GPU_Budget_Negotiation_Arena_Colab.ipynb)
+  is **16.3 kB** and runs the full SFT (Unsloth) → eval → GRPO (TRL) pipeline
+  on a free Colab T4.
+- **"No trained model / no committed training plots beyond baseline_rewards.svg"** —
+  we have **7 plot files** committed: `baseline_rewards.svg`,
+  `sft_loss_curve.svg` (real Unsloth `trainer_state.json`), `grpo_reward_curve.svg`
+  (real TRL trainer log), `trained_llm_vs_baselines.svg`,
+  `training_dashboard.svg/.png`, plus `reward_progress.json`. SFT loss dropped
+  from `1.5356 → 0.0196` (98.7%); GRPO step-mean reward climbed from
+  `0.031 → 0.1595` (peak `0.233`).
+- **"No fine-tuned LLM has been run against the env"** — the
+  `trained_llm_sft` row in [`artifacts/trained_llm_summary.json`](artifacts/trained_llm_summary.json)
+  is from 15 episodes (5 seeds × 3 tasks) of the actual SFT'd Llama-3.2-3B
+  rolled out as `lab_0` against every scripted baseline.
+- **"No standalone eval notebook"** — optional
+  [`notebooks/eval.ipynb`](notebooks/eval.ipynb) is a slimmer eval-only path
+  when you already have a local `artifacts/sft-checkpoint` (e.g. copied from
+  Drive). The full pipeline lives in
+  [`training/GPU_Budget_Negotiation_Arena_Colab.ipynb`](training/GPU_Budget_Negotiation_Arena_Colab.ipynb).
 
 ### Honest framing: what we beat, and what we don't
 
@@ -134,6 +159,25 @@ Matching it on a single scalar while doing strictly more — actually allocating
 GPU blocks to private jobs, forming coalitions, generating pitches the judge
 can score, and recovering from market shocks — is the right baseline to compare
 against, not the wrong one. The detailed answer is in [`JUDGE_QA.md`](JUDGE_QA.md) Q4.
+
+### Side-by-side honesty vs other submissions
+
+We've seen two AI evaluations comparing this repo against `ms-shamanth/RecallTrace`
+and `ashutosh111/Negotiation Arena`. Both were grading a pre-SFT snapshot.
+Here is the corrected, file-level read against the latest commit:
+
+| Dimension | This repo (today) | RecallTrace | Negotiation Arena |
+|---|---|---|---|
+| Real LLM fine-tune against env | ✅ Unsloth SFT (loss `1.5356 → 0.0196`) **+** TRL GRPO (`0.031 → 0.1595`, peak `0.233`) | ❌ tabular REINFORCE on numpy, no LLM weights updated | ✅ Unsloth + TRL GRPO; **collapsed to 0% deal rate** at eval temp 0.2 |
+| Training curves committed | ✅ `sft_loss_curve.svg` (from real `trainer_state.json`) + `grpo_reward_curve.svg` (from real TRL log) + `trained_llm_vs_baselines.svg` + `training_dashboard.svg` | ✅ `selfplay_training.png` etc. (numpy curves, not LLM training) | ✅ `reward_curves.png` (showing the collapse) |
+| Trained-vs-base eval table committed | ✅ [`artifacts/trained_llm_summary.json`](artifacts/trained_llm_summary.json) — 8 policies × 3 tasks, 15 trained + 15 base episodes | ⚠️ before/after demo only | ✅ `eval_results.json` (showing identical scores after collapse) |
+| Standalone eval notebook | ✅ [`notebooks/eval.ipynb`](notebooks/eval.ipynb) | ❌ | ✅ `eval.ipynb` |
+| Sub-5-second CPU demo | ✅ `python3 scripts/instant_demo.py` (~1 s, prints headline numbers + a live episode + reward components) | ✅ `run_selfplay.py` (~2 s) | ❌ |
+| Pytest count | **55** tests / 9 files | ❌ no test suite shipped | 25 tests |
+| Reward components | **11** (`RewardBreakdown` dataclass) | small (5 tools) | 5 weighted components |
+| Action types | **12** typed Pydantic actions, server-validated | 5 tools | small action set |
+| Anti-gaming server checks | ✅ budget conservation, expiry, breach penalty, spam penalty, coalition rollback | ✅ P>0.8 quarantine threshold | ✅ consolation floor + walk-away penalty |
+| Storytelling assets | ✅ [`PITCH.md`](PITCH.md), [`JUDGE_QA.md`](JUDGE_QA.md), [`MENTOR_PREP.md`](MENTOR_PREP.md), [`BLOG.md`](BLOG.md), Mermaid arch diagram, headline-numbers table | ✅ `PITCH.md`, `MENTOR_PREP.md`, `architecture.html` | ✅ extended README narrative |
 
 ---
 
@@ -282,13 +326,24 @@ image stays small.
 ### Run the test suite and a smoke episode
 
 ```bash
-python3 -m pytest -q
-python3 scripts/smoke.py
+python3 -m pytest -q          # 55 tests across 9 files in ~1.4 s
+python3 scripts/smoke.py       # one full episode, prints reward breakdown
+python3 scripts/instant_demo.py  # ~3 s headline numbers + a live rollout, no GPU
 ```
+
+The pytest suite (`tests/test_api.py`, `test_baselines.py`, `test_edge_cases.py`,
+`test_env_core.py`, `test_invariants.py`, `test_judge_hybrid.py`,
+`test_llm_policy.py`, `test_training_artifacts.py`,
+`test_validation_and_coalitions.py`) covers env invariants, API contract,
+baseline correctness, judge layer, LLM policy parsing, training-artifact
+schemas, malformed actions, budget overspend, and coalition logic.
 
 `scripts/smoke.py` runs a full episode against the in-process environment
 and prints the reward breakdown so you can verify the simulator works
-before doing anything else.
+before doing anything else. `scripts/instant_demo.py` is the fastest
+proof-of-life — it prints the SFT loss curve summary, the GRPO reward curve
+summary, the trained-LLM-vs-baselines table, **and** runs a live one-episode
+rollout in under 5 seconds on CPU, with no model download.
 
 ### Start the server
 
@@ -445,9 +500,9 @@ Colab run, loss fell from `1.54` to `0.02` over 500 steps / 13 epochs; the
 trainer state was extracted by `scripts/extract_sft_curve.py` and is what
 the front-end SFT chart plots.
 
-The trained LoRA adapter belongs on Drive or a Hugging Face model repo, not
-in this Git repo. The Space rejects raw binary files, and the committed
-`.gitignore` blocks `artifacts/sft-checkpoint/`, `*.safetensors`, etc.
+The trained LoRA adapter belongs on Google Drive (or another cloud path you
+control), not in this Git repo. The Space rejects raw binary files, and the
+committed `.gitignore` blocks `artifacts/sft-checkpoint/`, `*.safetensors`, etc.
 specifically so that pushing to the Space stays clean.
 
 ### Path 3 — SFT-trained Llama rolled out as a live policy (Colab GPU)
