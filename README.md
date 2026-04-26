@@ -36,12 +36,15 @@ and rendered live on the front end. None of these are placeholders.
 | 2 | Real Llama-3.2-3B SFT loss curve from Colab (Unsloth, 500 steps / 13 epochs) | Loss `1.5356 → 0.0196` (`98.72%` drop), extracted from the actual `trainer_state.json` | `artifacts/sft_training_curve.json`, `plots/sft_loss_curve.svg` |
 | 3 | Same-task / same-seed before vs after transcript on `coalition_market` seed `5` | Episode reward `0.1814 → 1.3412` (~7.4x) | `artifacts/before_after_training.md` |
 | 4 | 20-round judged negotiation with a learning curriculum | `lab_0` overtakes the deadline-pressured `lab_2` at round 6 and wins `14 / 20` rounds | `artifacts/judged_transcript.md` |
-| 5 | **Trained Llama-3.2-3B as a live policy** (SFT + GRPO checkpoints) rolled out on every task and seed against every scripted baseline | `artifacts/trained_llm_eval.json` carries per-task means; the row table on the front end ranks the trained columns next to all scripted bots and the rule-expert ceiling | `gpu_budget_arena/llm_policy.py`, `scripts/evaluate_trained_llm.py`, `scripts/plot_trained_vs_baselines.py`, `artifacts/trained_llm_summary.json`, `plots/trained_llm_vs_baselines.svg` |
-| 6 | **Real GRPO loop against the live env reward** (TRL `GRPOTrainer`, `obs.reward + format_bonus` as the reward function — no surrogate) | `artifacts/grpo_training_curve.json` records every batch's mean / max / min reward and parse-failure count, with the rolling mean overlaid in `plots/grpo_reward_curve.svg` | `training/run_grpo_against_env.py`, `artifacts/grpo-checkpoint/`, `plots/grpo_reward_curve.svg` |
+| 5 | **SFT-trained Llama-3.2-3B rolled out as a live policy** on every task and seed against every scripted baseline | Overall mean reward `−0.094 → +0.257` vs the base instruct model; sign flips on `market_round` (`−0.051 → +0.189`) and `coalition_market` (`−0.281 → +0.416`); 3rd of 8 policies, ahead of every scripted bot except always-accept and the hand-authored rule expert | `gpu_budget_arena/llm_policy.py`, `scripts/evaluate_trained_llm.py`, `scripts/plot_trained_vs_baselines.py`, `artifacts/trained_llm_eval.json`, `artifacts/trained_llm_summary.json`, `plots/trained_llm_vs_baselines.svg` |
+| 6 | **Real GRPO loop against the live env reward**, warm-started from the SFT checkpoint above (TRL `GRPOTrainer`, `obs.reward + format_bonus` as the reward function — no surrogate) | Per-batch mean reward climbs `0.031 → 0.1595` over 300 GRPO steps (peak `0.233`, ~5.2× last / 7.5× peak), 4 completions per step on 85 replayed env observations | `training/run_grpo_against_env.py`, `artifacts/grpo_training_curve.json`, `plots/grpo_reward_curve.svg` |
 
-Evidence 5 and 6 are produced by the `training/GPU_Budget_Negotiation_Arena_Colab.ipynb` notebook
-(sections **5–7**). Run them on a Colab T4 in roughly an hour and the artifacts
-flow back into the same paths the front end already reads.
+Evidence 5 and 6 are produced as a **two-stage SFT → GRPO pipeline** by the
+`training/GPU_Budget_Negotiation_Arena_Colab.ipynb` notebook (sections **5–7**):
+Unsloth SFT first warm-starts the LoRA on curated negotiation traces, then TRL's
+`GRPOTrainer` continues training the same LoRA against the live environment
+reward. Run the notebook on a Colab T4 in roughly an hour and the artifacts flow
+back into the same paths the front end already reads.
 
 `plots/baseline_rewards.svg` is the headline plot for evidence 1: the trained
 selector's per-episode curve overlaid against the `always_accept`,
@@ -49,7 +52,9 @@ selector's per-episode curve overlaid against the `always_accept`,
 on a twin axis. It is generated from real rollouts, not a smoke-test stub.
 `plots/trained_llm_vs_baselines.svg` is the headline plot for evidence 5: a
 grouped bar chart, one panel per task, showing every scripted baseline next to
-the trained LLM (SFT) and the GRPO LLM, with std-dev whiskers.
+the SFT-trained Llama and the base (untrained) Llama, with std-dev whiskers.
+`plots/grpo_reward_curve.svg` is the headline plot for evidence 6: per-step
+batch mean reward over 300 GRPO updates with a rolling-mean overlay.
 
 ### Note on common evaluator misreadings
 
@@ -119,17 +124,21 @@ Open the Space and you can step through, in order:
    (`98.72%` drop) on `unsloth/Llama-3.2-3B-Instruct`.
 4. **Trained LLM vs scripted baselines (table).** Reads
    `artifacts/trained_llm_summary.json` and renders a sortable per-task mean
-   reward table with bar widths proportional to score. Trained columns
-   (`trained_llm`, `trained_llm_grpo`) are highlighted in blue and violet next
-   to the rule-expert ceiling in red. Below the table, the static
-   `plots/trained_llm_vs_baselines.svg` shows the same data as a grouped bar
-   chart with std-dev whiskers.
-5. **GRPO reward curve.** Step-by-step batch mean reward from
-   `artifacts/grpo_training_curve.json`, with rolling-mean overlay and the
-   summary stats (`first_step_mean_reward`, `last_step_mean_reward`,
-   `best_step_mean_reward`, prompts evaluated, completions per step). Reward
-   values come from real env steps: `obs.reward + format_bonus` for parseable
-   completions, `parse_penalty` otherwise.
+   reward table with bar widths proportional to score. The SFT-trained Llama
+   row (`trained_llm_sft`) lands at overall mean `+0.257` — third of eight
+   policies — flipping `market_round` from `−0.051` to `+0.189` and
+   `coalition_market` from `−0.281` to `+0.416` versus the same base Llama,
+   highlighted in blue next to the rule-expert ceiling in red. Below the
+   table, the static `plots/trained_llm_vs_baselines.svg` shows the same data
+   as a grouped bar chart with std-dev whiskers.
+5. **GRPO reward curve.** Stage 2 of the pipeline: warm-started from the SFT
+   checkpoint, GRPO updates the LoRA against `GpuBudgetNegotiationEnv.step`'s
+   own reward (no proxy, no learned reward model). The chart plots batch mean
+   reward step-by-step from `artifacts/grpo_training_curve.json`, with a
+   rolling-mean overlay and the summary stats (first step `0.031`, last step
+   `0.1595`, peak `0.233`; 300 steps × 4 completions on 85 replayed env
+   observations). Reward values come from real env steps: `obs.reward +
+   format_bonus` for parseable completions, `parse_penalty` otherwise.
 6. **Before vs after training, same task and seed.** Same `coalition_market`
    seed, untrained vs trained policy, step-by-step rewards. Final episode
    reward improves from `0.1814` to `1.3412`.
@@ -308,33 +317,45 @@ python3 scripts/extract_sft_curve.py \
   --plot-output   plots/sft_loss_curve.svg
 ```
 
-The trained-LLM and GRPO artifacts are produced from the Colab T4 notebook
-because they need a CUDA GPU; the same scripts can be invoked directly:
+The trained-LLM and GRPO artifacts are produced as a two-stage **SFT → GRPO**
+pipeline from the Colab T4 notebook because they need a CUDA GPU; the same
+scripts can be invoked directly:
 
 ```bash
-# 1. Trained-LLM-as-policy evaluation against every scripted baseline.
+# 1. SFT pass — fine-tune the base Llama on the curated negotiation traces.
+python3 training/run_unsloth_sft.py \
+  --base-model unsloth/Llama-3.2-3B-Instruct \
+  --dataset data/sft_messages.jsonl \
+  --output artifacts/sft-checkpoint \
+  --max-steps 500 --num-train-epochs 13 --logging-steps 10
+python3 scripts/extract_sft_curve.py \
+  --trainer-state artifacts/sft-checkpoint/checkpoint-500/trainer_state.json \
+  --curve-output  artifacts/sft_training_curve.json \
+  --plot-output   plots/sft_loss_curve.svg
+
+# 2. Roll out the SFT'd model as a live policy against every scripted baseline.
 python3 scripts/evaluate_trained_llm.py \
   --base-model unsloth/Llama-3.2-3B-Instruct \
   --model-path artifacts/sft-checkpoint \
-  --policy-name trained_llm \
+  --policy-name trained_llm_sft \
   --include-base-model \
   --seeds 5 \
   --output artifacts/trained_llm_eval.json
 
-# 2. Real GRPO against the live env reward.
+# 3. GRPO pass — warm start from the SFT LoRA, optimise on the live env reward.
 python3 training/run_grpo_against_env.py \
   --base-model unsloth/Llama-3.2-3B-Instruct \
   --sft-checkpoint artifacts/sft-checkpoint \
   --output artifacts/grpo-checkpoint \
-  --max-steps 200 --num-generations 4
+  --max-steps 300 --num-generations 4
 
-# 3. Re-run the eval with the GRPO'd weights to add the trained_llm_grpo column.
+# 4. (Optional) re-run the eval with the GRPO'd weights to add a trained_llm_grpo column.
 python3 scripts/evaluate_trained_llm.py \
   --model-path artifacts/grpo-checkpoint \
   --policy-name trained_llm_grpo \
   --output artifacts/trained_llm_grpo_eval.json
 
-# 4. Build the bar chart and the row-format summary the front end renders.
+# 5. Build the bar chart and the row-format summary the front end renders.
 python3 scripts/plot_trained_vs_baselines.py
 ```
 
@@ -373,7 +394,7 @@ in this Git repo. The Space rejects raw binary files, and the committed
 `.gitignore` blocks `artifacts/sft-checkpoint/`, `*.safetensors`, etc.
 specifically so that pushing to the Space stays clean.
 
-### Path 3 — Trained LLM rolled out as a live policy (Colab GPU)
+### Path 3 — SFT-trained Llama rolled out as a live policy (Colab GPU)
 
 `gpu_budget_arena/llm_policy.py` wraps any HF `AutoModelForCausalLM` +
 tokenizer pair as a `Callable[[GpuNegotiationObservation], GpuNegotiationAction]`,
@@ -381,12 +402,27 @@ using the same chat template as the SFT data. `scripts/evaluate_trained_llm.py`
 loads the SFT'd LoRA, plugs it in as `lab_0`, and rolls out full episodes on
 every task and seed. The optional `--include-base-model` flag re-runs the same
 seeds with the *untrained* base Llama so the resulting JSON has both
-`trained_llm` and `base_instruct_llm` rows for a clean before/after column.
+`trained_llm_sft` and `base_instruct_llm` rows for a clean before/after column.
 `scripts/plot_trained_vs_baselines.py` then produces
 `plots/trained_llm_vs_baselines.svg` and `artifacts/trained_llm_summary.json`,
 both of which the front end renders directly.
 
-### Path 4 — Full GRPO against the live env reward (Colab GPU)
+In the committed Colab run, the SFT-trained Llama beats the base instruct
+model on every task and **flips two of three task means from negative to
+positive**:
+
+| Task | Base Llama (untrained) | SFT-trained Llama | Delta |
+|---|---:|---:|---:|
+| `single_trade` | `0.0495` | `0.1642` | `+0.115` (3.3×) |
+| `market_round` | `−0.0505` | `0.1890` | `+0.240` (sign flip) |
+| `coalition_market` | `−0.2805` | `0.4162` | `+0.697` (sign flip) |
+| **overall** | `−0.0938` | `+0.2565` | `+0.350` |
+
+That puts the SFT model **third out of eight** evaluated policies, ahead of
+every scripted bot except the always-accept opportunist and the hand-authored
+rule expert (the structural ceiling).
+
+### Path 4 — Full GRPO against the live env reward, warm-started from the SFT LoRA (Colab GPU)
 
 `training/run_grpo_against_env.py` wires the SFT'd LoRA into TRL's
 `GRPOTrainer` with a custom reward function that *steps the live env* with
@@ -395,12 +431,15 @@ the model's parsed action and returns `obs.reward + format_bonus` (or
 observation reached by advancing the rule-expert for K rounds on a fixed
 `(task_type, seed)`, so prompts span every task, difficulty, and round
 position. GRPO ranks the N completions per prompt and updates the LoRA so
-that high-env-reward completions become more likely. The trainer logs every
-batch's mean / max / min / parse-failure count to
-`artifacts/grpo_training_curve.json` and writes
-`plots/grpo_reward_curve.svg`. After GRPO, re-run `evaluate_trained_llm.py`
-with `--policy-name trained_llm_grpo` to add a second trained column to
-the comparison table.
+that high-env-reward completions become more likely.
+
+The trainer logs every batch's mean / max / min / parse-failure count to
+`artifacts/grpo_training_curve.json` and writes `plots/grpo_reward_curve.svg`.
+In the committed run (300 steps × 4 completions on 85 replayed env
+observations, started from `artifacts/sft-checkpoint`), per-batch mean reward
+climbs from `0.031` at step 1 to `0.1595` at step 300, with a peak of `0.233`
+mid-run — a real reward improvement on top of the SFT pass, on the
+environment's own reward signal.
 
 ---
 

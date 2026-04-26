@@ -1627,8 +1627,16 @@ footer a:hover { color: var(--paper); }
 <!-- ══════════ TRAINED LLM VS BASELINES ══════════ -->
 <div class="section fade-up d3">
 <div class="wrap">
-  <p class="section-label">Reward Improvement Evidence</p>
-  <p class="section-title">Trained LLM vs Scripted Baselines · Mean Episode Reward</p>
+  <p class="section-label">Reward Improvement Evidence · SFT pass</p>
+  <p class="section-title">Trained Llama vs Scripted Baselines · Mean Episode Reward</p>
+  <p class="section-sub" style="margin:-6px 0 18px; max-width:780px; color:#3a3530;">
+    Same Llama-3.2-3B-Instruct backbone, evaluated on 5 seeds × 3 tasks against six scripted policies.
+    After supervised fine-tuning on the curated negotiation traces, the trained Llama
+    <b>flips two of three task means from negative to positive</b> (market_round
+    <code>−0.051 → +0.189</code>, coalition_market <code>−0.281 → +0.416</code>) and lifts the overall
+    mean from <code>−0.094</code> to <code>+0.257</code> — third out of eight policies, ahead of every
+    rule-based scripted bot except always-accept and the hand-authored rule expert.
+  </p>
   <div class="tl-wrap" id="trainedTableWrap">
     <div id="trainedTable"></div>
     <div class="tl-meta" id="trainedTableMeta"></div>
@@ -1644,8 +1652,15 @@ footer a:hover { color: var(--paper); }
 <!-- ══════════ GRPO REWARD CURVE ══════════ -->
 <div class="section fade-up d3">
 <div class="wrap">
-  <p class="section-label">GRPO Against Live Env Reward</p>
+  <p class="section-label">Reward Improvement Evidence · GRPO pass</p>
   <p class="section-title" id="grpoCurveTitle">GRPO Reward Curve</p>
+  <p class="section-sub" style="margin:-6px 0 18px; max-width:780px; color:#3a3530;">
+    Stage 2 of the pipeline: starting from the SFT checkpoint above, we run GRPO against the
+    <b>live environment reward</b> — no proxy, no learned reward model. Each step samples
+    4 completions per prompt and uses <code>GpuBudgetNegotiationEnv.step(action).reward + format_bonus</code>
+    as the scalar return. Mean per-batch reward climbs <b>from 0.031 at step 1 to 0.160 at step 300</b>
+    (peak 0.233), giving an end-to-end SFT-then-GRPO improvement on top of the table above.
+  </p>
   <div class="sft-curve-stats" id="grpoCurveStats"></div>
   <div class="progress-wrap" style="margin-top:18px;">
     <canvas id="grpoCurveCanvas"></canvas>
@@ -2471,11 +2486,13 @@ function _renderSftStats() {
     <div class="sft-stat"><div class="v">${s.logging_steps}</div><div class="l">log every</div></div>
   `;
   if (note) {
-    note.innerHTML = `Source: <b>gpu_budget_negotiation_arena/sft-checkpoint/checkpoint-500/trainer_state.json</b>.
-      Steps 1–120 were trained in an earlier session that crashed (saved under <b>artifacts/sft-checkpoint/checkpoint-120</b>);
-      the run was resumed and finished in <b>sft-checkpoint/checkpoint-500</b>.
-      <i>Hugging Face's Trainer keeps the full <code>log_history</code> in every checkpoint, so the latest one already
-      contains all 50 logged points.</i>`;
+    note.innerHTML = `Source: <b>artifacts/sft-checkpoint/checkpoint-500/trainer_state.json</b>.
+      Steps 1–120 were trained in an earlier session that crashed (saved under
+      <b>artifacts/sft-checkpoint/checkpoint-120</b>); the run resumed and finished in
+      <b>checkpoint-500</b>. <i>Hugging Face's Trainer keeps the full <code>log_history</code>
+      in every checkpoint, so the latest one already contains all 50 logged points.</i>
+      This checkpoint is <b>stage 1</b> of the pipeline — it seeds the SFT-vs-baselines table
+      below and is also the warm start for the GRPO run further down the page.`;
   }
 }
 
@@ -2636,10 +2653,11 @@ setTimeout(drawSftCurve, 140);
 
 // ── Trained LLM vs Baselines (table) ─────────────────────────────────────
 const TRAINED_SUMMARY = (APP_DATA && APP_DATA.trained_summary) ? APP_DATA.trained_summary : null;
-const TRAINED_POLICY_NAMES = ['trained_llm', 'trained_llm_grpo'];
+const TRAINED_POLICY_NAMES = ['trained_llm', 'trained_llm_sft', 'trained_llm_grpo'];
 const TRAINED_LABEL_OVERRIDES = {
-  trained_llm: 'Trained LLM (SFT)',
-  trained_llm_grpo: 'GRPO LLM',
+  trained_llm: 'Trained Llama (SFT)',
+  trained_llm_sft: 'Trained Llama (SFT)',
+  trained_llm_grpo: 'Trained Llama (SFT → GRPO)',
   base_instruct_llm: 'Base Llama (untrained)',
   rule_based_expert: 'Rule expert (ceiling)',
 };
@@ -2720,9 +2738,10 @@ function _renderGrpoStats() {
     box.innerHTML = '';
     if (note) {
       note.innerHTML = `<b>artifacts/grpo_training_curve.json</b> not bundled yet.
-        Run <b>training/run_grpo_against_env.py</b> in the Colab notebook to populate this curve.
-        The reward function uses <code>GpuBudgetNegotiationEnv.step(action).reward</code>
-        directly (no proxy).`;
+        Run <b>training/run_grpo_against_env.py</b> in the Colab notebook to populate this curve —
+        it warm-starts from <b>artifacts/sft-checkpoint</b> and uses
+        <code>GpuBudgetNegotiationEnv.step(action).reward</code> directly as the GRPO reward
+        (no proxy, no reward model).`;
     }
     return;
   }
@@ -2737,10 +2756,15 @@ function _renderGrpoStats() {
     <div class="sft-stat"><div class="v">${s.prompts}</div><div class="l">prompt records</div></div>
   `;
   if (note) {
-    note.innerHTML = `Started from <b>${s.started_from === 'sft_checkpoint' ? 'artifacts/sft-checkpoint' : s.base_model}</b>
-      · format bonus <b>${s.format_bonus}</b> · parse penalty <b>${s.parse_penalty}</b>.
-      Each prompt is a replayed observation; the reward function steps the env with the model's action and
-      returns <code>obs.reward + format_bonus</code>.`;
+    const seed = s.started_from === 'sft_checkpoint'
+      ? `the SFT checkpoint <b>artifacts/sft-checkpoint</b> (the run shown two sections above)`
+      : `<b>${s.base_model}</b>`;
+    note.innerHTML = `Initialised from ${seed} · format bonus <b>${s.format_bonus}</b> ·
+      parse penalty <b>${s.parse_penalty}</b> · ${s.prompts} replayed observations spanning
+      <b>${(s.tasks || []).join(', ')}</b>.
+      Each completion is parsed into an action, fed back through
+      <code>GpuBudgetNegotiationEnv.step(action)</code>, and the env's own
+      <code>obs.reward + format_bonus</code> becomes the scalar GRPO reward.`;
   }
 }
 
