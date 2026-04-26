@@ -82,11 +82,20 @@ def _load_model_and_tokenizer(
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     tokenizer = AutoTokenizer.from_pretrained(model_path or base_model)
-    model = AutoModelForCausalLM.from_pretrained(
-        base_model,
-        device_map="auto",
-        load_in_4bit=load_in_4bit,
-    )
+    load_kwargs: dict[str, Any] = {"device_map": "auto"}
+    if load_in_4bit:
+        try:
+            from transformers import BitsAndBytesConfig
+
+            load_kwargs["quantization_config"] = BitsAndBytesConfig(
+                load_in_4bit=True,
+                bnb_4bit_compute_dtype="float16",
+                bnb_4bit_use_double_quant=True,
+                bnb_4bit_quant_type="nf4",
+            )
+        except Exception:
+            load_kwargs["load_in_4bit"] = True
+    model = AutoModelForCausalLM.from_pretrained(base_model, **load_kwargs)
     if model_path and model_path != base_model:
         from peft import PeftModel
 
