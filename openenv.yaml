@@ -1,22 +1,273 @@
+# ==============================================================================
+# OpenEnv manifest for the GPU Budget Negotiation Arena.
+#
+# This file is the single source of truth for the environment contract: what
+# tasks exist, what an agent observes, what actions are legal, and how rewards
+# are decomposed. The HTTP server in `server/app.py` and the typed models in
+# `gpu_budget_arena/models.py` mirror this manifest exactly. Keep them in sync.
+# ==============================================================================
+
 name: gpu-budget-negotiation-arena
 benchmark_id: gpu_budget_negotiation
-description: Multi-agent GPU budget negotiation environment with hidden utility, coalitions, shocks, and verifiable rewards.
+version: 0.1.0
+theme: "Theme #1 - Multi-Agent Interactions"
+description: >
+  Multi-agent GPU compute negotiation environment. One trainable lab (`lab_0`)
+  competes and cooperates with up to four scripted opponent labs over scarce
+  GPU blocks under hidden private jobs, deadlines, budgets, reliability
+  requirements, supply shocks, reputation, and coalition commitments. The
+  server is authoritative; agents cannot mutate world state directly. An
+  optional frozen rule-judge layer scores natural-language pitches without
+  becoming the dominant reward signal.
+
 entrypoint: server.app:app
+runtime:
+  framework: fastapi
+  language: python
+  python_version: ">=3.10"
+  default_port: 8000
+
+# ------------------------------------------------------------------------------
+# HTTP API contract
+# ------------------------------------------------------------------------------
 api:
-  reset: /reset
-  step: /step
-  state: /state
-  health: /health
-  tasks: /tasks
+  reset:  /reset    # POST  ResetConfig          -> Observation
+  step:   /step     # POST  GpuNegotiationAction -> Observation
+  state:  /state    # GET   (redacted by default; full state needs GPU_ARENA_DEBUG_STATE=1)
+  health: /health   # GET   liveness probe
+  tasks:  /tasks    # GET   list of task_type ids
+  data:   /api/data # GET   front-end data payload (artifacts + parsed transcripts)
+
+# ------------------------------------------------------------------------------
+# Tasks / curriculum
+# ------------------------------------------------------------------------------
 tasks:
-  - single_trade
-  - market_round
-  - coalition_market
+  - id: single_trade
+    difficulty: easy
+    description: One trainable lab negotiates with one scripted lab for a single GPU block.
+    lab_count: 2
+    max_rounds: 3
+  - id: market_round
+    difficulty: medium
+    description: Multi-round market with several scripted labs, partial competition / cooperation.
+    lab_count: 3
+    max_rounds: 5
+  - id: coalition_market
+    difficulty: hard
+    description: Coalition commitments, reputation, capacity / energy / reliability / demand shocks, and stronger opponents.
+    lab_count: [4, 5]
+    max_rounds: 9
+
+evaluation:
+  baseline_seeds:    "0..N (set via --seeds, defaults to 10 in scripts/evaluate_baselines.py)"
+  holdout_seed_base: 50000
+  holdout_seeds:     "50000..50007 (8 seeds, all hard-mode shock-exposed)"
+  policies:
+    - random_validish
+    - greedy_hoarder
+    - always_accept
+    - no_negotiation_allocator
+    - base_instruct_naive
+    - rule_based_expert
+    - trained_selector
+
+# ------------------------------------------------------------------------------
+# Observation space (returned by /reset and /step).
+# Mirrors gpu_budget_arena.models.GpuNegotiationObservation.
+# ------------------------------------------------------------------------------
+observation_space:
+  type: object
+  fields:
+    task_id:                  { type: string, description: "Stable identifier for the seeded world." }
+    difficulty:               { type: enum, values: [easy, medium, hard] }
+    round_index:              { type: int }
+    max_rounds:               { type: int }
+    controlled_lab_id:        { type: string, description: "Always lab_0 in shipped tasks." }
+    controlled_lab_budget:    { type: float }
+    controlled_lab_reputation: { type: float, range: [0.0, 1.0] }
+    private_jobs:             { type: "list[JobView]",   description: "Only the controlled lab's private jobs are returned." }
+    owned_blocks:             { type: "list[GpuBlockView]" }
+    public_market:            { type: PublicMarketView }
+    visible_labs:             { type: "list[VisibleLabView]", description: "Reputation, public budget band, public demand band; never private utilities." }
+    active_offers:            { type: "list[OfferView]" }
+    active_coalitions:        { type: "list[CoalitionView]" }
+    message_history:          { type: "list[MessageView]" }
+    last_action_result:       { type: ActionResult, nullable: true }
+    reward:                   { type: float }
+    cumulative_reward:        { type: float }
+    reward_breakdown:         { type: RewardBreakdown }
+    done:                     { type: bool }
+
+# ------------------------------------------------------------------------------
+# Action space (POST /step body).
+# Mirrors gpu_budget_arena.models.GpuNegotiationAction.
+# ------------------------------------------------------------------------------
+action_space:
+  shape: typed_dict
+  base_fields:
+    action_type:         { type: enum, required: true }
+    target_lab_id:       { type: string,  required: false }
+    offer_id:            { type: string,  required: false }
+    coalition_id:        { type: string,  required: false }
+    block_ids:           { type: "list[string]", required: false }
+    requested_block_ids: { type: "list[string]", required: false }
+    job_id:              { type: string,  required: false }
+    payment:             { type: float,   required: false }
+    message:             { type: string,  required: false, max_length: 500 }
+    conditions:          { type: object,  required: false }
+  action_types:
+    - { id: send_offer,         purpose: "Propose a trade of blocks and/or payment to a target lab." }
+    - { id: accept_offer,       purpose: "Settle an open offer; atomic transfer." }
+    - { id: reject_offer,       purpose: "Decline an open offer; offer is closed." }
+    - { id: counter_offer,      purpose: "Reject and re-propose in one step; tracks linked_offer_id." }
+    - { id: make_pitch,         purpose: "Natural-language pitch (judge_mode=rule only)." }
+    - { id: counter_pitch,      purpose: "Counter a previously made pitch in the same round." }
+    - { id: reserve_capacity,   purpose: "Reserve owned blocks for an upcoming allocation; lapses after expiry." }
+    - { id: release_capacity,   purpose: "Release a previous reservation back to available." }
+    - { id: form_coalition,     purpose: "Open a coalition with members and a stated purpose." }
+    - { id: commit_to_coalition,purpose: "Bind specific blocks to a coalition's commitment ledger." }
+    - { id: allocate_to_job,    purpose: "Spend committed/reserved blocks on a private job; settles utility." }
+    - { id: send_message,       purpose: "Free-form message; signal field used for downstream features." }
+    - { id: wait,                purpose: "Advance the clock without acting." }
+    - { id: finish,              purpose: "Voluntarily end the episode early; remaining utility is settled." }
+  invalid_action_handling: >
+    Actions that fail validation (missing fields, illegal references, broken
+    invariants) return ok=false in last_action_result and apply
+    invalid_action_penalty. Repeated identical actions within a short window
+    apply spam_penalty. Both are visible in reward_breakdown so the agent can
+    learn legality from the signal directly.
+
+# ------------------------------------------------------------------------------
+# Reward decomposition (every step).
+# Mirrors gpu_budget_arena.models.RewardBreakdown.
+# ------------------------------------------------------------------------------
+reward:
+  primary_field: normalized_reward
+  components:
+    job_utility_score:           "Value captured by allocating compatible blocks to private jobs (urgency multiplier applied)."
+    deal_quality_score:          "Quality of completed trades vs counterfactual market price."
+    coalition_reliability_score: "Honoring or breaching coalition commitments; rewards trust-building."
+    judge_argument_score:        "Frozen rule-judge bonus on natural-language pitches (only when judge_mode=rule)."
+    budget_efficiency_score:     "Reward for finishing rounds with budget headroom relative to extracted utility."
+    negotiation_efficiency_score: "Reward for completing trades in fewer messages / rounds."
+    market_adaptation_score:     "Reward for re-pricing or re-pairing blocks after a shock event."
+    invalid_action_penalty:      "Negative reward for malformed / illegal actions."
+    spam_penalty:                "Negative reward for locally repeated identical actions."
+    breach_penalty:              "Negative reward for breached coalition or expired-but-claimed contracts."
+  notes:
+    - "Deterministic environment reward is the primary training signal."
+    - "judge_argument_score is auxiliary by design; the judge can be disabled per-episode via judge_mode='off'."
+    - "Both penalties are locally negative so format / legality issues are immediately visible during training."
+
+# ------------------------------------------------------------------------------
+# Optional hybrid judge layer
+# ------------------------------------------------------------------------------
+judge:
+  default: off
+  modes:   [off, rule]
+  scoring_features:
+    - urgency           # deadline pressure on private jobs
+    - evidence_terms    # concrete keywords (deadline, GPU-hours, reliability, budget, coalition, fair, ...)
+    - reliability_need  # required min_reliability of the lab's nearest job
+    - reputation        # accumulated trust signal
+    - vague_penalty     # short or templated pitches lose points
+  output:
+    - winner_lab_id
+    - per_lab_scores
+    - reason            # human-readable explanation
+    - reward_bonus      # written into reward_breakdown.judge_argument_score, clamped to [-0.08, 0.18]
+  prompt_template_for_llm_judge: gpu_budget_arena.judge.render_judge_prompt
+
+# ------------------------------------------------------------------------------
+# Anti-hacking / integrity guarantees
+# ------------------------------------------------------------------------------
+safeguards:
+  authority:
+    - "Server-side authority over budgets, ownership, contracts, shocks, and job settlement."
+    - "Conservation checks for block ownership and budgets after every action."
+  privacy:
+    - "Observations never leak opponent private jobs, utilities, or hidden deadlines."
+    - "/state is redacted by default; full private state requires GPU_ARENA_DEBUG_STATE=1 and include_private=true."
+  contracts:
+    - "Offers expire deterministically; transfers settle atomically or not at all."
+    - "Coalition breaches apply breach_penalty and degrade reputation."
+  evaluation:
+    - "Holdout seeds (>=50000) are disjoint from training/demo seeds."
+    - "Hard-mode holdout seeds always contain at least one shock event."
+  judging:
+    - "Judge bonus is clamped and auxiliary; deterministic env reward stays primary."
+
+# ------------------------------------------------------------------------------
+# Training paths shipped in the repo
+# ------------------------------------------------------------------------------
+training:
+  - id: lightweight_selector
+    runtime: cpu
+    script: training/train_grpo_stub.py
+    description: >
+      REINFORCE-style softmax over scripted policies. Reproducible learning
+      proof that the env produces a learnable reward signal. Default 180
+      episodes across the curriculum.
+    artifacts:
+      - artifacts/training_eval.json
+      - artifacts/training_curve.json
+      - artifacts/training_report.md
+      - plots/baseline_rewards.svg
+      - plots/reward_progress.json
+
+  - id: unsloth_sft_warm_start
+    runtime: cuda
+    script: training/run_unsloth_sft.py
+    base_model: unsloth/Llama-3.2-3B-Instruct
+    description: >
+      Optional LoRA SFT warm start on chat-format expert traces. Skipped
+      cleanly on CPU. In the committed Colab run, loss fell from 1.54 to
+      0.02 over 500 steps / 13 epochs.
+    artifacts:
+      - artifacts/sft_training_curve.json
+      - plots/sft_loss_curve.svg
+      - data/sft_traces.jsonl
+      - data/sft_messages.jsonl
+
+  - id: full_grpo_against_live_env
+    runtime: cuda
+    status: planned
+    description: >
+      TRL/Unsloth GRPO with the live HTTP environment as the reward source.
+      Reward decomposition is already shaped for it. Not run in CI.
+
+# ------------------------------------------------------------------------------
+# Committed artifacts the front end and judges read
+# ------------------------------------------------------------------------------
+artifacts:
+  evaluation:
+    - artifacts/baseline_eval.json     # 10 train seeds x 6 policies x 3 tasks
+    - artifacts/holdout_eval.json      # 8 holdout seeds (>=50000), shock-exposed
+  training_proof:
+    - artifacts/training_eval.json     # final selector eval table
+    - artifacts/training_curve.json    # 180-episode reward trajectory
+    - artifacts/training_report.md     # human-readable summary
+    - artifacts/before_after_training.md  # same-seed before/after, 0.1814 -> 1.3412
+    - artifacts/sft_training_curve.json   # real loss/lr/grad from trainer_state.json
+    - plots/baseline_rewards.svg          # trained selector vs bot baselines + expert ceiling
+    - plots/sft_loss_curve.svg            # SFT loss + LR over 500 steps
+    - plots/reward_progress.json
+  transcripts:
+    - artifacts/demo_transcript.md     # scripted-expert run on coalition_market
+    - artifacts/judged_transcript.md   # 20-round learning arc, lab_0 wins 14/20
+  sft_data:
+    - data/sft_traces.jsonl
+    - data/sft_messages.jsonl
+
 features:
   - multi_agent_negotiation
   - coalition_formation
+  - private_utility_with_partial_observability
+  - dynamic_market_shocks       # capacity, energy, reliability, demand
+  - reputation_dynamics
   - optional_rule_judge
   - adaptive_bot_pitches
   - holdout_seed_evaluation
   - redacted_public_state
-  - dynamic_market_shocks
+  - decomposed_reward_breakdown
+  - server_authoritative_simulation
