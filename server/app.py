@@ -247,11 +247,16 @@ _DOWNLOADS = [
     ("training_eval.json", "/artifacts/training_eval.json", _ART_DIR / "training_eval.json", "Full per-step training trace"),
     ("training_report.md", "/artifacts/training_report.md", _ART_DIR / "training_report.md", "Final training summary table"),
     ("sft_training_curve.json", "/artifacts/sft_training_curve.json", _ART_DIR / "sft_training_curve.json", "Real SFT loss curve · 500 steps · 13 epochs"),
+    ("trained_llm_eval.json", "/artifacts/trained_llm_eval.json", _ART_DIR / "trained_llm_eval.json", "Trained LLM rollouts vs baselines"),
+    ("trained_llm_summary.json", "/artifacts/trained_llm_summary.json", _ART_DIR / "trained_llm_summary.json", "Sortable trained-LLM summary table"),
+    ("grpo_training_curve.json", "/artifacts/grpo_training_curve.json", _ART_DIR / "grpo_training_curve.json", "Real GRPO reward curve over training steps"),
     ("before_after_training.md", "/artifacts/before_after_training.md", _ART_DIR / "before_after_training.md", "Same-seed before vs after"),
     ("demo_transcript.md", "/artifacts/demo_transcript.md", _ART_DIR / "demo_transcript.md", "Expert demo (coalition_market · seed 5)"),
     ("judged_transcript.md", "/artifacts/judged_transcript.md", _ART_DIR / "judged_transcript.md", "Judged multi-lab debate transcript"),
     ("baseline_rewards.svg", "/plots/baseline_rewards.svg", _PLOT_DIR / "baseline_rewards.svg", "Static plot · vector (renders inline)"),
     ("sft_loss_curve.svg", "/plots/sft_loss_curve.svg", _PLOT_DIR / "sft_loss_curve.svg", "Static SFT loss-curve plot · vector"),
+    ("trained_llm_vs_baselines.svg", "/plots/trained_llm_vs_baselines.svg", _PLOT_DIR / "trained_llm_vs_baselines.svg", "Static trained-LLM bar chart · vector"),
+    ("grpo_reward_curve.svg", "/plots/grpo_reward_curve.svg", _PLOT_DIR / "grpo_reward_curve.svg", "Static GRPO reward curve · vector"),
     ("reward_progress.json", "/plots/reward_progress.json", _PLOT_DIR / "reward_progress.json", "Training-progress timeseries"),
     ("sft_messages.jsonl", "/data/sft_messages.jsonl", _DATA_DIR / "sft_messages.jsonl", "SFT chat-formatted dataset"),
     ("sft_traces.jsonl", "/data/sft_traces.jsonl", _DATA_DIR / "sft_traces.jsonl", "SFT raw trace records"),
@@ -263,6 +268,8 @@ def _build_data_payload() -> dict[str, Any]:
     holdout = _safe_read_json(_ART_DIR / "holdout_eval.json") or {}
     progress = _safe_read_json(_PLOT_DIR / "reward_progress.json") or []
     sft_curve = _safe_read_json(_ART_DIR / "sft_training_curve.json") or {}
+    trained_summary = _safe_read_json(_ART_DIR / "trained_llm_summary.json") or {}
+    grpo_curve = _safe_read_json(_ART_DIR / "grpo_training_curve.json") or {}
     demo_md = _safe_read_text(_ART_DIR / "demo_transcript.md")
     ba_md = _safe_read_text(_ART_DIR / "before_after_training.md")
     judged_md = _safe_read_text(_ART_DIR / "judged_transcript.md")
@@ -279,6 +286,8 @@ def _build_data_payload() -> dict[str, Any]:
         "holdout": holdout.get("summary", {}) if isinstance(holdout, dict) else {},
         "progress": progress if isinstance(progress, list) else [],
         "sft_curve": sft_curve if isinstance(sft_curve, dict) else {},
+        "trained_summary": trained_summary if isinstance(trained_summary, dict) else {},
+        "grpo_curve": grpo_curve if isinstance(grpo_curve, dict) else {},
         "demo": _parse_demo_transcript_md(demo_md),
         "before_after": _parse_before_after_md(ba_md),
         "judged": _parse_judged_rounds(judged_md),
@@ -1242,6 +1251,47 @@ footer a:hover { color: var(--paper); }
 }
 .sft-curve-note b { color: var(--ink); }
 
+/* ── Trained-LLM-vs-baselines table ───────────────────────── */
+#grpoCurveCanvas { width:100%; height: 240px; display:block;
+  background: var(--paper-2); border: 1.5px solid var(--ink); border-radius: 0;
+}
+.tl-wrap {
+  background: var(--paper); border: 1.5px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink); padding: 18px;
+}
+.tl-empty {
+  font-family: 'JetBrains Mono', monospace; font-size: 11.5px;
+  color: var(--ink-soft); padding: 18px 4px;
+}
+.tl-empty b { color: var(--ink); }
+.tl-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12.4px; }
+.tl-table th, .tl-table td {
+  text-align: right; padding: 8px 10px; border-bottom: 1px dashed var(--ink-mute);
+  font-variant-numeric: tabular-nums;
+}
+.tl-table th:first-child, .tl-table td:first-child { text-align: left; }
+.tl-table thead th {
+  background: var(--paper-2); border-bottom: 1.5px solid var(--ink);
+  font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 1.6px;
+  color: var(--ink-soft); text-transform: uppercase;
+}
+.tl-table tbody tr.tl-trained td:first-child {
+  font-weight: 700; color: var(--riso-blue);
+}
+.tl-table tbody tr.tl-trained.tl-grpo td:first-child {
+  color: var(--accent-violet, #7C3AED);
+}
+.tl-table tbody tr.tl-expert td:first-child { color: var(--riso-red); }
+.tl-bar { display:inline-block; height: 6px; background: var(--riso-blue); vertical-align: middle; }
+.tl-bar.expert { background: var(--riso-red); }
+.tl-bar.bot { background: var(--ink-mute); }
+.tl-bar.grpo { background: #7C3AED; }
+.tl-meta {
+  margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: var(--ink-soft);
+}
+.tl-meta b { color: var(--ink); }
+
 /* ── Before / After ──────────────────────────────────────── */
 .ba-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 @media (max-width: 720px) { .ba-grid { grid-template-columns: 1fr; } }
@@ -1571,6 +1621,37 @@ footer a:hover { color: var(--paper); }
     <div class="legend" id="sftCurveLegend" style="margin-top:14px;"></div>
   </div>
   <div class="sft-curve-note" id="sftCurveNote"></div>
+</div>
+</div>
+
+<!-- ══════════ TRAINED LLM VS BASELINES ══════════ -->
+<div class="section fade-up d3">
+<div class="wrap">
+  <p class="section-label">Reward Improvement Evidence</p>
+  <p class="section-title">Trained LLM vs Scripted Baselines · Mean Episode Reward</p>
+  <div class="tl-wrap" id="trainedTableWrap">
+    <div id="trainedTable"></div>
+    <div class="tl-meta" id="trainedTableMeta"></div>
+  </div>
+  <div style="margin-top:14px;">
+    <object data="/plots/trained_llm_vs_baselines.svg" type="image/svg+xml" style="width:100%; max-width:100%;">
+      <a href="/plots/trained_llm_vs_baselines.svg">trained_llm_vs_baselines.svg</a>
+    </object>
+  </div>
+</div>
+</div>
+
+<!-- ══════════ GRPO REWARD CURVE ══════════ -->
+<div class="section fade-up d3">
+<div class="wrap">
+  <p class="section-label">GRPO Against Live Env Reward</p>
+  <p class="section-title" id="grpoCurveTitle">GRPO Reward Curve</p>
+  <div class="sft-curve-stats" id="grpoCurveStats"></div>
+  <div class="progress-wrap" style="margin-top:18px;">
+    <canvas id="grpoCurveCanvas"></canvas>
+    <div class="legend" id="grpoCurveLegend" style="margin-top:14px;"></div>
+  </div>
+  <div class="sft-curve-note" id="grpoCurveNote"></div>
 </div>
 </div>
 
@@ -2552,6 +2633,222 @@ function drawSftCurve() {
 _renderSftStats();
 window.addEventListener('resize', drawSftCurve);
 setTimeout(drawSftCurve, 140);
+
+// ── Trained LLM vs Baselines (table) ─────────────────────────────────────
+const TRAINED_SUMMARY = (APP_DATA && APP_DATA.trained_summary) ? APP_DATA.trained_summary : null;
+const TRAINED_POLICY_NAMES = ['trained_llm', 'trained_llm_grpo'];
+const TRAINED_LABEL_OVERRIDES = {
+  trained_llm: 'Trained LLM (SFT)',
+  trained_llm_grpo: 'GRPO LLM',
+  base_instruct_llm: 'Base Llama (untrained)',
+  rule_based_expert: 'Rule expert (ceiling)',
+};
+
+function renderTrainedTable() {
+  const wrap = document.getElementById('trainedTable');
+  const meta = document.getElementById('trainedTableMeta');
+  if (!wrap) return;
+  if (!TRAINED_SUMMARY || !TRAINED_SUMMARY.rows || !TRAINED_SUMMARY.rows.length) {
+    wrap.innerHTML = `
+      <div class="tl-empty">
+        <b>artifacts/trained_llm_summary.json</b> not bundled yet.
+        Run <b>scripts/evaluate_trained_llm.py</b> from the Colab notebook to populate this table.
+        It produces per-task mean rewards for the trained LLM next to every scripted baseline.
+      </div>`;
+    if (meta) meta.innerHTML = '';
+    return;
+  }
+  const tasks = TRAINED_SUMMARY.tasks || ['single_trade', 'market_round', 'coalition_market'];
+  const taskLabel = {
+    single_trade: 'single trade',
+    market_round: 'market round',
+    coalition_market: 'coalition market',
+  };
+  const allValues = [];
+  TRAINED_SUMMARY.rows.forEach((row) => {
+    tasks.forEach((t) => {
+      const v = row[t + '_mean'];
+      if (typeof v === 'number') allValues.push(v);
+    });
+    if (typeof row.overall_mean === 'number') allValues.push(row.overall_mean);
+  });
+  const maxV = Math.max(...allValues, 0.001);
+
+  const head = `<tr><th>Policy</th>${tasks.map((t) => `<th>${taskLabel[t] || t}</th>`).join('')}<th>overall</th></tr>`;
+  const rows = TRAINED_SUMMARY.rows.map((row) => {
+    const isTrained = TRAINED_POLICY_NAMES.includes(row.policy);
+    const isExpert = row.policy === 'rule_based_expert';
+    const isGrpo = row.policy === 'trained_llm_grpo';
+    const cls = ['tl-row'];
+    if (isTrained) cls.push('tl-trained');
+    if (isGrpo) cls.push('tl-grpo');
+    if (isExpert) cls.push('tl-expert');
+    const cells = tasks.map((t) => {
+      const v = row[t + '_mean'];
+      if (typeof v !== 'number') return '<td>–</td>';
+      const w = Math.max(2, Math.round((Math.max(v, 0) / maxV) * 100));
+      const barCls = isTrained ? (isGrpo ? 'grpo' : '') : (isExpert ? 'expert' : 'bot');
+      return `<td>${v.toFixed(3)} <span class="tl-bar ${barCls}" style="width:${w}px;"></span></td>`;
+    }).join('');
+    const ovr = (typeof row.overall_mean === 'number') ? row.overall_mean.toFixed(3) : '–';
+    const label = TRAINED_LABEL_OVERRIDES[row.policy] || row.label || row.policy;
+    return `<tr class="${cls.join(' ')}"><td>${label}</td>${cells}<td><b>${ovr}</b></td></tr>`;
+  }).join('');
+  wrap.innerHTML = `<table class="tl-table"><thead>${head}</thead><tbody>${rows}</tbody></table>`;
+
+  if (meta) {
+    const trained = (TRAINED_SUMMARY.trained_policies || []).join(', ') || '—';
+    const parts = [`Trained policies: <b>${trained}</b>`];
+    if (TRAINED_SUMMARY.model_path) parts.push(`Model: <b>${TRAINED_SUMMARY.model_path}</b>`);
+    if (typeof TRAINED_SUMMARY.parse_failure_rate === 'number') {
+      parts.push(`Parse-failure rate: <b>${(TRAINED_SUMMARY.parse_failure_rate * 100).toFixed(1)}%</b>`);
+    }
+    meta.innerHTML = parts.join(' &nbsp;·&nbsp; ');
+  }
+}
+renderTrainedTable();
+
+// ── GRPO reward curve ────────────────────────────────────────────────────
+const GRPO_CURVE = (APP_DATA && APP_DATA.grpo_curve) ? APP_DATA.grpo_curve : null;
+
+function _renderGrpoStats() {
+  const box = document.getElementById('grpoCurveStats');
+  const note = document.getElementById('grpoCurveNote');
+  const title = document.getElementById('grpoCurveTitle');
+  if (!box) return;
+  if (!GRPO_CURVE || !GRPO_CURVE.summary) {
+    box.innerHTML = '';
+    if (note) {
+      note.innerHTML = `<b>artifacts/grpo_training_curve.json</b> not bundled yet.
+        Run <b>training/run_grpo_against_env.py</b> in the Colab notebook to populate this curve.
+        The reward function uses <code>GpuBudgetNegotiationEnv.step(action).reward</code>
+        directly (no proxy).`;
+    }
+    return;
+  }
+  const s = GRPO_CURVE.summary;
+  if (title) title.textContent = `GRPO Reward Curve · ${s.max_steps} steps · ${s.num_generations}× generations`;
+  box.innerHTML = `
+    <div class="sft-stat"><div class="v">${(+s.first_step_mean_reward).toFixed(3)}</div><div class="l">first step reward</div></div>
+    <div class="sft-stat"><div class="v blue">${(+s.last_step_mean_reward).toFixed(3)}</div><div class="l">last step reward</div></div>
+    <div class="sft-stat"><div class="v red">${(+s.best_step_mean_reward).toFixed(3)}</div><div class="l">best step reward</div></div>
+    <div class="sft-stat"><div class="v">${s.max_steps}</div><div class="l">grpo steps</div></div>
+    <div class="sft-stat"><div class="v">${s.num_generations}</div><div class="l">completions / step</div></div>
+    <div class="sft-stat"><div class="v">${s.prompts}</div><div class="l">prompt records</div></div>
+  `;
+  if (note) {
+    note.innerHTML = `Started from <b>${s.started_from === 'sft_checkpoint' ? 'artifacts/sft-checkpoint' : s.base_model}</b>
+      · format bonus <b>${s.format_bonus}</b> · parse penalty <b>${s.parse_penalty}</b>.
+      Each prompt is a replayed observation; the reward function steps the env with the model's action and
+      returns <code>obs.reward + format_bonus</code>.`;
+  }
+}
+
+function drawGrpoCurve() {
+  const canvas = document.getElementById('grpoCurveCanvas');
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width  = rect.width  * dpr;
+  canvas.height = rect.height * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const W = rect.width, H = rect.height;
+  const padL = 56, padR = 30, padT = 18, padB = 32;
+  const gW = W - padL - padR, gH = H - padT - padB;
+
+  ctx.fillStyle = '#ebe3cf'; ctx.fillRect(0, 0, W, H);
+
+  const pts = (GRPO_CURVE && Array.isArray(GRPO_CURVE.points)) ? GRPO_CURVE.points : [];
+  if (!pts.length) {
+    ctx.fillStyle = '#3a3530';
+    ctx.font = `12px 'JetBrains Mono', monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillText('GRPO curve not bundled yet.', W/2, H/2 - 8);
+    ctx.fillStyle = '#6b6357';
+    ctx.font = `10px 'JetBrains Mono', monospace`;
+    ctx.fillText('Run training/run_grpo_against_env.py in the Colab notebook.', W/2, H/2 + 10);
+    return;
+  }
+
+  const xs = pts.map(p => +p.step);
+  const ys = pts.map(p => +p.mean_reward);
+  const minX = Math.min(...xs), maxX = Math.max(...xs);
+  const minY = Math.min(...ys, 0), maxY = Math.max(...ys, 0.05);
+  const padY = (maxY - minY) * 0.15 || 0.1;
+  const yLo = minY - padY, yHi = maxY + padY;
+
+  const toX = (s) => padL + ((s - minX) / Math.max(maxX - minX, 1)) * gW;
+  const toY = (v) => padT + gH - ((v - yLo) / Math.max(yHi - yLo, 1e-6)) * gH;
+
+  const ticks = 5;
+  for (let i = 0; i <= ticks; i++) {
+    const v = yLo + ((yHi - yLo) / ticks) * i;
+    const y = toY(v);
+    ctx.strokeStyle = 'rgba(12,10,8,.16)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+    ctx.fillStyle = '#3a3530';
+    ctx.font = `10px 'JetBrains Mono', monospace`;
+    ctx.textAlign = 'right';
+    ctx.fillText(v.toFixed(2), padL - 6, y + 4);
+  }
+
+  const yZero = toY(0);
+  ctx.strokeStyle = 'rgba(12,10,8,.45)';
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath(); ctx.moveTo(padL, yZero); ctx.lineTo(W - padR, yZero); ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = '#3a3530';
+  ctx.textAlign = 'center';
+  const xticks = [minX, Math.round((minX + maxX) / 2), maxX];
+  xticks.forEach((s) => ctx.fillText(`step ${s}`, toX(s), H - 10));
+
+  ctx.beginPath();
+  pts.forEach((p, i) => {
+    const x = toX(+p.step), y = toY(+p.mean_reward);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.strokeStyle = '#7C3AED';
+  ctx.lineWidth = 2.4;
+  ctx.stroke();
+
+  pts.forEach((p) => {
+    const x = toX(+p.step), y = toY(+p.mean_reward);
+    ctx.beginPath(); ctx.arc(x, y, 2.6, 0, Math.PI * 2);
+    ctx.fillStyle = '#7C3AED'; ctx.fill();
+  });
+
+  if (pts.length >= 8) {
+    const window = Math.max(3, Math.round(pts.length / 12));
+    ctx.beginPath();
+    pts.forEach((p, i) => {
+      const lo = Math.max(0, i - window + 1);
+      const slice = ys.slice(lo, i + 1);
+      const m = slice.reduce((a, b) => a + b, 0) / slice.length;
+      const x = toX(+p.step), y = toY(m);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = '#1234ff';
+    ctx.setLineDash([6, 5]);
+    ctx.lineWidth = 1.8;
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  const lg = document.getElementById('grpoCurveLegend');
+  if (lg) {
+    lg.innerHTML = `
+      <span class="legend-item"><span class="legend-dot" style="background:#7C3AED"></span>batch mean reward</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#1234ff"></span>rolling mean</span>
+    `;
+  }
+}
+
+_renderGrpoStats();
+window.addEventListener('resize', drawGrpoCurve);
+setTimeout(drawGrpoCurve, 160);
 
 // ── Before/After renderer ────────────────────────────────────────────────
 const BEFORE_AFTER = (APP_DATA && APP_DATA.before_after) ? APP_DATA.before_after : null;

@@ -220,21 +220,44 @@ training:
     script: training/run_unsloth_sft.py
     base_model: unsloth/Llama-3.2-3B-Instruct
     description: >
-      Optional LoRA SFT warm start on chat-format expert traces. Skipped
-      cleanly on CPU. In the committed Colab run, loss fell from 1.54 to
-      0.02 over 500 steps / 13 epochs.
+      LoRA SFT warm start on chat-format expert traces. Skipped cleanly on
+      CPU. In the committed Colab run, loss fell from 1.54 to 0.02 over 500
+      steps / 13 epochs.
     artifacts:
+      - artifacts/sft-checkpoint/                   # LoRA weights (kept on Drive / HF Hub)
       - artifacts/sft_training_curve.json
       - plots/sft_loss_curve.svg
       - data/sft_traces.jsonl
       - data/sft_messages.jsonl
 
+  - id: trained_llm_as_policy_eval
+    runtime: cuda
+    script: scripts/evaluate_trained_llm.py
+    description: >
+      Loads any HF causal LM + tokenizer, wraps it as a live policy in the
+      env via gpu_budget_arena/llm_policy.py, and rolls out full episodes on
+      every (task, seed). Reports per-task mean / std reward alongside every
+      scripted baseline. Optional --include-base-model flag re-runs the same
+      seeds with the untrained base model for a clean before/after column.
+    artifacts:
+      - artifacts/trained_llm_eval.json
+      - artifacts/trained_llm_summary.json
+      - plots/trained_llm_vs_baselines.svg
+
   - id: full_grpo_against_live_env
     runtime: cuda
-    status: planned
+    script: training/run_grpo_against_env.py
     description: >
-      TRL/Unsloth GRPO with the live HTTP environment as the reward source.
-      Reward decomposition is already shaped for it. Not run in CI.
+      TRL `GRPOTrainer` against the live environment reward. The reward
+      function parses each completion as a GpuNegotiationAction, steps the
+      env, and returns `obs.reward + format_bonus` (or `parse_penalty` for
+      malformed JSON). Each prompt is a replayed observation reached by
+      advancing the rule-based expert for K rounds on a fixed (task_type,
+      seed), so prompts span every task, difficulty, and round position.
+    artifacts:
+      - artifacts/grpo-checkpoint/                  # LoRA weights (kept on Drive / HF Hub)
+      - artifacts/grpo_training_curve.json
+      - plots/grpo_reward_curve.svg
 
 # ------------------------------------------------------------------------------
 # Committed artifacts the front end and judges read
@@ -249,8 +272,13 @@ artifacts:
     - artifacts/training_report.md     # human-readable summary
     - artifacts/before_after_training.md  # same-seed before/after, 0.1814 -> 1.3412
     - artifacts/sft_training_curve.json   # real loss/lr/grad from trainer_state.json
+    - artifacts/trained_llm_eval.json     # full per-episode rollouts using the SFT'd LoRA as policy
+    - artifacts/trained_llm_summary.json  # row-format summary the front end renders
+    - artifacts/grpo_training_curve.json  # batch mean reward over GRPO steps (env reward, no proxy)
     - plots/baseline_rewards.svg          # trained selector vs bot baselines + expert ceiling
     - plots/sft_loss_curve.svg            # SFT loss + LR over 500 steps
+    - plots/trained_llm_vs_baselines.svg  # grouped bars: trained LLM vs every scripted baseline
+    - plots/grpo_reward_curve.svg         # GRPO env-reward curve with rolling mean
     - plots/reward_progress.json
   transcripts:
     - artifacts/demo_transcript.md     # scripted-expert run on coalition_market
