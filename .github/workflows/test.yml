@@ -15,6 +15,6 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt pytest httpx
+          python -m pip install -e ".[dev]"
       - name: Run tests
         run: python -m pytest -q

@@ -351,10 +351,14 @@ def main() -> None:
         else:
             resume = args.resume_from_checkpoint
             p = Path(resume)
-            if not p.is_dir() or not p.exists():
+            if not p.exists():
                 raise FileNotFoundError(
-                    f"--resume-from-checkpoint: not a directory: {resume}\n"
-                    f"  Example: {args.output}/checkpoint-200"
+                    f"--resume-from-checkpoint: path does not exist: {resume}\n"
+                    f"  Example: {args.output}/checkpoint-200 (or 'latest' to use newest under {args.output})"
+                )
+            if not p.is_dir():
+                raise NotADirectoryError(
+                    f"--resume-from-checkpoint: expected a directory, got: {resume}"
                 )
     else:
         resume = None
